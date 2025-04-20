@@ -1,0 +1,185 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: calc(var(--spacing-unit) * 4) 0; /* Use spacing unit */
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: calc(var(--spacing-unit) * 4); /* Use spacing unit */
+}
+
+.dashboard-header h2 {
+  font-size: 2rem; /* Adjusted font size */
+  font-weight: 600;
+  color: var(--primary-dark-color); /* Use primary-dark color */
+  margin: 0;
+}
+
+.new-project-btn {
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 0%,
+    var(--accent-color) 100%
+  ); /* Use color variables */
+  color: var(--on-primary-color); /* Use on-primary color */
+  border: none;
+  border-radius: 24px;
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
+  font-size: 1rem; /* Adjusted font size */
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.new-project-btn:hover {
+  background: linear-gradient(
+    90deg,
+    var(--primary-dark-color) 0%,
+    var(--accent-dark-color) 100%
+  ); /* Darker gradient on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+.dashboard-sections {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 5); /* Use spacing unit */
+  flex-wrap: wrap;
+}
+
+.active-projects,
+.recent-predictions {
+  flex: 1 1 350px;
+  background-color: var(--surface-color); /* Use surface color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Softer shadow */
+  padding: calc(var(--spacing-unit) * 3.5) calc(var(--spacing-unit) * 3)
+    calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 3); /* Use spacing unit */
+  min-width: 300px; /* Adjusted min-width */
+}
+
+.active-projects h3,
+.recent-predictions h3 {
+  font-size: 1.15rem; /* Adjusted font size */
+  font-weight: 600;
+  margin-bottom: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  color: var(--primary-color); /* Use primary color */
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+}
+
+.project-card {
+  background-color: var(--background-color); /* Use background color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
+  transition: box-shadow 0.2s ease;
+  cursor: pointer; /* Add cursor pointer */
+}
+
+.project-card:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
+}
+
+.project-title {
+  font-size: 1rem; /* Adjusted font size */
+  font-weight: 500;
+  color: var(--text-color); /* Use text color */
+}
+
+.project-status {
+  font-size: 0.9rem; /* Adjusted font size */
+  font-weight: 500;
+  padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  border-radius: 16px;
+  color: var(--on-primary-color); /* Use on-primary color */
+  margin-left: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+}
+
+.status-active {
+  background-color: var(--primary-color); /* Use primary color */
+}
+
+.status-planning {
+  background-color: var(--accent-color); /* Use accent color */
+}
+
+.status-completed {
+  background-color: var(--secondary-text-color); /* Use secondary text color */
+}
+
+.prediction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+}
+
+.prediction-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--surface-color); /* Use surface color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  font-size: 0.95rem; /* Adjusted font size */
+  color: var(--text-color); /* Use text color */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
+}
+
+.review-btn {
+  background-color: var(--accent-color); /* Use accent color */
+  color: var(
+    --on-accent-color
+  ); /* Assuming an on-accent color, or use on-primary */
+  border: none;
+  border-radius: 20px; /* Pill shape */
+  padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 2.25); /* Use spacing unit */
+  font-size: 0.9rem; /* Adjusted font size */
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  transition: background-color 0.3s ease;
+}
+
+.review-btn:hover {
+  background-color: var(--accent-dark-color); /* Darker accent on hover */
+}
+
+@media (max-width: 900px) {
+  .dashboard-sections {
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 3); /* Use spacing unit */
+  }
+  .dashboard {
+    padding: calc(var(--spacing-unit) * 2) 0; /* Use spacing unit */
+  }
+  .active-projects,
+  .recent-predictions {
+    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 1.5); /* Adjusted padding */
+  }
+  .project-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 1.5); /* Adjusted padding */
+  }
+  .project-meta {
+    gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  }
+  .review-btn {
+    margin-left: calc(var(--spacing-unit) * 1.5); /* Adjusted margin */
+  }
+}

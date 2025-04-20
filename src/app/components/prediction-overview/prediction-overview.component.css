@@ -1,0 +1,63 @@
+.recent-predictions {
+  margin-top: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  padding: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  background-color: var(--surface-color); /* Use surface color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Softer shadow */
+}
+
+.recent-predictions h3 {
+  margin-top: 0;
+  color: var(--primary-color); /* Use primary color */
+  font-size: 1.15rem; /* Adjusted font size */
+  border-bottom: 1px solid var(--divider-color); /* Use divider color */
+  padding-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  margin-bottom: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+}
+
+.prediction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prediction-list li {
+  background-color: var(--background-color); /* Use background color */
+  border: 1px solid var(--divider-color); /* Use divider color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
+  font-size: 1rem; /* Adjusted font size */
+  color: var(--text-color); /* Use text color */
+}
+
+.prediction-list li b {
+  margin-right: calc(var(--spacing-unit) * 0.75); /* Use spacing unit */
+  color: var(--primary-dark-color); /* Use primary-dark color */
+}
+
+.review-btn {
+  background-color: var(--accent-color); /* Use accent color */
+  color: var(--on-accent-color); /* Assuming on-accent color */
+  border: none;
+  border-radius: 20px;
+  padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  cursor: pointer;
+  font-size: 0.9rem; /* Adjusted font size */
+  transition: background-color 0.3s ease;
+}
+
+.review-btn:hover {
+  background-color: var(--accent-dark-color); /* Darker accent on hover */
+}
+
+.empty-message {
+  color: var(--secondary-text-color); /* Use secondary text color */
+  font-style: italic;
+  text-align: center;
+  padding: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+}

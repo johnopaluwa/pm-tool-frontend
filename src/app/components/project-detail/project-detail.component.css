@@ -1,0 +1,48 @@
+.project-detail-container {
+  padding: calc(var(--spacing-unit) * 4); /* Use spacing unit */
+  border: 1px solid var(--divider-color); /* Use divider color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  margin-top: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  background-color: var(--surface-color); /* Use surface color */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+}
+
+.project-detail-container h2 {
+  color: var(--primary-dark-color); /* Use primary-dark color */
+  border-bottom: 2px solid var(--primary-color); /* Use primary color */
+  padding-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  margin-bottom: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  font-size: 1.8rem; /* Adjusted font size */
+  font-weight: 600;
+}
+
+.project-detail-container h3 {
+  color: var(--primary-color); /* Use primary color */
+  margin-top: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  font-size: 1.3rem; /* Adjusted font size */
+  font-weight: 500;
+}
+
+.project-detail-container p {
+  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  line-height: 1.6;
+  color: var(--text-color); /* Use text color */
+  font-size: 1rem; /* Adjusted font size */
+}
+
+.project-detail-container h4 {
+  color: var(--primary-dark-color); /* Use primary-dark color */
+  margin-top: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  border-bottom: 1px solid var(--divider-color); /* Use divider color */
+  padding-bottom: calc(var(--spacing-unit) * 0.75); /* Use spacing unit */
+  font-size: 1.1rem; /* Adjusted font size */
+  font-weight: 500;
+}
+
+.project-detail-container .prediction-characteristics p {
+  margin-left: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  font-size: 0.95rem; /* Adjusted font size */
+  color: var(--secondary-text-color); /* Use secondary text color */
+}

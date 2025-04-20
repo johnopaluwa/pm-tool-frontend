@@ -1,0 +1,21 @@
+<div class="project-detail-container">
+  <h2>Project Detail</h2>
+  <div *ngIf="project">
+    <h3>{{ project.name }}</h3>
+    <p>Client: {{ project.client }}</p>
+    <p>Status: {{ project.status }}</p>
+    <p>Description: {{ project.description }}</p>
+
+    <h4>Prediction Characteristics:</h4>
+    <p>Project Type: {{ project.projectType }}</p>
+    <p>Client Industry: {{ project.clientIndustry }}</p>
+    <p>Technology Stack: {{ project.techStack?.join(", ") }}</p>
+    <p>Estimated Team Size: {{ project.teamSize }}</p>
+    <p>Estimated Duration: {{ project.duration }}</p>
+    <p>Keywords: {{ project.keywords }}</p>
+    <p>Business Specification: {{ project.businessSpecification }}</p>
+  </div>
+  <div *ngIf="!project">
+    <p>Project not found.</p>
+  </div>
+</div>

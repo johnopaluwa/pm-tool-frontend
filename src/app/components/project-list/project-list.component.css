@@ -1,0 +1,127 @@
+.projects-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: calc(var(--spacing-unit) * 4) 0; /* Use spacing unit */
+}
+
+.projects-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: calc(var(--spacing-unit) * 4); /* Use spacing unit */
+}
+
+.projects-header h2 {
+  font-size: 2rem; /* Adjusted font size */
+  font-weight: 600;
+  color: var(--primary-dark-color); /* Use primary-dark color */
+  margin: 0;
+}
+
+.new-project-btn {
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 0%,
+    var(--accent-color) 100%
+  ); /* Use color variables */
+  color: var(--on-primary-color); /* Use on-primary color */
+  border: none;
+  border-radius: 24px;
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
+  font-size: 1rem; /* Adjusted font size */
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.new-project-btn:hover {
+  background: linear-gradient(
+    90deg,
+    var(--primary-dark-color) 0%,
+    var(--accent-dark-color) 100%
+  ); /* Darker gradient on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+}
+
+.project-card {
+  background-color: var(--surface-color); /* Use surface color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: calc(var(--spacing-unit) * 2.5) calc(var(--spacing-unit) * 3); /* Use spacing unit */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
+  transition: box-shadow 0.2s ease;
+  cursor: pointer; /* Add cursor pointer */
+}
+
+.project-card:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
+}
+
+.project-title {
+  font-size: 1.05rem; /* Adjusted font size */
+  font-weight: 500;
+  color: var(--text-color); /* Use text color */
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+}
+
+.client-name {
+  font-size: 0.95rem; /* Adjusted font size */
+  color: var(--primary-color); /* Use primary color */
+  font-weight: 500;
+  background-color: var(--primary-light-color); /* Use primary-light color */
+  padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  border-radius: 12px;
+}
+
+.status {
+  font-size: 0.9rem; /* Adjusted font size */
+  font-weight: 500;
+  padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  border-radius: 16px;
+  color: var(--on-primary-color); /* Use on-primary color */
+  margin-left: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+}
+
+.status-active {
+  background-color: var(--primary-color); /* Use primary color */
+}
+
+.status-planning {
+  background-color: var(--accent-color); /* Use accent color */
+}
+
+.status-completed {
+  background-color: var(--secondary-text-color); /* Use secondary text color */
+}
+
+@media (max-width: 900px) {
+  .projects-page {
+    padding: calc(var(--spacing-unit) * 2) 0; /* Use spacing unit */
+  }
+  .projects-list {
+    gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  }
+  .project-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 1.5); /* Adjusted padding */
+  }
+  .project-meta {
+    gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  }
+}

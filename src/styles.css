@@ -1,1 +1,102 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+
+:root {
+  --primary-color: #3f51b5; /* Material Indigo 500 */
+  --primary-light-color: #7986cb; /* Material Indigo 300 */
+  --primary-dark-color: #303f9f; /* Material Indigo 700 */
+  --accent-color: #ff4081; /* Material Pink A200 */
+  --accent-light-color: #ff79b0; /* Material Pink A100 */
+  --accent-dark-color: #c60055; /* Material Pink A400 */
+  --warn-color: #f44336; /* Material Red 500 */
+  --warn-light-color: #e57373; /* Material Red 300 */
+  --warn-dark-color: #d32f2f; /* Material Red 700 */
+
+  --text-color: #212121; /* Material Grey 900 */
+  --secondary-text-color: #757575; /* Material Grey 600 */
+  --divider-color: #bdbdbd; /* Material Grey 400 */
+
+  --background-color: #f5f5f5; /* Material Grey 100 */
+  --surface-color: #ffffff; /* White */
+  --error-color: #f44336; /* Material Red 500 */
+
+  --body-font-family: "Roboto", sans-serif;
+  --heading-font-family: "Roboto", sans-serif;
+
+  --border-radius: 4px;
+  --spacing-unit: 8px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--body-font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading-font-family);
+  color: var(--primary-dark-color);
+  margin-top: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Basic form element styling for consistency */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  transition: border-color 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25); /* Focus ring */
+}
+
+button {
+  padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+}
+
+button:hover {
+  background-color: var(--primary-dark-color);
+}
+
+button:disabled {
+  background-color: var(--divider-color);
+  color: var(--secondary-text-color);
+  cursor: not-allowed;
+}

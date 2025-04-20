@@ -1,0 +1,103 @@
+<div class="prediction-review-container">
+  <h2>Prediction Review</h2>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+  <div *ngIf="loading" class="loading-message">Loading predictions...</div>
+
+  <div *ngIf="!error && !loading">
+    <section class="prediction-section">
+      <h3>Predicted User Stories</h3>
+      <div
+        *ngIf="filteredUserStoryPredictions.length === 0"
+        class="empty-message"
+      >
+        No user story predictions found.
+      </div>
+      <ul
+        class="prediction-list"
+        *ngIf="filteredUserStoryPredictions.length > 0"
+      >
+        <li
+          *ngFor="let pred of filteredUserStoryPredictions"
+          [class.accepted]="pred.status === 'accepted'"
+          [class.rejected]="pred.status === 'rejected'"
+        >
+          <div class="prediction-main">
+            <span class="prediction-title">{{ pred.title }}</span>
+            <span class="prediction-score"
+              >Score: {{ pred.similarityScore }}%</span
+            >
+            <span class="prediction-freq"
+              >Commonality: {{ pred.frequency }}%</span
+            >
+            <span class="prediction-source"
+              >Source: {{ pred.sourceProject }}</span
+            >
+          </div>
+          <div class="prediction-desc">{{ pred.description }}</div>
+          <div class="prediction-actions">
+            <button
+              (click)="acceptPrediction(pred)"
+              [disabled]="pred.status === 'accepted'"
+            >
+              Accept
+            </button>
+            <button (click)="editPrediction(pred)">Edit & Accept</button>
+            <button
+              (click)="rejectPrediction(pred)"
+              [disabled]="pred.status === 'rejected'"
+            >
+              Reject
+            </button>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="prediction-section">
+      <h3>Predicted Bugs / Potential Issues</h3>
+      <div *ngIf="filteredBugPredictions.length === 0" class="empty-message">
+        No bug predictions found.
+      </div>
+      <ul class="prediction-list" *ngIf="filteredBugPredictions.length > 0">
+        <li
+          *ngFor="let pred of filteredBugPredictions"
+          [class.accepted]="pred.status === 'accepted'"
+          [class.rejected]="pred.status === 'rejected'"
+        >
+          <div class="prediction-main">
+            <span class="prediction-title">{{ pred.title }}</span>
+            <span class="prediction-score"
+              >Score: {{ pred.similarityScore }}%</span
+            >
+            <span class="prediction-freq"
+              >Commonality: {{ pred.frequency }}%</span
+            >
+            <span class="prediction-source"
+              >Source: {{ pred.sourceProject }}</span
+            >
+          </div>
+          <div class="prediction-desc">{{ pred.description }}</div>
+          <div class="prediction-actions">
+            <button
+              (click)="acceptPrediction(pred)"
+              [disabled]="pred.status === 'accepted'"
+            >
+              Accept
+            </button>
+            <button (click)="editPrediction(pred)">Edit & Accept</button>
+            <button
+              (click)="rejectPrediction(pred)"
+              [disabled]="pred.status === 'rejected'"
+            >
+              Reject
+            </button>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <div class="review-actions">
+      <button class="finish-btn" (click)="finishReview()">Finish Review</button>
+    </div>
+  </div>
+</div>

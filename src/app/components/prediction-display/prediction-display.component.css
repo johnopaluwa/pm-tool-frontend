@@ -1,0 +1,196 @@
+.prediction-review-container {
+  max-width: 800px; /* Adjusted max-width */
+  margin: calc(var(--spacing-unit) * 5) auto; /* Use spacing unit */
+  background-color: var(--surface-color); /* Use surface color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+  padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 3); /* Use spacing unit */
+}
+
+.prediction-review-container h2 {
+  font-size: 1.6rem; /* Adjusted font size */
+  font-weight: 600;
+  color: var(--primary-dark-color); /* Use primary-dark color */
+  margin-bottom: calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
+  text-align: center;
+}
+
+.prediction-section {
+  margin-bottom: calc(var(--spacing-unit) * 4); /* Use spacing unit */
+}
+
+.prediction-section h3 {
+  font-size: 1.15rem; /* Adjusted font size */
+  font-weight: 600;
+  color: var(--primary-color); /* Use primary color */
+  margin-bottom: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  border-bottom: 1px solid var(--divider-color); /* Add border bottom */
+  padding-bottom: calc(var(--spacing-unit) * 1); /* Add padding bottom */
+}
+
+.prediction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+}
+
+.prediction-list li {
+  background-color: var(--background-color); /* Use background color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
+  transition: box-shadow 0.2s ease;
+  border-left: 6px solid var(--primary-light-color); /* Use primary-light color for border */
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+}
+
+.prediction-list li.accepted {
+  border-left-color: var(--primary-color); /* Use primary color for accepted */
+  background-color: #e8f5e9; /* Keep light green background */
+}
+
+.prediction-list li.rejected {
+  border-left-color: var(--warn-color); /* Use warn color for rejected */
+  background-color: #ffebee; /* Keep light red background */
+}
+
+.prediction-main {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  flex-wrap: wrap;
+}
+
+.prediction-title {
+  font-size: 1rem; /* Adjusted font size */
+  font-weight: 500;
+  color: var(--text-color); /* Use text color */
+}
+
+.prediction-score,
+.prediction-freq,
+.prediction-source {
+  font-size: 0.9rem; /* Adjusted font size */
+  color: var(--primary-dark-color); /* Use primary-dark color */
+  background-color: var(--primary-light-color); /* Use primary-light color */
+  padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  border-radius: 10px;
+}
+
+.prediction-desc {
+  color: var(--secondary-text-color); /* Use secondary text color */
+  font-size: 0.95rem; /* Adjusted font size */
+  margin-left: calc(var(--spacing-unit) * 0.25); /* Use spacing unit */
+}
+
+.prediction-actions {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  margin-top: calc(var(--spacing-unit) * 0.5); /* Use spacing unit */
+}
+
+.prediction-actions button {
+  background-color: var(--accent-color); /* Use accent color */
+  color: var(--on-accent-color); /* Assuming on-accent color */
+  border: none;
+  border-radius: 20px;
+  padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.75); /* Use spacing unit */
+  font-size: 0.9rem; /* Adjusted font size */
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.prediction-actions button:hover:not(:disabled) {
+  background-color: var(--accent-dark-color); /* Darker accent on hover */
+}
+
+.prediction-actions button:disabled {
+  background-color: var(--divider-color); /* Use divider color */
+  color: var(--secondary-text-color); /* Use secondary text color */
+  cursor: not-allowed;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: calc(var(--spacing-unit) * 3); /* Use spacing unit */
+}
+
+.finish-btn {
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 0%,
+    var(--accent-color) 100%
+  ); /* Use color variables */
+  color: var(--on-primary-color); /* Use on-primary color */
+  border: none;
+  border-radius: 24px;
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
+  font-size: 1rem; /* Adjusted font size */
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.finish-btn:hover {
+  background: linear-gradient(
+    90deg,
+    var(--primary-dark-color) 0%,
+    var(--accent-dark-color) 100%
+  ); /* Darker gradient on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+.error-message {
+  color: var(--error-color); /* Use error color */
+  background-color: #ffebee; /* Keep light red background */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  margin-bottom: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  text-align: center;
+}
+
+.loading-message {
+  color: var(--primary-dark-color); /* Use primary-dark color */
+  background-color: var(--primary-light-color); /* Use primary-light color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  margin-bottom: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  text-align: center;
+}
+
+.empty-message {
+  color: var(--secondary-text-color); /* Use secondary text color */
+  background-color: var(--background-color); /* Use background color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  margin-bottom: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .prediction-review-container {
+    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 1); /* Adjusted padding */
+  }
+  .prediction-main {
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+    align-items: flex-start; /* Align items to start */
+  }
+  .prediction-actions {
+    flex-direction: column; /* Stack buttons on small screens */
+    gap: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+    width: 100%; /* Full width buttons */
+  }
+  .prediction-actions button {
+    width: 100%; /* Full width buttons */
+    text-align: center; /* Center button text */
+  }
+}

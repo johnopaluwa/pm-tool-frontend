@@ -1,0 +1,53 @@
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h2>Dashboard</h2>
+    <a class="new-project-btn" routerLink="/projects/new">+ New Project</a>
+  </div>
+
+  <div class="dashboard-sections">
+    <section class="active-projects">
+      <h3>My Active Projects</h3>
+      <div class="project-list">
+        <!-- Placeholder cards -->
+        <div class="project-card" routerLink="/projects/1">
+          <div class="project-title">Project Alpha (Client A)</div>
+          <div class="project-status status-active">Active</div>
+        </div>
+        <div class="project-card" routerLink="/projects/2">
+          <div class="project-title">Project Beta (Client B)</div>
+          <div class="project-status status-planning">Planning</div>
+        </div>
+        <div class="project-card" routerLink="/projects/3">
+          <div class="project-title">Project Gamma (Client C)</div>
+          <div class="project-status status-completed">Completed</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-predictions">
+      <h3>Recent Prediction Activity</h3>
+      <ul class="prediction-list">
+        <li>
+          Predictions generated for <b>Project Alpha</b>
+          <button
+            class="review-btn"
+            routerLink="/predictions/list"
+            [queryParams]="{ project: 'Project Alpha' }"
+          >
+            Review Now →
+          </button>
+        </li>
+        <li>
+          Predictions generated for <b>Project Beta</b>
+          <button
+            class="review-btn"
+            routerLink="/predictions/list"
+            [queryParams]="{ project: 'Project Beta' }"
+          >
+            Review Now →
+          </button>
+        </li>
+      </ul>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="recent-predictions">
+  <h3>Recent Prediction Activity</h3>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+  <div *ngIf="loading" class="loading-message">Loading recent activity...</div>
+
+  <ul
+    class="prediction-list"
+    *ngIf="!error && !loading && projectKeys.length > 0"
+  >
+    <li *ngFor="let project of projectKeys">
+      Predictions generated for <b>{{ project }}</b>
+      <button class="review-btn" (click)="reviewPredictions(project)">
+        Review Now →
+      </button>
+    </li>
+  </ul>
+
+  <div
+    *ngIf="!error && !loading && projectKeys.length === 0"
+    class="empty-message"
+  >
+    No recent prediction activity found.
+  </div>
+</div>

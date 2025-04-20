@@ -1,0 +1,22 @@
+<div class="projects-page">
+  <div class="projects-header">
+    <h2>Projects</h2>
+    <a class="new-project-btn" routerLink="/projects/new">+ New Project</a>
+  </div>
+
+  <div class="projects-list">
+    <div
+      *ngFor="let project of mockProjects"
+      class="project-card"
+      [routerLink]="['/projects', project.id]"
+    >
+      <div class="project-title">{{ project.name }}</div>
+      <div class="project-meta">
+        <span class="client-name">{{ project.client }}</span>
+        <span class="status status-{{ project.status | lowercase }}">{{
+          project.status
+        }}</span>
+      </div>
+    </div>
+  </div>
+</div>
