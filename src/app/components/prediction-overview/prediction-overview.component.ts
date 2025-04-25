@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  MockPredictionReviewService,
+  PredictionReview,
+} from '../../services/mock-prediction-review.service'; // Import MockPredictionReviewService
 import { Prediction } from '../../services/prediction.service'; // Assuming Prediction interface is here or in a shared model file
 
 @Component({
@@ -11,7 +15,8 @@ import { Prediction } from '../../services/prediction.service'; // Assuming Pred
   styleUrl: './prediction-overview.component.css',
 })
 export class PredictionOverviewComponent implements OnInit {
-  groupedPredictions: { [project: string]: Prediction[] } = {};
+  groupedPredictions: { [project: string]: Prediction[] } = {}; // Still group predictions for display
+  predictionReviews: PredictionReview[] = []; // Store the full reviews
   loading = false;
   error: string | null = null;
 
@@ -19,37 +24,55 @@ export class PredictionOverviewComponent implements OnInit {
     return Object.keys(this.groupedPredictions);
   }
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private mockPredictionReviewService: MockPredictionReviewService
+  ) {} // Inject MockPredictionReviewService
 
   ngOnInit(): void {
     this.loadRecentPredictions(); // Load predictions when the component initializes
   }
 
   loadRecentPredictions() {
-    // In a real app, this would fetch a limited list of recent predictions
-    // For now, we'll load all and group them, similar to PredictionDisplayComponent
-    const data = sessionStorage.getItem('latestPredictions');
-    if (data) {
-      const predictions: Prediction[] = JSON.parse(data);
-      // Group predictions by source project
-      this.groupedPredictions = predictions.reduce((acc, prediction) => {
-        if (!acc[prediction.sourceProject]) {
-          acc[prediction.sourceProject] = [];
+    this.loading = true;
+    this.error = null;
+    this.mockPredictionReviewService.getPredictionReviews().subscribe({
+      next: (reviews) => {
+        this.predictionReviews = reviews;
+        // Group predictions from all reviews by project name for display
+        this.groupedPredictions = reviews.reduce((acc, review) => {
+          if (!acc[review.projectName]) {
+            acc[review.projectName] = [];
+          }
+          acc[review.projectName].push(...review.predictions);
+          return acc;
+        }, {} as { [project: string]: Prediction[] });
+        this.loading = false;
+        if (this.projectKeys.length === 0) {
+          this.error = 'No recent prediction activity found.';
         }
-        acc[prediction.sourceProject].push(prediction);
-        return acc;
-      }, {} as { [project: string]: Prediction[] });
-    } else {
-      this.error = 'No recent prediction activity found.';
-    }
+      },
+      error: (err) => {
+        this.loading = false;
+        this.error = 'Failed to load prediction reviews.';
+        console.error(err);
+      },
+    });
   }
 
-  reviewPredictions(project: string) {
-    // Navigate to the detailed prediction list page, potentially filtered by project
-    // The route for the detailed list is now /predictions/list
-    // We can pass the project as a query parameter for filtering
-    this.router.navigate(['/predictions/list'], {
-      queryParams: { project: project },
-    });
+  reviewPredictions(projectName: string) {
+    // Find the review ID for the given project name
+    const review = this.predictionReviews.find(
+      (r) => r.projectName === projectName
+    );
+    if (review) {
+      // Navigate to the detailed prediction list page, passing the review ID
+      this.router.navigate(['/predictions/list'], {
+        queryParams: { reviewId: review.id },
+      });
+    } else {
+      console.error('Review not found for project:', projectName);
+      // Optionally show an error message to the user
+    }
   }
 }

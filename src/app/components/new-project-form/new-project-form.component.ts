@@ -10,6 +10,10 @@ import {
 import { Router } from '@angular/router';
 import { MockDataService } from '../../services/mock-data.service';
 import {
+  MockPredictionReviewService, // Import MockPredictionReviewService
+  PredictionReview,
+} from '../../services/mock-prediction-review.service';
+import {
   Prediction,
   PredictionService,
 } from '../../services/prediction.service';
@@ -40,7 +44,8 @@ export class NewProjectFormComponent {
     private fb: FormBuilder,
     private predictionService: PredictionService,
     private router: Router,
-    private mockDataService: MockDataService // Inject MockDataService
+    private mockDataService: MockDataService, // Inject MockDataService
+    private mockPredictionReviewService: MockPredictionReviewService // Inject MockPredictionReviewService
   ) {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
@@ -84,13 +89,21 @@ export class NewProjectFormComponent {
         .subscribe({
           next: (predictions: Prediction[]) => {
             this.loading = false;
-            // Store predictions in sessionStorage for now (or use a state service)
-            sessionStorage.setItem(
-              'latestPredictions',
-              JSON.stringify(predictions)
-            );
-            // Navigate to the detail page of the newly created project
-            this.router.navigate(['/projects', newProjectId]);
+
+            // Create and add a new prediction review
+            const newReview: Omit<PredictionReview, 'id' | 'generatedAt'> = {
+              projectId: newProjectId,
+              projectName: this.projectForm.value.projectName,
+              clientName: this.projectForm.value.clientName,
+              predictions: predictions,
+            };
+
+            this.mockPredictionReviewService
+              .addPredictionReview(newReview)
+              .subscribe(() => {
+                // Navigate to the prediction overview page after adding the review
+                this.router.navigate(['/predictions/overview']);
+              });
           },
           error: (err) => {
             this.loading = false;
@@ -103,8 +116,19 @@ export class NewProjectFormComponent {
   }
 
   onSaveDraft() {
-    // Placeholder for draft save logic
-    alert('Draft saved (not implemented)');
+    if (this.projectForm.valid) {
+      // Check form validity before saving draft
+      // Add the new project to mock data
+      const newProjectId = this.mockDataService.addProject(
+        this.projectForm.value
+      );
+
+      // Navigate to the detail page of the newly created project
+      this.router.navigate(['/projects', newProjectId]);
+    } else {
+      this.projectForm.markAllAsTouched(); // Mark fields as touched to show validation errors
+      alert('Please fill in all required fields before saving a draft.'); // Optional: alert user
+    }
   }
 
   onCancel() {

@@ -26,22 +26,12 @@
     <section class="recent-predictions">
       <h3>Recent Prediction Activity</h3>
       <ul class="prediction-list">
-        <li>
-          Predictions generated for <b>Project Alpha</b>
+        <li *ngFor="let review of recentReviews">
+          Predictions generated for <b>{{ review.projectName }}</b>
           <button
             class="review-btn"
-            routerLink="/predictions/list"
-            [queryParams]="{ project: 'Project Alpha' }"
-          >
-            Review Now →
-          </button>
-        </li>
-        <li>
-          Predictions generated for <b>Project Beta</b>
-          <button
-            class="review-btn"
-            routerLink="/predictions/list"
-            [queryParams]="{ project: 'Project Beta' }"
+            [routerLink]="['/predictions/list']"
+            [queryParams]="{ reviewId: review.id }"
           >
             Review Now →
           </button>
