@@ -55,4 +55,23 @@ export class MockDataService {
   getProjectById(id: number) {
     return this.mockProjects.find((project) => project.id === id);
   }
+
+  addProject(project: any) {
+    // Simple ID generation for mock data
+    const newId =
+      this.mockProjects.length > 0
+        ? Math.max(...this.mockProjects.map((p) => p.id)) + 1
+        : 1;
+    const newProject = {
+      ...project, // Include all other properties
+      id: newId,
+      name: project.projectName, // Map projectName to name
+      client: project.clientName, // Map clientName to client
+      status: 'Planning', // Assign default status
+    };
+    this.mockProjects.push(newProject);
+    console.log('New project added:', newProject);
+    console.log('All projects:', this.mockProjects);
+    return newId; // Return the new project's ID
+  }
 }

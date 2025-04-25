@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MockDataService } from '../../services/mock-data.service';
 import {
   Prediction,
   PredictionService,
@@ -38,7 +39,8 @@ export class NewProjectFormComponent {
   constructor(
     private fb: FormBuilder,
     private predictionService: PredictionService,
-    private router: Router
+    private router: Router,
+    private mockDataService: MockDataService // Inject MockDataService
   ) {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
@@ -50,6 +52,7 @@ export class NewProjectFormComponent {
       duration: ['', Validators.required],
       keywords: [''],
       businessSpecification: [''], // Add new field
+      description: [''], // Add description field
     });
   }
 
@@ -69,6 +72,13 @@ export class NewProjectFormComponent {
     if (this.projectForm.valid) {
       this.loading = true;
       this.error = null;
+
+      // Add the new project to mock data
+      const newProjectId = this.mockDataService.addProject(
+        this.projectForm.value
+      );
+
+      // Generate predictions (still using mock for now)
       this.predictionService
         .generatePredictions(this.projectForm.value)
         .subscribe({
@@ -79,8 +89,8 @@ export class NewProjectFormComponent {
               'latestPredictions',
               JSON.stringify(predictions)
             );
-            // Navigate to prediction review (assume /predictions/review for now)
-            this.router.navigate(['/predictions/review']);
+            // Navigate to the detail page of the newly created project
+            this.router.navigate(['/projects', newProjectId]);
           },
           error: (err) => {
             this.loading = false;

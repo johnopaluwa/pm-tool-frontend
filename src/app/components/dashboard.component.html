@@ -8,18 +8,17 @@
     <section class="active-projects">
       <h3>My Active Projects</h3>
       <div class="project-list">
-        <!-- Placeholder cards -->
-        <div class="project-card" routerLink="/projects/1">
-          <div class="project-title">Project Alpha (Client A)</div>
-          <div class="project-status status-active">Active</div>
-        </div>
-        <div class="project-card" routerLink="/projects/2">
-          <div class="project-title">Project Beta (Client B)</div>
-          <div class="project-status status-planning">Planning</div>
-        </div>
-        <div class="project-card" routerLink="/projects/3">
-          <div class="project-title">Project Gamma (Client C)</div>
-          <div class="project-status status-completed">Completed</div>
+        <div
+          class="project-card"
+          *ngFor="let project of projects"
+          [routerLink]="['/projects', project.id]"
+        >
+          <div class="project-title">
+            {{ project.name }} ({{ project.client }})
+          </div>
+          <div class="project-status status-{{ project.status | lowercase }}">
+            {{ project.status }}
+          </div>
         </div>
       </div>
     </section>
