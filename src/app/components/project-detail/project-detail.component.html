@@ -15,6 +15,33 @@
     <p>Keywords: {{ project.keywords }}</p>
     <p>Business Specification: {{ project.businessSpecification }}</p>
   </div>
+
+  <div
+    *ngIf="project && predictionReviews.length > 0"
+    class="prediction-history"
+  >
+    <h4>Prediction History</h4>
+    <ul>
+      <li *ngFor="let review of predictionReviews">
+        Review generated on {{ review.generatedAt | date : "short" }}
+        <button
+          class="review-btn"
+          [routerLink]="['/predictions/list']"
+          [queryParams]="{ reviewId: review.id }"
+        >
+          View Review →
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="project && predictionReviews.length === 0" class="no-predictions">
+    <p>No prediction history found for this project.</p>
+    <button class="primary-btn" (click)="generatePredictions()">
+      Generate Predictions
+    </button>
+  </div>
+
   <div *ngIf="!project">
     <p>Project not found.</p>
   </div>

@@ -46,3 +46,86 @@
   font-size: 0.95rem; /* Adjusted font size */
   color: var(--secondary-text-color); /* Use secondary text color */
 }
+
+.prediction-history ul {
+  list-style: none;
+  padding: 0;
+  margin-top: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+}
+
+.prediction-history li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-color); /* Use background color */
+  border: 1px solid var(--divider-color); /* Use divider color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  font-size: 1rem; /* Adjusted font size */
+  color: var(--text-color); /* Use text color */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
+}
+
+.prediction-history li button.review-btn {
+  background-color: var(--accent-color); /* Use accent color */
+  color: var(--on-accent-color); /* Assuming on-accent color */
+  border: none;
+  border-radius: 20px;
+  padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  cursor: pointer;
+  font-size: 0.9rem; /* Adjusted font size */
+  transition: background-color 0.3s ease;
+}
+
+.prediction-history li button.review-btn:hover {
+  background-color: var(--accent-dark-color); /* Darker accent on hover */
+}
+
+.no-predictions {
+  text-align: center;
+  margin-top: calc(var(--spacing-unit) * 3); /* Use spacing unit */
+  padding: calc(var(--spacing-unit) * 3); /* Use spacing unit */
+  background-color: var(--background-color); /* Use background color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  border: 1px dashed var(--divider-color); /* Dashed border */
+}
+
+.no-predictions p {
+  margin-bottom: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  color: var(--secondary-text-color); /* Use secondary text color */
+  font-size: 1.1rem; /* Adjusted font size */
+}
+
+.no-predictions .primary-btn {
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 0%,
+    var(--accent-color) 100%
+  ); /* Use color variables */
+  color: var(--on-primary-color); /* Use on-primary color */
+  border: none;
+  border-radius: 24px;
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
+  font-size: 1rem; /* Adjusted font size */
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.no-predictions .primary-btn:hover {
+  background: linear-gradient(
+    90deg,
+    var(--primary-dark-color) 0%,
+    var(--accent-dark-color) 100%
+  ); /* Darker gradient on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+.no-predictions .primary-btn:disabled {
+  background-color: var(--divider-color); /* Use divider color */
+  color: var(--secondary-text-color); /* Use secondary text color */
+  cursor: not-allowed;
+  box-shadow: none;
+}
