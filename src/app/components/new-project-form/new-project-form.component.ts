@@ -8,15 +8,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MockDataService } from '../../services/mock-data.service';
 import {
-  MockPredictionReviewService, // Import MockPredictionReviewService
   PredictionReview,
-} from '../../services/mock-prediction-review.service';
+  PredictionReviewService, // Import PredictionReviewService
+} from '../../services/prediction-review.service';
 import {
   Prediction,
   PredictionService,
 } from '../../services/prediction.service';
+import { ProjectService } from '../../services/project.service'; // Import ProjectService
 
 @Component({
   selector: 'app-new-project-form',
@@ -42,10 +42,10 @@ export class NewProjectFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    private predictionService: PredictionService,
     private router: Router,
-    private mockDataService: MockDataService, // Inject MockDataService
-    private mockPredictionReviewService: MockPredictionReviewService // Inject MockPredictionReviewService
+    private projectService: ProjectService, // Inject ProjectService
+    private predictionReviewService: PredictionReviewService, // Inject PredictionReviewService
+    private predictionService: PredictionService // Inject PredictionService
   ) {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
@@ -78,38 +78,46 @@ export class NewProjectFormComponent {
       this.loading = true;
       this.error = null;
 
-      // Add the new project to mock data
-      const newProjectId = this.mockDataService.addProject(
-        this.projectForm.value
-      );
+      // Add the new project using the ProjectService
+      this.projectService.addProject(this.projectForm.value).subscribe({
+        next: (newProjectId) => {
+          // Generate predictions
+          this.predictionService
+            .generatePredictions(this.projectForm.value)
+            .subscribe({
+              next: (predictions: Prediction[]) => {
+                this.loading = false;
 
-      // Generate predictions (still using mock for now)
-      this.predictionService
-        .generatePredictions(this.projectForm.value)
-        .subscribe({
-          next: (predictions: Prediction[]) => {
-            this.loading = false;
+                // Create and add a new prediction review
+                const newReview: Omit<PredictionReview, 'id' | 'generatedAt'> =
+                  {
+                    projectId: newProjectId,
+                    projectName: this.projectForm.value.projectName,
+                    clientName: this.projectForm.value.clientName,
+                    predictions: predictions,
+                  };
 
-            // Create and add a new prediction review
-            const newReview: Omit<PredictionReview, 'id' | 'generatedAt'> = {
-              projectId: newProjectId,
-              projectName: this.projectForm.value.projectName,
-              clientName: this.projectForm.value.clientName,
-              predictions: predictions,
-            };
-
-            this.mockPredictionReviewService
-              .addPredictionReview(newReview)
-              .subscribe(() => {
-                // Navigate to the prediction overview page after adding the review
-                this.router.navigate(['/predictions/overview']);
-              });
-          },
-          error: (err) => {
-            this.loading = false;
-            this.error = 'Failed to generate predictions. Please try again.';
-          },
-        });
+                this.predictionReviewService
+                  .addPredictionReview(newReview)
+                  .subscribe(() => {
+                    // Navigate to the prediction overview page after adding the review
+                    this.router.navigate(['/predictions/overview']);
+                  });
+              },
+              error: (err) => {
+                this.loading = false;
+                this.error =
+                  'Failed to generate predictions. Please try again.';
+                console.error(err);
+              },
+            });
+        },
+        error: (err) => {
+          this.loading = false;
+          this.error = 'Failed to add project. Please try again.';
+          console.error(err);
+        },
+      });
     } else {
       this.projectForm.markAllAsTouched();
     }
@@ -118,13 +126,17 @@ export class NewProjectFormComponent {
   onSaveDraft() {
     if (this.projectForm.valid) {
       // Check form validity before saving draft
-      // Add the new project to mock data
-      const newProjectId = this.mockDataService.addProject(
-        this.projectForm.value
-      );
-
-      // Navigate to the detail page of the newly created project
-      this.router.navigate(['/projects', newProjectId]);
+      // Add the new project using the ProjectService
+      this.projectService.addProject(this.projectForm.value).subscribe({
+        next: (newProjectId) => {
+          // Navigate to the detail page of the newly created project
+          this.router.navigate(['/projects', newProjectId]);
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Failed to save draft.');
+        },
+      });
     } else {
       this.projectForm.markAllAsTouched(); // Mark fields as touched to show validation errors
       alert('Please fill in all required fields before saving a draft.'); // Optional: alert user

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MockDataService } from '../../services/mock-data.service'; // Import MockDataService
+import { Project, ProjectService } from '../../services/project.service'; // Import ProjectService
 
 @Component({
   selector: 'app-project-list',
@@ -10,11 +10,14 @@ import { MockDataService } from '../../services/mock-data.service'; // Import Mo
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css'],
 })
-export class ProjectListComponent {
-  // Use the mockProjects from the service
-  get mockProjects() {
-    return this.mockDataService.mockProjects;
-  }
+export class ProjectListComponent implements OnInit {
+  projects: Project[] = [];
 
-  constructor(private mockDataService: MockDataService) {} // Inject MockDataService
+  constructor(private projectService: ProjectService) {} // Inject ProjectService
+
+  ngOnInit() {
+    this.projectService.getProjects().subscribe((data) => {
+      this.projects = data;
+    });
+  }
 }

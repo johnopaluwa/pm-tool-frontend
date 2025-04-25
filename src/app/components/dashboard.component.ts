@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MockDataService } from '../services/mock-data.service';
 import {
-  MockPredictionReviewService,
   PredictionReview,
-} from '../services/mock-prediction-review.service'; // Import MockPredictionReviewService
+  PredictionReviewService,
+} from '../services/prediction-review.service'; // Import PredictionReviewService
+import { Project, ProjectService } from '../services/project.service'; // Import ProjectService and Project interface
 
 @Component({
   selector: 'app-dashboard',
@@ -15,21 +15,24 @@ import {
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  projects: any[] = []; // Or define a Project interface
+  projects: Project[] = []; // Use Project interface
   recentReviews: PredictionReview[] = []; // Property to store recent reviews
 
   constructor(
-    private mockDataService: MockDataService,
-    private mockPredictionReviewService: MockPredictionReviewService
-  ) {} // Inject MockPredictionReviewService
+    private projectService: ProjectService, // Inject ProjectService
+    private predictionReviewService: PredictionReviewService
+  ) {} // Inject PredictionReviewService
 
   ngOnInit(): void {
-    this.projects = this.mockDataService.mockProjects; // Assuming mockProjects is public or add a getProjects method
+    // Fetch projects
+    this.projectService.getProjects().subscribe((projects: Project[]) => {
+      this.projects = projects;
+    });
 
     // Fetch recent prediction reviews
-    this.mockPredictionReviewService
+    this.predictionReviewService
       .getPredictionReviews()
-      .subscribe((reviews) => {
+      .subscribe((reviews: PredictionReview[]) => {
         // For dashboard, maybe show a limited number of recent reviews
         this.recentReviews = reviews.slice(-5); // Get the last 5 reviews
       });

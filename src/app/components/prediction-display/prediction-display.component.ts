@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  MockPredictionReviewService,
   PredictionReview,
-} from '../../services/mock-prediction-review.service'; // Import MockPredictionReviewService
+  PredictionReviewService,
+} from '../../services/prediction-review.service'; // Import PredictionReviewService
 import { Prediction } from '../../services/prediction.service';
 
 @Component({
@@ -25,8 +25,8 @@ export class PredictionDisplayComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private mockPredictionReviewService: MockPredictionReviewService
-  ) {} // Inject MockPredictionReviewService
+    private predictionReviewService: PredictionReviewService
+  ) {} // Inject PredictionReviewService
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -43,7 +43,7 @@ export class PredictionDisplayComponent implements OnInit {
 
     this.loading = true;
     this.error = null;
-    this.mockPredictionReviewService
+    this.predictionReviewService
       .getPredictionReviewById(this.reviewId)
       .subscribe({
         next: (review) => {

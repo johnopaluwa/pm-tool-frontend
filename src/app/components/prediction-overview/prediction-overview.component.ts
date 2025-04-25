@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  MockPredictionReviewService,
   PredictionReview,
-} from '../../services/mock-prediction-review.service'; // Import MockPredictionReviewService
+  PredictionReviewService,
+} from '../../services/prediction-review.service'; // Import PredictionReviewService
 import { Prediction } from '../../services/prediction.service'; // Assuming Prediction interface is here or in a shared model file
 
 @Component({
@@ -26,8 +26,8 @@ export class PredictionOverviewComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private mockPredictionReviewService: MockPredictionReviewService
-  ) {} // Inject MockPredictionReviewService
+    private predictionReviewService: PredictionReviewService
+  ) {} // Inject PredictionReviewService
 
   ngOnInit(): void {
     this.loadRecentPredictions(); // Load predictions when the component initializes
@@ -36,7 +36,7 @@ export class PredictionOverviewComponent implements OnInit {
   loadRecentPredictions() {
     this.loading = true;
     this.error = null;
-    this.mockPredictionReviewService.getPredictionReviews().subscribe({
+    this.predictionReviewService.getPredictionReviews().subscribe({
       next: (reviews) => {
         this.predictionReviews = reviews;
         // Group predictions from all reviews by project name for display
