@@ -8,7 +8,7 @@ export interface Project {
   id: number;
   name: string;
   client: string;
-  status: string;
+  status: 'new' | 'predicting' | 'completed';
   description: string;
   projectType: string;
   clientIndustry: string;
@@ -50,5 +50,13 @@ export class ProjectService {
     return this.http
       .post<number>(this.apiUrl, project)
       .pipe(finalize(() => this.loadingService.hide()));
+  }
+
+  updateProjectStatus(
+    id: number,
+    status: 'new' | 'predicting' | 'completed'
+  ): Observable<Project> {
+    // No loading spinner for status updates as per user feedback
+    return this.http.patch<Project>(`${this.apiUrl}/${id}/status`, { status });
   }
 }

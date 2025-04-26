@@ -26,9 +26,12 @@ export class PredictionService {
     private loadingService: LoadingService
   ) {}
 
-  generatePredictions(projectData: any): Observable<Prediction[]> {
+  generatePredictions(
+    projectData: any,
+    projectId: number
+  ): Observable<Prediction[]> {
     return this.http
-      .post<Prediction[]>(`${this.apiUrl}/generate`, projectData)
+      .post<Prediction[]>(`${this.apiUrl}/generate/${projectId}`, projectData)
       .pipe(finalize(() => {})); // Keep finalize but do nothing
   }
 

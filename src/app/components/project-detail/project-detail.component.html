@@ -3,7 +3,12 @@
   <div *ngIf="project">
     <h3>{{ project.name }}</h3>
     <p>Client: {{ project.client }}</p>
-    <p>Status: {{ project.status }}</p>
+    <p>
+      Status:
+      <span class="status status-{{ project.status | lowercase }}">{{
+        project.status
+      }}</span>
+    </p>
     <p>Description: {{ project.description }}</p>
 
     <h4>Prediction Characteristics:</h4>
@@ -35,11 +40,23 @@
     </ul>
   </div>
 
-  <div *ngIf="project && predictionReviews.length === 0" class="no-predictions">
+  <div
+    *ngIf="project && predictionReviews.length === 0 && !generatingPredictions"
+    class="no-predictions"
+  >
     <p>No prediction history found for this project.</p>
     <button class="primary-btn" (click)="generatePredictions()">
       Generate Predictions
     </button>
+  </div>
+
+  <div
+    *ngIf="
+      project && (project.status === 'predicting' || generatingPredictions)
+    "
+    class="prediction-status"
+  >
+    <p>Generating predictions... This may take a few minutes.</p>
   </div>
 
   <div *ngIf="!project">

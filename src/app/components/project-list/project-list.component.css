@@ -54,9 +54,10 @@
   background-color: var(--surface-color); /* Use surface color */
   border-radius: var(--border-radius); /* Use border radius variable */
   padding: calc(var(--spacing-unit) * 2.5) calc(var(--spacing-unit) * 3); /* Use spacing unit */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid; /* Use grid layout */
+  grid-template-columns: auto 200px; /* Project title takes space, meta fits content */
+  align-items: center; /* Vertically align items */
+  /* Removed flexbox properties */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
   transition: box-shadow 0.2s ease;
   cursor: pointer; /* Add cursor pointer */
@@ -73,9 +74,10 @@
 }
 
 .project-meta {
-  display: flex;
+  display: grid; /* Use grid for two columns */
+  grid-template-columns: 1fr 1fr; /* Create two equal columns */
+  gap: calc(var(--spacing-unit) * 1.5); /* Adjust gap between grid items */
   align-items: center;
-  gap: calc(var(--spacing-unit) * 2); /* Use spacing unit */
 }
 
 .client-name {
@@ -93,19 +95,23 @@
   padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
   border-radius: 16px;
   color: var(--on-primary-color); /* Use on-primary color */
-  margin-left: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+  /* margin-left: calc(var(--spacing-unit) * 1); /* Removed margin-left as gap handles spacing */
 }
 
-.status-active {
-  background-color: var(--primary-color); /* Use primary color */
+.status-new {
+  background-color: var(--background-color); /* Light background */
+  color: var(--text-color); /* Default text color */
+  border: 1px solid var(--divider-color); /* Subtle border */
 }
 
-.status-planning {
-  background-color: var(--accent-color); /* Use accent color */
+.status-predicting {
+  background-color: var(--accent-light-color); /* Lighter accent color */
+  color: var(--accent-dark-color); /* Darker accent text */
 }
 
 .status-completed {
-  background-color: var(--secondary-text-color); /* Use secondary text color */
+  background-color: var(--primary-light-color); /* Lighter primary color */
+  color: var(--primary-dark-color); /* Darker primary text */
 }
 
 @media (max-width: 900px) {

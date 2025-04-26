@@ -58,6 +58,7 @@ export class NewProjectFormComponent {
       keywords: [''],
       businessSpecification: [''], // Add new field
       description: [''], // Add description field
+      status: ['new'], // Set initial status to 'new'
     });
   }
 
@@ -86,7 +87,7 @@ export class NewProjectFormComponent {
 
           // Generate predictions and create review in the background
           this.predictionService
-            .generatePredictions(this.projectForm.value)
+            .generatePredictions(this.projectForm.value, newProjectId) // Pass projectData and newProjectId
             .subscribe({
               next: (predictions: Prediction[]) => {
                 // Create and add a new prediction review
@@ -109,12 +110,14 @@ export class NewProjectFormComponent {
                     error: (err) => {
                       console.error('Failed to add prediction review:', err);
                       // Handle error, maybe show a notification on the overview page
+                      // Consider updating status to an error state if needed
                     },
                   });
               },
               error: (err) => {
                 console.error('Failed to generate predictions:', err);
                 // Handle error, maybe show a notification on the overview page
+                // Consider updating status to an error state if needed
               },
             });
 
