@@ -57,3 +57,14 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Implemented Features
+
+This frontend application interacts with a NestJS backend to provide the following features:
+
+- **Project Listing:** View a list of existing projects fetched from the backend.
+- **Project Detail:** View detailed information about a specific project.
+- **New Project Creation:** Create a new project and save it to the backend.
+- **Prediction Generation:** Generate predictions for a project by sending project data to the backend.
+- **Prediction Review Listing:** View a list of prediction reviews for a project.
+- **Prediction Display:** View the details of a specific prediction review, including predicted user stories and bugs.
