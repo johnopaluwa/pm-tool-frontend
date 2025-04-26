@@ -176,15 +176,8 @@
       ></textarea>
     </div>
     <div class="form-actions">
-      <button
-        type="submit"
-        class="primary-btn"
-        [disabled]="projectForm.invalid"
-      >
-        Save & Generate Predictions
-      </button>
-      <button type="button" class="secondary-btn" (click)="onSaveDraft()">
-        Save Draft
+      <button type="button" class="primary-btn" (click)="onSaveDraft()">
+        Save Project
       </button>
       <button type="button" class="cancel-btn" (click)="onCancel()">
         Cancel

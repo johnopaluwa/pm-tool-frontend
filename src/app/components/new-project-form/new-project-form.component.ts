@@ -81,13 +81,14 @@ export class NewProjectFormComponent {
       // Add the new project using the ProjectService
       this.projectService.addProject(this.projectForm.value).subscribe({
         next: (newProjectId) => {
-          // Generate predictions
+          // Navigate to the project detail page immediately after project creation
+          this.router.navigate(['/projects', newProjectId]);
+
+          // Generate predictions and create review in the background
           this.predictionService
             .generatePredictions(this.projectForm.value)
             .subscribe({
               next: (predictions: Prediction[]) => {
-                this.loading = false;
-
                 // Create and add a new prediction review
                 const newReview: Omit<PredictionReview, 'id' | 'generatedAt'> =
                   {
@@ -99,18 +100,25 @@ export class NewProjectFormComponent {
 
                 this.predictionReviewService
                   .addPredictionReview(newReview)
-                  .subscribe(() => {
-                    // Navigate to the prediction overview page after adding the review
-                    this.router.navigate(['/predictions/overview']);
+                  .subscribe({
+                    next: () => {
+                      console.log('Prediction review created successfully.');
+                      // Optionally, you could emit an event or update a shared service
+                      // to notify the prediction overview page that new data is available.
+                    },
+                    error: (err) => {
+                      console.error('Failed to add prediction review:', err);
+                      // Handle error, maybe show a notification on the overview page
+                    },
                   });
               },
               error: (err) => {
-                this.loading = false;
-                this.error =
-                  'Failed to generate predictions. Please try again.';
-                console.error(err);
+                console.error('Failed to generate predictions:', err);
+                // Handle error, maybe show a notification on the overview page
               },
             });
+
+          this.loading = false; // Set loading to false after navigation starts
         },
         error: (err) => {
           this.loading = false;

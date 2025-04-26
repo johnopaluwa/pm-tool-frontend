@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { LoadingService } from './loading.service';
 
 export interface Project {
   id: number;
@@ -23,18 +25,30 @@ export interface Project {
 export class ProjectService {
   private apiUrl = 'http://localhost:3000/projects'; // Assuming backend runs on port 3000
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private loadingService: LoadingService
+  ) {}
 
   getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(this.apiUrl);
+    this.loadingService.show();
+    return this.http
+      .get<Project[]>(this.apiUrl)
+      .pipe(finalize(() => this.loadingService.hide()));
   }
 
   getProjectById(id: number): Observable<Project> {
-    return this.http.get<Project>(`${this.apiUrl}/${id}`);
+    this.loadingService.show();
+    return this.http
+      .get<Project>(`${this.apiUrl}/${id}`)
+      .pipe(finalize(() => this.loadingService.hide()));
   }
 
   addProject(project: any): Observable<number> {
     // The backend expects projectName and clientName, which are already in the project object
-    return this.http.post<number>(this.apiUrl, project);
+    this.loadingService.show();
+    return this.http
+      .post<number>(this.apiUrl, project)
+      .pipe(finalize(() => this.loadingService.hide()));
   }
 }
