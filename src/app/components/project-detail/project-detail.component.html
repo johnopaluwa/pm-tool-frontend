@@ -1,6 +1,8 @@
 <div class="project-detail-container">
   <h2>Project Detail</h2>
-  <div *ngIf="project">
+  <div
+    *ngIf="project && project.status !== 'predicting' && !generatingPredictions"
+  >
     <h3>{{ project.name }}</h3>
     <p>Client: {{ project.client }}</p>
     <p>
@@ -22,7 +24,12 @@
   </div>
 
   <div
-    *ngIf="project && predictionReviews.length > 0"
+    *ngIf="
+      project &&
+      predictionReviews.length > 0 &&
+      project.status !== 'predicting' &&
+      !generatingPredictions
+    "
     class="prediction-history"
   >
     <h4>Prediction History</h4>
@@ -41,7 +48,12 @@
   </div>
 
   <div
-    *ngIf="project && predictionReviews.length === 0 && !generatingPredictions"
+    *ngIf="
+      project &&
+      predictionReviews.length === 0 &&
+      !generatingPredictions &&
+      project.status !== 'predicting'
+    "
     class="no-predictions"
   >
     <p>No prediction history found for this project.</p>
