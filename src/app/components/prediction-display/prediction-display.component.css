@@ -53,37 +53,46 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px; /* Adjusted gap */
+  /* Removed gap here, gap will be between list items */
 }
 
-.prediction-list li {
+.prediction-list-item {
+  /* Updated class name */
   background-color: var(--background-color); /* Use background color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  padding: 16px 20px; /* Adjusted padding */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  padding: 12px 20px; /* Adjusted padding for list item */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); /* Lighter shadow */
   transition: box-shadow 0.2s ease;
-  border-left: 6px solid var(--primary-light-color); /* Use primary-light color for border */
-  display: flex;
-  flex-direction: column;
-  gap: 8px; /* Adjusted gap */
+  border-left: 4px solid var(--primary-light-color); /* Adjusted border width */
   border: 1px solid var(--divider-color); /* Add subtle border */
+  margin-bottom: 8px; /* Add margin bottom to separate list items */
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack children vertically */
 }
 
-.prediction-list li.accepted {
+.prediction-list-item:hover {
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.prediction-list-item.accepted {
   border-left-color: #10b981; /* Green for accepted */
   background-color: #f0fdf4; /* Very light green */
 }
 
-.prediction-list li.rejected {
+.prediction-list-item.rejected {
   border-left-color: var(--warn-color); /* Use warn color for rejected */
   background-color: #fef2f2; /* Very light red */
 }
 
-.prediction-main {
+.list-item-header {
   display: flex;
   align-items: center;
-  gap: 20px; /* Adjusted gap */
-  flex-wrap: wrap;
+  /* Removed margin-bottom here, spacing will be handled by gap in parent */
+}
+
+.list-item-header input[type="checkbox"] {
+  margin-right: 10px; /* Space between checkbox and title */
+  cursor: pointer;
 }
 
 .prediction-title {
@@ -93,25 +102,10 @@
   flex-grow: 1; /* Allow title to take available space */
 }
 
-.prediction-score,
-.prediction-freq,
-.prediction-source {
-  font-size: 0.8rem; /* Slightly smaller font size */
-  color: var(--secondary-text-color); /* Use secondary text color */
-  /* Removed background and padding for a cleaner look */
-  font-weight: 400;
-}
-
-.prediction-desc {
-  color: var(--text-color); /* Use text color */
-  font-size: 0.95rem;
-  margin-left: 0; /* Removed margin-left */
-}
-
 .prediction-actions {
-  display: none; /* Hide the buttons */
+  display: flex; /* Keep buttons in a row */
   gap: 10px; /* Adjusted gap */
-  margin-top: 8px; /* Adjusted margin */
+  /* Removed justify-content as it's in the header now */
 }
 
 .prediction-actions button {
@@ -119,8 +113,8 @@
   color: white; /* White text */
   border: none;
   border-radius: 25px; /* Pill shape */
-  padding: 8px 16px; /* Adjusted padding */
-  font-size: 0.9rem;
+  padding: 4px 12px; /* Adjusted padding for smaller button */
+  font-size: 0.8rem; /* Smaller font size */
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s ease, opacity 0.3s ease;
@@ -138,25 +132,69 @@
 }
 
 /* Specific styles for Edit & Accept button */
-.prediction-actions button:nth-child(2) {
+.prediction-actions button:nth-child(1) {
+  /* Adjusted to target the first button (Edit & Accept) */
   background-color: var(--surface-color); /* White background */
   color: var(--primary-color); /* Primary text color */
   border: 1px solid var(--primary-color); /* Primary border */
 }
 
-.prediction-actions button:nth-child(2):hover:not(:disabled) {
+.prediction-actions button:nth-child(1):hover:not(:disabled) {
   background-color: var(--primary-light-color); /* Lighter primary on hover */
   color: white; /* White text on hover */
 }
 
-/* Specific styles for Reject button */
+/* Hide Accept and Reject buttons in this view */
+.prediction-actions button:nth-child(2),
 .prediction-actions button:nth-child(3) {
-  background-color: var(--warn-color); /* Warn color */
-  color: white; /* White text */
+  display: none;
 }
 
-.prediction-actions button:nth-child(3):hover:not(:disabled) {
-  background-color: var(--warn-dark-color); /* Darker warn on hover */
+.list-item-details {
+  margin-top: 8px; /* Space above details */
+  margin-left: 24px; /* Indent details */
+  border-left: 1px solid var(--divider-color); /* Vertical line */
+  padding-left: 16px; /* Space after vertical line */
+}
+
+.prediction-main {
+  display: flex; /* Use flexbox for details line */
+  align-items: center;
+  gap: 15px; /* Adjusted gap */
+  flex-wrap: wrap;
+  margin-top: 8px; /* Space above prediction main */
+  /* Removed margin-bottom here, spacing will be handled by gap in parent */
+}
+
+.prediction-score,
+.prediction-freq,
+.prediction-source,
+.prediction-time {
+  font-size: 0.8rem; /* Slightly smaller font size */
+  color: var(--secondary-text-color); /* Use secondary text color */
+  font-weight: 400;
+}
+
+.prediction-desc {
+  color: var(--text-color); /* Use text color */
+  font-size: 0.95rem;
+  margin-bottom: 8px; /* Space below description */
+}
+
+.prediction-details {
+  margin-top: 12px; /* Space above additional details */
+  padding-top: 12px; /* Space above content in additional details */
+  border-top: 1px dashed var(--divider-color); /* Dashed separator */
+}
+
+.prediction-details p {
+  margin-bottom: 8px; /* Space between detail paragraphs */
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+}
+
+.prediction-details strong {
+  color: var(--text-color);
 }
 
 .review-actions {
@@ -216,39 +254,22 @@
   .prediction-review-container {
     padding: 24px; /* Adjusted padding */
   }
+  .list-item-details {
+    margin-left: 16px; /* Adjust indent on smaller screens */
+    padding-left: 12px; /* Adjust padding on smaller screens */
+    margin-top: 8px; /* Space above details */
+  }
   .prediction-main {
     flex-direction: column;
     gap: 8px; /* Adjusted gap */
     align-items: flex-start; /* Align items to start */
+    margin-top: 8px; /* Space above prediction main */
   }
   .prediction-actions {
-    flex-direction: column; /* Stack buttons on small screens */
+    /* Keep as flex row in header */
     gap: 8px; /* Adjusted gap */
-    width: 100%; /* Full width buttons */
   }
   .prediction-actions button {
-    width: 100%; /* Full width buttons */
-    text-align: center; /* Center button text */
-  }
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(150px, 1fr)
-  ); /* Responsive columns */
-  gap: 10px; /* Gap between grid items */
-  align-items: center;
-}
-
-.grid-item {
-  /* Optional: Add some basic styling for grid items if needed */
-}
-
-/* Adjustments for smaller screens */
-@media (max-width: 600px) {
-  .grid-container {
-    grid-template-columns: 1fr; /* Stack items on very small screens */
+    /* Keep as is, not full width */
   }
 }

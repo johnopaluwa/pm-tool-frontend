@@ -50,6 +50,8 @@ export class PredictionDisplayComponent implements OnInit {
           this.loading = false;
           this.predictionReview = review;
           if (review) {
+            // Initialize isCollapsed to true for all predictions
+            review.predictions.forEach((pred) => (pred.isCollapsed = true));
             // Use 'user-story' to match the updated backend model
             this.filteredUserStoryPredictions = review.predictions.filter(
               (p) => p.type === 'user-story'
@@ -69,8 +71,26 @@ export class PredictionDisplayComponent implements OnInit {
       });
   }
 
+  // Method to toggle acceptance status based on checkbox
+  toggleAcceptance(pred: Prediction, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (this.predictionReview) {
+      const predictionToUpdate = this.predictionReview.predictions.find(
+        (p) => p.id === pred.id
+      );
+      if (predictionToUpdate) {
+        predictionToUpdate.status = isChecked ? 'accepted' : 'rejected';
+        // Optionally, call a service method here to update the backend
+        // this.predictionReviewService.updatePredictionStatus(predictionToUpdate.id, predictionToUpdate.status).subscribe();
+      }
+    }
+  }
+
+  // Existing methods (placeholders or actual logic)
   acceptPrediction(pred: Prediction) {
-    // Update status in the local review object
+    // This method might become redundant with the checkbox,
+    // but keeping it for now based on original code.
+    // Logic can be merged with toggleAcceptance if needed.
     if (this.predictionReview) {
       const predictionToUpdate = this.predictionReview.predictions.find(
         (p) => p.id === pred.id
@@ -82,7 +102,9 @@ export class PredictionDisplayComponent implements OnInit {
   }
 
   rejectPrediction(pred: Prediction) {
-    // Update status in the local review object
+    // This method might become redundant with the checkbox,
+    // but keeping it for now based on original code.
+    // Logic can be merged with toggleAcceptance if needed.
     if (this.predictionReview) {
       const predictionToUpdate = this.predictionReview.predictions.find(
         (p) => p.id === pred.id
@@ -101,7 +123,7 @@ export class PredictionDisplayComponent implements OnInit {
   finishReview() {
     // Placeholder for finish logic (could send feedback to backend via service)
     // In a real app, you might call a service method here to save the reviewed predictions
-    this.router.navigate(['/predictions/overview']); // Navigate back to overview
+    this.router.navigate(['/reports']); // Navigate to the reports page
   }
 
   viewPredictionDetail(predictionId: string) {

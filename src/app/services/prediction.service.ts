@@ -40,6 +40,7 @@ export interface Prediction {
 
   // Added field for Estimated Time
   estimatedTime: number; // Estimated time in hours
+  isCollapsed?: boolean; // Added for UI collapsibility
 }
 
 @Injectable({
