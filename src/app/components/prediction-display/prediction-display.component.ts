@@ -5,7 +5,7 @@ import {
   PredictionReview,
   PredictionReviewService,
 } from '../../services/prediction-review.service'; // Import PredictionReviewService
-import { Prediction } from '../../services/prediction.service';
+import { Prediction } from '../../services/prediction.service'; // Import the updated Prediction interface
 
 @Component({
   selector: 'app-prediction-display',
@@ -50,8 +50,9 @@ export class PredictionDisplayComponent implements OnInit {
           this.loading = false;
           this.predictionReview = review;
           if (review) {
+            // Use 'user-story' to match the updated backend model
             this.filteredUserStoryPredictions = review.predictions.filter(
-              (p) => p.type === 'userStory'
+              (p) => p.type === 'user-story'
             );
             this.filteredBugPredictions = review.predictions.filter(
               (p) => p.type === 'bug'

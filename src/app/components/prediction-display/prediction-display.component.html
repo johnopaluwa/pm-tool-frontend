@@ -2,6 +2,16 @@
   <h2>Prediction Review</h2>
   <div *ngIf="error" class="error-message">{{ error }}</div>
   <div *ngIf="loading" class="loading-message">Loading predictions...</div>
+  <div class="prediction-legend">
+    <p>
+      <strong>Score:</strong> Indicates the similarity score of the prediction.
+    </p>
+    <p>
+      <strong>Commonality:</strong> Shows how frequently similar items appear in
+      the source data.
+    </p>
+    <p><strong>Source:</strong> Specifies the origin of the prediction.</p>
+  </div>
 
   <div *ngIf="!error && !loading">
     <section class="prediction-section">
@@ -21,19 +31,99 @@
           [class.accepted]="pred.status === 'accepted'"
           [class.rejected]="pred.status === 'rejected'"
         >
-          <div class="prediction-main">
-            <span class="prediction-title">{{ pred.title }}</span>
-            <span class="prediction-score"
+          <div class="prediction-main grid-container">
+            <span class="prediction-title grid-item">{{ pred.title }}</span>
+            <span class="prediction-score grid-item"
               >Score: {{ pred.similarityScore }}%</span
             >
-            <span class="prediction-freq"
+            <span class="prediction-freq grid-item"
               >Commonality: {{ pred.frequency }}%</span
             >
-            <span class="prediction-source"
+            <span class="prediction-source grid-item"
               >Source: {{ pred.sourceProject }}</span
             >
+            <span
+              class="prediction-time grid-item"
+              *ngIf="
+                pred.estimatedTime !== undefined && pred.estimatedTime !== null
+              "
+            >
+              <strong>Estimated Time:</strong> {{ pred.estimatedTime }} hours
+            </span>
           </div>
           <div class="prediction-desc">{{ pred.description }}</div>
+          <!-- Display additional user story details -->
+          <div *ngIf="pred.type === 'user-story'" class="prediction-details">
+            <p *ngIf="pred.acceptanceCriteria">
+              <strong>Acceptance Criteria:</strong>
+              {{ pred.acceptanceCriteria.join("; ") }}
+            </p>
+            <p *ngIf="pred.dependencies">
+              <strong>Dependencies:</strong> {{ pred.dependencies.join(", ") }}
+            </p>
+            <p *ngIf="pred.assumptions">
+              <strong>Assumptions:</strong> {{ pred.assumptions.join("; ") }}
+            </p>
+            <p *ngIf="pred.edgeCases">
+              <strong>Edge Cases:</strong> {{ pred.edgeCases.join("; ") }}
+            </p>
+            <p *ngIf="pred.nonFunctionalRequirements">
+              <strong>Non-Functional Requirements:</strong>
+              {{ pred.nonFunctionalRequirements }}
+            </p>
+            <p *ngIf="pred.visuals">
+              <strong>Visuals:</strong> {{ pred.visuals.join(", ") }}
+            </p>
+            <p *ngIf="pred.dataRequirements">
+              <strong>Data Requirements:</strong> {{ pred.dataRequirements }}
+            </p>
+            <p *ngIf="pred.impact">
+              <strong>Impact:</strong> {{ pred.impact }}
+            </p>
+            <p *ngIf="pred.priority">
+              <strong>Priority:</strong> {{ pred.priority }}
+            </p>
+          </div>
+          <!-- Display additional bug details -->
+          <div *ngIf="pred.type === 'bug'" class="prediction-details">
+            <p *ngIf="pred.stepsToReproduce">
+              <strong>Steps to Reproduce:</strong>
+              {{ pred.stepsToReproduce.join(" -> ") }}
+            </p>
+            <p *ngIf="pred.actualResult">
+              <strong>Actual Result:</strong> {{ pred.actualResult }}
+            </p>
+            <p *ngIf="pred.expectedResult">
+              <strong>Expected Result:</strong> {{ pred.expectedResult }}
+            </p>
+            <p *ngIf="pred.environment">
+              <strong>Environment:</strong> {{ pred.environment }}
+            </p>
+            <p *ngIf="pred.userAccountDetails">
+              <strong>User/Account Details:</strong>
+              {{ pred.userAccountDetails }}
+            </p>
+            <p *ngIf="pred.screenshotsVideos">
+              <strong>Screenshots/Videos:</strong>
+              {{ pred.screenshotsVideos.join(", ") }}
+            </p>
+            <p *ngIf="pred.errorMessagesLogs">
+              <strong>Error Messages/Logs:</strong> {{ pred.errorMessagesLogs }}
+            </p>
+            <p *ngIf="pred.frequencyOfOccurrence">
+              <strong>Frequency:</strong> {{ pred.frequencyOfOccurrence }}
+            </p>
+            <p *ngIf="pred.severity">
+              <strong>Severity:</strong> {{ pred.severity }}
+            </p>
+            <p *ngIf="pred.workaround">
+              <strong>Workaround:</strong> {{ pred.workaround }}
+            </p>
+            <p *ngIf="pred.relatedIssues">
+              <strong>Related Issues:</strong>
+              {{ pred.relatedIssues.join(", ") }}
+            </p>
+          </div>
           <div class="prediction-actions">
             <button
               (click)="acceptPrediction(pred)"
@@ -64,19 +154,106 @@
           [class.accepted]="pred.status === 'accepted'"
           [class.rejected]="pred.status === 'rejected'"
         >
-          <div class="prediction-main">
-            <span class="prediction-title">{{ pred.title }}</span>
-            <span class="prediction-score"
+          <div class="prediction-main grid-container">
+            <span class="prediction-title grid-item">{{ pred.title }}</span>
+            <span class="prediction-score grid-item"
               >Score: {{ pred.similarityScore }}%</span
             >
-            <span class="prediction-freq"
+            <span class="prediction-freq grid-item"
               >Commonality: {{ pred.frequency }}%</span
             >
-            <span class="prediction-source"
+            <span class="prediction-source grid-item"
               >Source: {{ pred.sourceProject }}</span
             >
+            <span
+              class="prediction-time grid-item"
+              *ngIf="
+                pred.estimatedTime !== undefined && pred.estimatedTime !== null
+              "
+            >
+              <strong>Estimated Time:</strong> {{ pred.estimatedTime }} hours
+            </span>
           </div>
           <div class="prediction-desc">{{ pred.description }}</div>
+          <!-- Display additional user story details -->
+          <div *ngIf="pred.type === 'user-story'" class="prediction-details">
+            <p *ngIf="pred.acceptanceCriteria">
+              <strong>Acceptance Criteria:</strong>
+              {{ pred.acceptanceCriteria.join("; ") }}
+            </p>
+            <p *ngIf="pred.dependencies">
+              <strong>Dependencies:</strong> {{ pred.dependencies.join(", ") }}
+            </p>
+            <p *ngIf="pred.assumptions">
+              <strong>Assumptions:</strong> {{ pred.assumptions.join("; ") }}
+            </p>
+            <p *ngIf="pred.edgeCases">
+              <strong>Edge Cases:</strong> {{ pred.edgeCases.join("; ") }}
+            </p>
+            <p *ngIf="pred.nonFunctionalRequirements">
+              <strong>Non-Functional Requirements:</strong>
+              {{ pred.nonFunctionalRequirements }}
+            </p>
+            <p *ngIf="pred.visuals">
+              <strong>Visuals:</strong> {{ pred.visuals.join(", ") }}
+            </p>
+            <p *ngIf="pred.dataRequirements">
+              <strong>Data Requirements:</strong> {{ pred.dataRequirements }}
+            </p>
+            <p *ngIf="pred.impact">
+              <strong>Impact:</strong> {{ pred.impact }}
+            </p>
+            <p *ngIf="pred.priority">
+              <strong>Priority:</strong> {{ pred.priority }}
+            </p>
+          </div>
+          <!-- Display additional bug details -->
+          <div *ngIf="pred.type === 'bug'" class="prediction-details">
+            <p *ngIf="pred.stepsToReproduce">
+              <strong>Steps to Reproduce:</strong>
+              {{ pred.stepsToReproduce.join(" -> ") }}
+            </p>
+            <p *ngIf="pred.actualResult">
+              <strong>Actual Result:</strong> {{ pred.actualResult }}
+            </p>
+            <p *ngIf="pred.expectedResult">
+              <strong>Expected Result:</strong> {{ pred.expectedResult }}
+            </p>
+            <p *ngIf="pred.environment">
+              <strong>Environment:</strong> {{ pred.environment }}
+            </p>
+            <p *ngIf="pred.userAccountDetails">
+              <strong>User/Account Details:</strong>
+              {{ pred.userAccountDetails }}
+            </p>
+            <p *ngIf="pred.screenshotsVideos">
+              <strong>Screenshots/Videos:</strong>
+              {{ pred.screenshotsVideos.join(", ") }}
+            </p>
+            <p *ngIf="pred.errorMessagesLogs">
+              <strong>Error Messages/Logs:</strong> {{ pred.errorMessagesLogs }}
+            </p>
+            <p *ngIf="pred.frequencyOfOccurrence">
+              <strong>Frequency:</strong> {{ pred.frequencyOfOccurrence }}
+            </p>
+            <p *ngIf="pred.severity">
+              <strong>Severity:</strong> {{ pred.severity }}
+            </p>
+            <p *ngIf="pred.workaround">
+              <strong>Workaround:</strong> {{ pred.workaround }}
+            </p>
+            <p *ngIf="pred.relatedIssues">
+              <strong>Related Issues:</strong>
+              {{ pred.relatedIssues.join(", ") }}
+            </p>
+            <p
+              *ngIf="
+                pred.estimatedTime !== undefined && pred.estimatedTime !== null
+              "
+            >
+              <strong>Estimated Time:</strong> {{ pred.estimatedTime }} hours
+            </p>
+          </div>
           <div class="prediction-actions">
             <button
               (click)="acceptPrediction(pred)"

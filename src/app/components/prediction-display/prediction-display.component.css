@@ -16,6 +16,24 @@
   text-align: center;
 }
 
+.prediction-legend {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: var(--background-color);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.prediction-legend p {
+  margin: 5px 0;
+}
+
+.prediction-legend strong {
+  color: var(--primary-dark-color);
+}
+
 .prediction-section {
   margin-bottom: 32px; /* Adjusted margin */
 }
@@ -91,7 +109,7 @@
 }
 
 .prediction-actions {
-  display: flex;
+  display: none; /* Hide the buttons */
   gap: 10px; /* Adjusted gap */
   margin-top: 8px; /* Adjusted margin */
 }
@@ -211,5 +229,26 @@
   .prediction-actions button {
     width: 100%; /* Full width buttons */
     text-align: center; /* Center button text */
+  }
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(150px, 1fr)
+  ); /* Responsive columns */
+  gap: 10px; /* Gap between grid items */
+  align-items: center;
+}
+
+.grid-item {
+  /* Optional: Add some basic styling for grid items if needed */
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* Stack items on very small screens */
   }
 }
