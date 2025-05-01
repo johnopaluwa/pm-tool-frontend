@@ -34,13 +34,10 @@
           (click)="pred.isCollapsed = !pred.isCollapsed"
         >
           <div class="list-item-header">
-            <input
-              type="checkbox"
-              [checked]="pred.status === 'accepted'"
-              (change)="toggleAcceptance(pred, $event)"
-              (click)="$event.stopPropagation()"
-            />
             <span class="prediction-title">{{ pred.title }}</span>
+            <span class="collapse-icon">{{
+              pred.isCollapsed ? "+" : "-"
+            }}</span>
           </div>
           <div class="prediction-main">
             <span class="prediction-score"
@@ -156,13 +153,10 @@
           (click)="pred.isCollapsed = !pred.isCollapsed"
         >
           <div class="list-item-header">
-            <input
-              type="checkbox"
-              [checked]="pred.status === 'accepted'"
-              (change)="toggleAcceptance(pred, $event)"
-              (click)="$event.stopPropagation()"
-            />
             <span class="prediction-title">{{ pred.title }}</span>
+            <span class="collapse-icon">{{
+              pred.isCollapsed ? "+" : "-"
+            }}</span>
           </div>
           <div class="prediction-main">
             <span class="prediction-score"
