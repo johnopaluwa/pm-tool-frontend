@@ -10,7 +10,7 @@ export interface PredictionReview {
   projectId: number; // Link to the project
   projectName: string;
   clientName?: string;
-  generatedAt: Date;
+  generatedAt: string; // Store as ISO string
   predictions: Prediction[];
 }
 

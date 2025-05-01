@@ -6,6 +6,7 @@ import { LoadingService } from './loading.service';
 
 export interface Prediction {
   id: string;
+  aiGeneratedId: string; // Added to match backend model
   type: 'user-story' | 'bug'; // Updated type to match backend
   title: string;
   description: string;
@@ -70,7 +71,7 @@ export class PredictionService {
       .pipe(finalize(() => this.loadingService.hide()));
   }
 
-  getPredictionHistory(projectId: string): Observable<Prediction[]> {
+  getPredictionHistory(projectId: number): Observable<Prediction[]> {
     this.loadingService.show();
     return this.http
       .get<Prediction[]>(`${this.apiUrl}/history/${projectId}`)
