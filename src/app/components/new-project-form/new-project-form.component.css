@@ -1,157 +1,133 @@
 .new-project-form-container {
-  max-width: 500px; /* Adjusted max-width */
-  margin: calc(var(--spacing-unit) * 5) auto; /* Use spacing unit */
+  max-width: 600px; /* Increased max-width */
+  margin: 40px auto; /* Adjusted margin */
   background-color: var(--surface-color); /* Use surface color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
-  padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 3); /* Use spacing unit */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  padding: 32px; /* Adjusted padding */
+  border: 1px solid var(--divider-color); /* Add subtle border */
 }
 
 .new-project-form-container h2 {
-  font-size: 1.6rem; /* Adjusted font size */
-  font-weight: 600;
-  color: var(--primary-dark-color); /* Use primary-dark color */
-  margin-bottom: calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color); /* Use text color */
+  margin-bottom: 32px; /* Adjusted margin */
   text-align: center;
 }
 
 .new-project-form {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  gap: 20px; /* Adjusted gap */
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing-unit) * 0.75); /* Use spacing unit */
+  gap: 8px; /* Adjusted gap */
 }
 
 .form-group label {
-  font-size: 1rem; /* Adjusted font size */
+  font-size: 1rem;
   font-weight: 500;
-  color: var(--primary-color); /* Use primary color */
+  color: var(--text-color); /* Use text color */
 }
 
 .form-group input[type="text"],
 .form-group select,
 .form-group textarea {
-  padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  padding: 10px 12px; /* Adjusted padding */
   border-radius: var(--border-radius); /* Use border radius variable */
   border: 1px solid var(--divider-color); /* Use divider color */
   font-size: 1rem;
-  background-color: var(--background-color); /* Use background color */
+  background-color: var(--surface-color); /* Use surface color */
   color: var(--text-color); /* Use text color */
   outline: none;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%; /* Make inputs take full width */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
 .form-group input[type="text"]:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--primary-color); /* Use primary color */
-  box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25); /* Focus ring */
+  box-shadow: 0 0 0 3px rgba(0, 107, 255, 0.2); /* Calendly-like focus ring */
 }
 
 .tech-stack-options {
   display: flex;
   flex-wrap: wrap;
-  gap: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
-  margin-top: calc(var(--spacing-unit) * 0.5); /* Use spacing unit */
+  gap: 12px 20px; /* Adjusted gap */
+  margin-top: 4px; /* Adjusted margin */
 }
 
 .tech-stack-options label {
-  font-size: 0.95rem; /* Adjusted font size */
+  font-size: 1rem;
   color: var(--text-color); /* Use text color */
   font-weight: 400;
   display: flex;
   align-items: center;
-  gap: calc(var(--spacing-unit) * 0.5); /* Use spacing unit */
+  gap: 4px; /* Adjusted gap */
 }
 
 .form-actions {
   display: flex;
-  gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
-  margin-top: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  gap: 16px; /* Adjusted gap */
+  margin-top: 24px; /* Adjusted margin */
   justify-content: flex-end;
 }
 
 .primary-btn {
-  background: linear-gradient(
-    90deg,
-    var(--primary-color) 0%,
-    var(--accent-color) 100%
-  ); /* Use color variables */
-  color: var(--on-primary-color); /* Use on-primary color */
+  padding: 10px 20px; /* Adjusted padding */
   border: none;
-  border-radius: 20px;
-  padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.75); /* Use spacing unit */
-  font-size: 1rem; /* Adjusted font size */
-  font-weight: 500;
+  border-radius: 25px; /* Pill shape */
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  background-color: var(--primary-color);
+  color: white; /* White text on primary button */
+  font-weight: 500;
 }
 
 .primary-btn:hover {
-  background: linear-gradient(
-    90deg,
-    var(--primary-dark-color) 0%,
-    var(--accent-dark-color) 100%
-  ); /* Darker gradient on hover */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+  background-color: var(--primary-dark-color);
 }
 
-.secondary-btn {
-  background-color: var(--background-color); /* Use background color */
-  color: var(--primary-color); /* Use primary color */
-  border: 1px solid var(--primary-color); /* Add border */
-  border-radius: 20px;
-  padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.25); /* Use spacing unit */
-  font-size: 1rem; /* Adjusted font size */
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease,
-    color 0.3s ease;
-}
-
-.secondary-btn:hover {
-  background-color: var(
-    --primary-light-color
-  ); /* Use primary-light color on hover */
-  color: var(--on-primary-color); /* Use on-primary color on hover */
-  border-color: var(--primary-light-color); /* Match border color */
-}
+/* Removed secondary-btn as it's not used in the HTML and a general secondary style was added to global styles */
 
 .cancel-btn {
   background-color: transparent; /* Transparent background */
-  color: var(--error-color); /* Use error color */
+  color: var(--secondary-text-color); /* Use secondary text color */
   border: none;
-  border-radius: 20px;
-  padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.25); /* Use spacing unit */
-  font-size: 1rem; /* Adjusted font size */
+  border-radius: 25px; /* Pill shape */
+  padding: 10px 20px; /* Adjusted padding */
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
 .cancel-btn:hover {
-  text-decoration: underline; /* Underline on hover */
+  color: var(--text-color); /* Darker text on hover */
 }
 
 .error {
   color: var(--error-color); /* Use error color */
-  font-size: 0.85rem; /* Adjusted font size */
-  margin-top: calc(var(--spacing-unit) * 0.5); /* Use spacing unit */
+  font-size: 0.85rem;
+  margin-top: 4px; /* Adjusted margin */
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
+  /* Adjusted breakpoint */
   .new-project-form-container {
-    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 1.5); /* Adjusted padding */
+    padding: 24px; /* Adjusted padding */
+    margin: 24px auto; /* Adjusted margin */
   }
   .form-actions {
     flex-direction: column;
-    gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+    gap: 12px; /* Adjusted gap */
     align-items: stretch;
   }
 }

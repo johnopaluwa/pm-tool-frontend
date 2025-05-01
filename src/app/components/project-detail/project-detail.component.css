@@ -1,56 +1,56 @@
 .project-detail-container {
-  padding: calc(var(--spacing-unit) * 4); /* Use spacing unit */
+  padding: 32px; /* Adjusted padding */
   border: 1px solid var(--divider-color); /* Use divider color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  margin-top: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  margin-top: 24px; /* Adjusted margin */
   background-color: var(--surface-color); /* Use surface color */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
 }
 
 .project-detail-container h2 {
-  color: var(--primary-dark-color); /* Use primary-dark color */
-  border-bottom: 2px solid var(--primary-color); /* Use primary color */
-  padding-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
-  margin-bottom: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
-  font-size: 1.8rem; /* Adjusted font size */
-  font-weight: 600;
+  color: var(--text-color); /* Use text color */
+  border-bottom: 1px solid var(--divider-color); /* Subtle border bottom */
+  padding-bottom: 16px; /* Adjusted padding */
+  margin-bottom: 24px; /* Adjusted margin */
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 .project-detail-container h3 {
-  color: var(--primary-color); /* Use primary color */
-  margin-top: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
-  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
-  font-size: 1.3rem; /* Adjusted font size */
-  font-weight: 500;
+  color: var(--text-color); /* Use text color */
+  margin-top: 24px; /* Adjusted margin */
+  margin-bottom: 16px; /* Adjusted margin */
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .project-detail-container p {
-  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  margin-bottom: 12px; /* Adjusted margin */
   line-height: 1.6;
   color: var(--text-color); /* Use text color */
-  font-size: 1rem; /* Adjusted font size */
+  font-size: 1rem;
 }
 
 .project-detail-container h4 {
-  color: var(--primary-dark-color); /* Use primary-dark color */
-  margin-top: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
-  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  color: var(--text-color); /* Use text color */
+  margin-top: 24px; /* Adjusted margin */
+  margin-bottom: 16px; /* Adjusted margin */
   border-bottom: 1px solid var(--divider-color); /* Use divider color */
-  padding-bottom: calc(var(--spacing-unit) * 0.75); /* Use spacing unit */
-  font-size: 1.1rem; /* Adjusted font size */
-  font-weight: 500;
+  padding-bottom: 8px; /* Adjusted padding */
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .project-detail-container .prediction-characteristics p {
-  margin-left: calc(var(--spacing-unit) * 2); /* Use spacing unit */
-  font-size: 0.95rem; /* Adjusted font size */
-  color: var(--secondary-text-color); /* Use secondary text color */
+  margin-left: 16px; /* Adjusted margin */
+  font-size: 1rem;
+  color: var(--text-color); /* Use text color */
 }
 
 .prediction-history ul {
   list-style: none;
   padding: 0;
-  margin-top: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  margin-top: 24px; /* Adjusted margin */
 }
 
 .prediction-history li {
@@ -60,110 +60,96 @@
   background-color: var(--background-color); /* Use background color */
   border: 1px solid var(--divider-color); /* Use divider color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Use spacing unit */
-  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
-  font-size: 1rem; /* Adjusted font size */
+  padding: 16px 20px; /* Adjusted padding */
+  margin-bottom: 12px; /* Adjusted margin */
+  font-size: 1rem;
   color: var(--text-color); /* Use text color */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
 }
 
 .prediction-history li button.review-btn {
-  background-color: var(--accent-color); /* Use accent color */
-  color: var(--on-accent-color); /* Assuming on-accent color */
+  background-color: var(--primary-color); /* Use primary color */
+  color: white; /* White text */
   border: none;
-  border-radius: 20px;
-  padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  border-radius: 25px; /* Pill shape */
+  padding: 8px 16px; /* Adjusted padding */
   cursor: pointer;
-  font-size: 0.9rem; /* Adjusted font size */
+  font-size: 0.9rem;
   transition: background-color 0.3s ease;
 }
 
 .prediction-history li button.review-btn:hover {
-  background-color: var(--accent-dark-color); /* Darker accent on hover */
+  background-color: var(--primary-dark-color); /* Darker primary on hover */
 }
 
 .no-predictions {
   text-align: center;
-  margin-top: calc(var(--spacing-unit) * 3); /* Use spacing unit */
-  padding: calc(var(--spacing-unit) * 3); /* Use spacing unit */
+  margin-top: 24px; /* Adjusted margin */
+  padding: 24px; /* Adjusted padding */
   background-color: var(--background-color); /* Use background color */
   border-radius: var(--border-radius); /* Use border radius variable */
   border: 1px dashed var(--divider-color); /* Dashed border */
 }
 
 .no-predictions p {
-  margin-bottom: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  margin-bottom: 16px; /* Adjusted margin */
   color: var(--secondary-text-color); /* Use secondary text color */
-  font-size: 1.1rem; /* Adjusted font size */
+  font-size: 1rem;
 }
 
 .no-predictions .primary-btn {
-  background: linear-gradient(
-    90deg,
-    var(--primary-color) 0%,
-    var(--accent-color) 100%
-  ); /* Use color variables */
-  color: var(--on-primary-color); /* Use on-primary color */
+  padding: 10px 20px; /* Adjusted padding */
   border: none;
-  border-radius: 24px;
-  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
-  font-size: 1rem; /* Adjusted font size */
-  font-weight: 500;
+  border-radius: 25px; /* Pill shape */
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  background-color: var(--primary-color);
+  color: white; /* White text on primary button */
+  font-weight: 500;
 }
 
 .no-predictions .primary-btn:hover {
-  background: linear-gradient(
-    90deg,
-    var(--primary-dark-color) 0%,
-    var(--accent-dark-color) 100%
-  ); /* Darker gradient on hover */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+  background-color: var(--primary-dark-color);
 }
 
 .no-predictions .primary-btn:disabled {
   background-color: var(--divider-color); /* Use divider color */
   color: var(--secondary-text-color); /* Use secondary text color */
   cursor: not-allowed;
-  box-shadow: none;
+  opacity: 0.7;
 }
 
 .prediction-status {
   text-align: center;
-  margin-top: calc(var(--spacing-unit) * 3);
-  padding: calc(var(--spacing-unit) * 2);
+  margin-top: 24px; /* Adjusted margin */
+  padding: 16px; /* Adjusted padding */
   background-color: var(--background-color); /* Use background color */
   border: 1px solid var(--primary-color); /* Use primary color for border */
   border-radius: var(--border-radius); /* Use border radius variable */
   color: var(--primary-dark-color); /* Use primary-dark color for text */
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 500;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
 }
 
 .status {
-  font-size: 0.9rem; /* Adjusted font size */
-  font-weight: 500;
-  padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
-  border-radius: 16px;
-  color: var(--on-primary-color); /* Use on-primary color */
-  margin-left: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+  font-size: 0.8rem; /* Slightly smaller font size */
+  font-weight: 600;
+  padding: 4px 10px; /* Adjusted padding */
+  border-radius: 12px; /* More rounded */
+  color: white; /* White text on status pills */
+  text-transform: uppercase; /* Uppercase status text */
 }
 
 .status-new {
-  background-color: var(--background-color); /* Light background */
-  color: var(--text-color); /* Default text color */
-  border: 1px solid var(--divider-color); /* Subtle border */
+  background-color: #6b7280; /* Grey */
 }
 
 .status-predicting {
-  background-color: var(--accent-light-color); /* Lighter accent color */
-  color: var(--accent-dark-color); /* Darker accent text */
+  background-color: var(--accent-color); /* Blue/Cyan */
 }
 
 .status-completed {
-  background-color: var(--primary-light-color); /* Lighter primary color */
-  color: var(--primary-dark-color); /* Darker primary text */
+  background-color: #10b981; /* Green */
 }

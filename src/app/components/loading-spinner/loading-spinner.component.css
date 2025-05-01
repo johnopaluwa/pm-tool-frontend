@@ -4,12 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(
-    33,
-    150,
-    243,
-    0.3
-  ); /* Semi-transparent blue background */
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent dark overlay */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,12 +13,12 @@
 
 .spinner {
   border: 6px solid rgba(255, 255, 255, 0.3); /* Lighter border */
-  border-top: 6px solid #ffffff; /* White border for contrast */
+  border-top: 6px solid var(--primary-color); /* Use primary color for spinner */
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  animation: spin 1s linear infinite; /* Faster spin */
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 @keyframes spin {

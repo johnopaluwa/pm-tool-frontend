@@ -1,31 +1,32 @@
 .prediction-review-container {
   max-width: 800px; /* Adjusted max-width */
-  margin: calc(var(--spacing-unit) * 5) auto; /* Use spacing unit */
+  margin: 40px auto; /* Adjusted margin */
   background-color: var(--surface-color); /* Use surface color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
-  padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 3); /* Use spacing unit */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  padding: 32px; /* Adjusted padding */
+  border: 1px solid var(--divider-color); /* Add subtle border */
 }
 
 .prediction-review-container h2 {
-  font-size: 1.6rem; /* Adjusted font size */
-  font-weight: 600;
-  color: var(--primary-dark-color); /* Use primary-dark color */
-  margin-bottom: calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color); /* Use text color */
+  margin-bottom: 32px; /* Adjusted margin */
   text-align: center;
 }
 
 .prediction-section {
-  margin-bottom: calc(var(--spacing-unit) * 4); /* Use spacing unit */
+  margin-bottom: 32px; /* Adjusted margin */
 }
 
 .prediction-section h3 {
-  font-size: 1.15rem; /* Adjusted font size */
+  font-size: 1.2rem; /* Slightly larger font size */
   font-weight: 600;
-  color: var(--primary-color); /* Use primary color */
-  margin-bottom: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  color: var(--text-color); /* Use text color */
+  margin-bottom: 16px; /* Adjusted margin */
   border-bottom: 1px solid var(--divider-color); /* Add border bottom */
-  padding-bottom: calc(var(--spacing-unit) * 1); /* Add padding bottom */
+  padding-bottom: 8px; /* Adjusted padding bottom */
 }
 
 .prediction-list {
@@ -34,159 +35,177 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  gap: 16px; /* Adjusted gap */
 }
 
 .prediction-list li {
   background-color: var(--background-color); /* Use background color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
+  padding: 16px 20px; /* Adjusted padding */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
   transition: box-shadow 0.2s ease;
   border-left: 6px solid var(--primary-light-color); /* Use primary-light color for border */
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+  gap: 8px; /* Adjusted gap */
+  border: 1px solid var(--divider-color); /* Add subtle border */
 }
 
 .prediction-list li.accepted {
-  border-left-color: var(--primary-color); /* Use primary color for accepted */
-  background-color: #e8f5e9; /* Keep light green background */
+  border-left-color: #10b981; /* Green for accepted */
+  background-color: #f0fdf4; /* Very light green */
 }
 
 .prediction-list li.rejected {
   border-left-color: var(--warn-color); /* Use warn color for rejected */
-  background-color: #ffebee; /* Keep light red background */
+  background-color: #fef2f2; /* Very light red */
 }
 
 .prediction-main {
   display: flex;
   align-items: center;
-  gap: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  gap: 20px; /* Adjusted gap */
   flex-wrap: wrap;
 }
 
 .prediction-title {
-  font-size: 1rem; /* Adjusted font size */
+  font-size: 1rem;
   font-weight: 500;
   color: var(--text-color); /* Use text color */
+  flex-grow: 1; /* Allow title to take available space */
 }
 
 .prediction-score,
 .prediction-freq,
 .prediction-source {
-  font-size: 0.9rem; /* Adjusted font size */
-  color: var(--primary-dark-color); /* Use primary-dark color */
-  background-color: var(--primary-light-color); /* Use primary-light color */
-  padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
-  border-radius: 10px;
+  font-size: 0.8rem; /* Slightly smaller font size */
+  color: var(--secondary-text-color); /* Use secondary text color */
+  /* Removed background and padding for a cleaner look */
+  font-weight: 400;
 }
 
 .prediction-desc {
-  color: var(--secondary-text-color); /* Use secondary text color */
-  font-size: 0.95rem; /* Adjusted font size */
-  margin-left: calc(var(--spacing-unit) * 0.25); /* Use spacing unit */
+  color: var(--text-color); /* Use text color */
+  font-size: 0.95rem;
+  margin-left: 0; /* Removed margin-left */
 }
 
 .prediction-actions {
   display: flex;
-  gap: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
-  margin-top: calc(var(--spacing-unit) * 0.5); /* Use spacing unit */
+  gap: 10px; /* Adjusted gap */
+  margin-top: 8px; /* Adjusted margin */
 }
 
 .prediction-actions button {
-  background-color: var(--accent-color); /* Use accent color */
-  color: var(--on-accent-color); /* Assuming on-accent color */
+  background-color: var(--primary-color); /* Use primary color */
+  color: white; /* White text */
   border: none;
-  border-radius: 20px;
-  padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.75); /* Use spacing unit */
-  font-size: 0.9rem; /* Adjusted font size */
+  border-radius: 25px; /* Pill shape */
+  padding: 8px 16px; /* Adjusted padding */
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
 .prediction-actions button:hover:not(:disabled) {
-  background-color: var(--accent-dark-color); /* Darker accent on hover */
+  background-color: var(--primary-dark-color); /* Darker primary on hover */
 }
 
 .prediction-actions button:disabled {
   background-color: var(--divider-color); /* Use divider color */
   color: var(--secondary-text-color); /* Use secondary text color */
   cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Specific styles for Edit & Accept button */
+.prediction-actions button:nth-child(2) {
+  background-color: var(--surface-color); /* White background */
+  color: var(--primary-color); /* Primary text color */
+  border: 1px solid var(--primary-color); /* Primary border */
+}
+
+.prediction-actions button:nth-child(2):hover:not(:disabled) {
+  background-color: var(--primary-light-color); /* Lighter primary on hover */
+  color: white; /* White text on hover */
+}
+
+/* Specific styles for Reject button */
+.prediction-actions button:nth-child(3) {
+  background-color: var(--warn-color); /* Warn color */
+  color: white; /* White text */
+}
+
+.prediction-actions button:nth-child(3):hover:not(:disabled) {
+  background-color: var(--warn-dark-color); /* Darker warn on hover */
 }
 
 .review-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: calc(var(--spacing-unit) * 3); /* Use spacing unit */
+  margin-top: 24px; /* Adjusted margin */
 }
 
 .finish-btn {
-  background: linear-gradient(
-    90deg,
-    var(--primary-color) 0%,
-    var(--accent-color) 100%
-  ); /* Use color variables */
-  color: var(--on-primary-color); /* Use on-primary color */
+  padding: 10px 20px; /* Adjusted padding */
   border: none;
-  border-radius: 24px;
-  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
-  font-size: 1rem; /* Adjusted font size */
-  font-weight: 500;
+  border-radius: 25px; /* Pill shape */
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  background-color: var(--primary-color);
+  color: white; /* White text on primary button */
+  font-weight: 500;
 }
 
 .finish-btn:hover {
-  background: linear-gradient(
-    90deg,
-    var(--primary-dark-color) 0%,
-    var(--accent-dark-color) 100%
-  ); /* Darker gradient on hover */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+  background-color: var(--primary-dark-color);
 }
 
 .error-message {
   color: var(--error-color); /* Use error color */
-  background-color: #ffebee; /* Keep light red background */
+  background-color: #fef2f2; /* Very light red */
   border-radius: var(--border-radius); /* Use border radius variable */
-  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Use spacing unit */
-  margin-bottom: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  padding: 12px 16px; /* Adjusted padding */
+  margin-bottom: 20px; /* Adjusted margin */
   text-align: center;
+  border: 1px solid var(--warn-light-color); /* Add subtle border */
 }
 
 .loading-message {
   color: var(--primary-dark-color); /* Use primary-dark color */
   background-color: var(--primary-light-color); /* Use primary-light color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Use spacing unit */
-  margin-bottom: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  padding: 12px 16px; /* Adjusted padding */
+  margin-bottom: 20px; /* Adjusted margin */
   text-align: center;
+  border: 1px solid var(--primary-light-color); /* Add subtle border */
 }
 
 .empty-message {
   color: var(--secondary-text-color); /* Use secondary text color */
   background-color: var(--background-color); /* Use background color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2); /* Use spacing unit */
-  margin-bottom: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+  padding: 16px 20px; /* Adjusted padding */
+  margin-bottom: 12px; /* Adjusted margin */
   text-align: center;
+  border: 1px dashed var(--divider-color); /* Dashed border */
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
+  /* Adjusted breakpoint */
   .prediction-review-container {
-    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 1); /* Adjusted padding */
+    padding: 24px; /* Adjusted padding */
   }
   .prediction-main {
     flex-direction: column;
-    gap: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+    gap: 8px; /* Adjusted gap */
     align-items: flex-start; /* Align items to start */
   }
   .prediction-actions {
     flex-direction: column; /* Stack buttons on small screens */
-    gap: calc(var(--spacing-unit) * 1); /* Use spacing unit */
+    gap: 8px; /* Adjusted gap */
     width: 100%; /* Full width buttons */
   }
   .prediction-actions button {

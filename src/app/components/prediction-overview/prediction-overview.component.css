@@ -1,63 +1,68 @@
 .recent-predictions {
-  margin-top: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
-  padding: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  margin-top: 24px; /* Adjusted margin */
+  padding: 24px; /* Adjusted padding */
   background-color: var(--surface-color); /* Use surface color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Softer shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  border: 1px solid var(--divider-color); /* Add subtle border */
 }
 
 .recent-predictions h3 {
   margin-top: 0;
-  color: var(--primary-color); /* Use primary color */
-  font-size: 1.15rem; /* Adjusted font size */
+  color: var(--text-color); /* Use text color */
+  font-size: 1.2rem; /* Slightly larger font size */
   border-bottom: 1px solid var(--divider-color); /* Use divider color */
-  padding-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
-  margin-bottom: calc(var(--spacing-unit) * 2); /* Use spacing unit */
+  padding-bottom: 12px; /* Adjusted padding */
+  margin-bottom: 16px; /* Adjusted margin */
+  font-weight: 600;
 }
 
 .prediction-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Adjusted gap */
 }
 
 .prediction-list li {
   background-color: var(--background-color); /* Use background color */
   border: 1px solid var(--divider-color); /* Use divider color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Use spacing unit */
-  margin-bottom: calc(var(--spacing-unit) * 1.25); /* Use spacing unit */
+  padding: 12px 16px; /* Adjusted padding */
+  margin-bottom: 0; /* Removed margin-bottom */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
-  font-size: 1rem; /* Adjusted font size */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  font-size: 1rem;
   color: var(--text-color); /* Use text color */
 }
 
 .prediction-list li b {
-  margin-right: calc(var(--spacing-unit) * 0.75); /* Use spacing unit */
-  color: var(--primary-dark-color); /* Use primary-dark color */
+  margin-right: 8px; /* Adjusted margin */
+  color: var(--text-color); /* Use text color */
 }
 
 .review-btn {
-  background-color: var(--accent-color); /* Use accent color */
-  color: var(--on-accent-color); /* Assuming on-accent color */
+  background-color: var(--primary-color); /* Use primary color */
+  color: white; /* White text */
   border: none;
-  border-radius: 20px;
-  padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+  border-radius: 25px; /* Pill shape */
+  padding: 8px 16px; /* Adjusted padding */
   cursor: pointer;
-  font-size: 0.9rem; /* Adjusted font size */
+  font-size: 0.9rem;
   transition: background-color 0.3s ease;
 }
 
 .review-btn:hover {
-  background-color: var(--accent-dark-color); /* Darker accent on hover */
+  background-color: var(--primary-dark-color); /* Darker primary on hover */
 }
 
 .empty-message {
   color: var(--secondary-text-color); /* Use secondary text color */
   font-style: italic;
   text-align: center;
-  padding: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  padding: 20px; /* Adjusted padding */
 }

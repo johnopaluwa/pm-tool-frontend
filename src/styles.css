@@ -1,28 +1,30 @@
 /* Global Styles */
 
 :root {
-  --primary-color: #3f51b5; /* Material Indigo 500 */
-  --primary-light-color: #7986cb; /* Material Indigo 300 */
-  --primary-dark-color: #303f9f; /* Material Indigo 700 */
-  --accent-color: #ff4081; /* Material Pink A200 */
-  --accent-light-color: #ff79b0; /* Material Pink A100 */
-  --accent-dark-color: #c60055; /* Material Pink A400 */
-  --warn-color: #f44336; /* Material Red 500 */
-  --warn-light-color: #e57373; /* Material Red 300 */
-  --warn-dark-color: #d32f2f; /* Material Red 700 */
+  /* Calendly inspired colors */
+  --primary-color: #006bff; /* A vibrant blue */
+  --primary-light-color: #509dff;
+  --primary-dark-color: #0056b3;
+  --accent-color: #00a2ff; /* Another shade of blue/cyan */
+  --accent-light-color: #66caff;
+  --accent-dark-color: #007bb2;
+  --warn-color: #ff4d4f; /* A standard error red */
+  --warn-light-color: #ff7875;
+  --warn-dark-color: #d9363e;
 
-  --text-color: #212121; /* Material Grey 900 */
-  --secondary-text-color: #757575; /* Material Grey 600 */
-  --divider-color: #bdbdbd; /* Material Grey 400 */
+  --text-color: #1f2937; /* Dark grey for text */
+  --secondary-text-color: #6b7280; /* Medium grey for secondary text */
+  --divider-color: #e5e7eb; /* Light grey for dividers */
 
-  --background-color: #f5f5f5; /* Material Grey 100 */
-  --surface-color: #ffffff; /* White */
-  --error-color: #f44336; /* Material Red 500 */
+  --background-color: #f9fafb; /* Very light grey background */
+  --surface-color: #ffffff; /* White for cards/surfaces */
+  --error-color: #ff4d4f; /* Same as warn-color */
 
-  --body-font-family: "Roboto", sans-serif;
-  --heading-font-family: "Roboto", sans-serif;
+  /* Calendly inspired fonts */
+  --body-font-family: "Inter", sans-serif; /* Inter is a common modern sans-serif */
+  --heading-font-family: "Inter", sans-serif;
 
-  --border-radius: 4px;
+  --border-radius: 8px; /* More rounded corners */
   --spacing-unit: 8px;
 }
 
@@ -41,17 +43,18 @@ h4,
 h5,
 h6 {
   font-family: var(--heading-font-family);
-  color: var(--primary-dark-color);
+  color: var(--text-color); /* Headings use primary text color */
   margin-top: 0;
 }
 
 a {
   text-decoration: none;
   color: var(--primary-color);
+  transition: color 0.2s ease-in-out;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: var(--primary-dark-color);
 }
 
 /* Basic form element styling for consistency */
@@ -60,14 +63,15 @@ input[type="email"],
 input[type="password"],
 select,
 textarea {
-  padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5);
+  padding: 10px 12px; /* Slightly adjusted padding */
   border: 1px solid var(--divider-color);
   border-radius: var(--border-radius);
   font-size: 1rem;
   box-sizing: border-box;
   background-color: var(--surface-color);
   color: var(--text-color);
-  transition: border-color 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%; /* Make inputs take full width of their container */
 }
 
 input[type="text"]:focus,
@@ -77,18 +81,19 @@ select:focus,
 textarea:focus {
   border-color: var(--primary-color);
   outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25); /* Focus ring */
+  box-shadow: 0 0 0 3px rgba(0, 107, 255, 0.2); /* Calendly-like focus ring */
 }
 
 button {
-  padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
+  padding: 10px 20px; /* Adjusted padding */
   border: none;
-  border-radius: var(--border-radius);
+  border-radius: 25px; /* Pill shape */
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease, opacity 0.3s ease;
   background-color: var(--primary-color);
-  color: var(--on-primary-color);
+  color: white; /* White text on primary button */
+  font-weight: 500;
 }
 
 button:hover {
@@ -99,4 +104,17 @@ button:disabled {
   background-color: var(--divider-color);
   color: var(--secondary-text-color);
   cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Add a secondary button style */
+button.secondary {
+  background-color: var(--surface-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+button.secondary:hover {
+  background-color: var(--primary-light-color);
+  color: white;
 }

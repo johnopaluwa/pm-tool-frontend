@@ -1,7 +1,7 @@
 .projects-page {
-  max-width: 1100px;
+  max-width: 1200px; /* Slightly wider max width */
   margin: 0 auto;
-  padding: calc(var(--spacing-unit) * 4) 0; /* Use spacing unit */
+  padding: 32px 24px; /* Adjusted padding */
 }
 
 .projects-header {
@@ -12,122 +12,122 @@
 }
 
 .projects-header h2 {
-  font-size: 2rem; /* Adjusted font size */
-  font-weight: 600;
-  color: var(--primary-dark-color); /* Use primary-dark color */
+  font-size: 2rem;
+  font-weight: 700; /* Bolder font weight */
+  color: var(--text-color); /* Use text color */
   margin: 0;
 }
 
 .new-project-btn {
-  background: linear-gradient(
-    90deg,
-    var(--primary-color) 0%,
-    var(--accent-color) 100%
-  ); /* Use color variables */
-  color: var(--on-primary-color); /* Use on-primary color */
+  padding: 10px 20px; /* Adjusted padding */
   border: none;
-  border-radius: 24px;
-  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); /* Use spacing unit */
-  font-size: 1rem; /* Adjusted font size */
-  font-weight: 500;
+  border-radius: 25px; /* Pill shape */
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  background-color: var(--primary-color);
+  color: white; /* White text on primary button */
+  font-weight: 500;
+  text-decoration: none; /* Remove underline from link */
+  display: inline-block; /* Ensure padding works */
 }
 
 .new-project-btn:hover {
-  background: linear-gradient(
-    90deg,
-    var(--primary-dark-color) 0%,
-    var(--accent-dark-color) 100%
-  ); /* Darker gradient on hover */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+  background-color: var(--primary-dark-color);
 }
 
 .projects-list {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--spacing-unit) * 2.5); /* Use spacing unit */
+  display: grid; /* Use grid for the list */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Responsive grid */
+  gap: 24px; /* Adjusted gap */
 }
 
 .project-card {
   background-color: var(--surface-color); /* Use surface color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  padding: calc(var(--spacing-unit) * 2.5) calc(var(--spacing-unit) * 3); /* Use spacing unit */
-  display: grid; /* Use grid layout */
-  grid-template-columns: auto 200px; /* Project title takes space, meta fits content */
-  align-items: center; /* Vertically align items */
-  /* Removed flexbox properties */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Softer shadow */
+  padding: 24px; /* Adjusted padding */
+  display: flex; /* Use flexbox for content within card */
+  flex-direction: column;
+  gap: 12px; /* Gap between title and meta */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
   transition: box-shadow 0.2s ease;
   cursor: pointer; /* Add cursor pointer */
+  border: 1px solid var(--divider-color); /* Add a subtle border */
 }
 
 .project-card:hover {
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
 }
 
 .project-title {
-  font-size: 1.05rem; /* Adjusted font size */
-  font-weight: 500;
+  font-size: 1.1rem; /* Slightly larger font size */
+  font-weight: 600;
   color: var(--text-color); /* Use text color */
 }
 
 .project-meta {
-  display: grid; /* Use grid for two columns */
-  grid-template-columns: 1fr 1fr; /* Create two equal columns */
-  gap: calc(var(--spacing-unit) * 1.5); /* Adjust gap between grid items */
+  display: flex; /* Use flexbox for meta items */
+  justify-content: space-between; /* Space out client name and status */
   align-items: center;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
 }
 
 .client-name {
-  font-size: 0.95rem; /* Adjusted font size */
-  color: var(--primary-color); /* Use primary color */
+  font-size: 0.9rem;
+  color: var(--text-color); /* Use text color */
   font-weight: 500;
-  background-color: var(--primary-light-color); /* Use primary-light color */
-  padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
-  border-radius: 12px;
+  /* Removed background and padding for a cleaner look */
 }
 
 .status {
-  font-size: 0.9rem; /* Adjusted font size */
-  font-weight: 500;
-  padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
-  border-radius: 16px;
-  color: var(--on-primary-color); /* Use on-primary color */
-  /* margin-left: calc(var(--spacing-unit) * 1); /* Removed margin-left as gap handles spacing */
+  font-size: 0.8rem; /* Slightly smaller font size */
+  font-weight: 600;
+  padding: 4px 10px; /* Adjusted padding */
+  border-radius: 12px; /* More rounded */
+  color: white; /* White text on status pills */
+  text-transform: uppercase; /* Uppercase status text */
 }
 
 .status-new {
-  background-color: var(--background-color); /* Light background */
-  color: var(--text-color); /* Default text color */
-  border: 1px solid var(--divider-color); /* Subtle border */
+  background-color: #6b7280; /* Grey */
 }
 
 .status-predicting {
-  background-color: var(--accent-light-color); /* Lighter accent color */
-  color: var(--accent-dark-color); /* Darker accent text */
+  background-color: var(--accent-color); /* Blue/Cyan */
 }
 
 .status-completed {
-  background-color: var(--primary-light-color); /* Lighter primary color */
-  color: var(--primary-dark-color); /* Darker primary text */
+  background-color: #10b981; /* Green */
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+  /* Adjusted breakpoint */
   .projects-page {
-    padding: calc(var(--spacing-unit) * 2) 0; /* Use spacing unit */
+    padding: 24px 16px; /* Adjusted padding */
   }
-  .projects-list {
-    gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
-  }
-  .project-card {
-    flex-direction: column;
+
+  .projects-header {
+    flex-direction: column; /* Stack header items */
     align-items: flex-start;
-    gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
-    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 1.5); /* Adjusted padding */
+    gap: 16px; /* Add gap */
+    margin-bottom: 24px; /* Adjusted margin */
   }
+
+  .projects-list {
+    gap: 16px; /* Adjusted gap */
+  }
+
+  .project-card {
+    padding: 16px; /* Adjusted padding */
+  }
+
   .project-meta {
-    gap: calc(var(--spacing-unit) * 1.5); /* Use spacing unit */
+    flex-direction: column; /* Stack meta items */
+    align-items: flex-start;
+    gap: 8px; /* Adjusted gap */
   }
 }
