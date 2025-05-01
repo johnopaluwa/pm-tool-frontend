@@ -1,0 +1,11 @@
+<div class="report-detail-container">
+  <h2>Overall Project Status Distribution</h2>
+  <div class="report-item" *ngIf="overallStatusDistribution">
+    <h3>Status Distribution</h3>
+    <ul>
+      <li *ngFor="let status of overallStatusDistribution | keyvalue">
+        {{ status.key }}: {{ status.value }}
+      </li>
+    </ul>
+  </div>
+</div>

@@ -75,4 +75,8 @@ export class PredictionOverviewComponent implements OnInit {
       // Optionally show an error message to the user
     }
   }
+
+  viewProjectReport(projectId: number) {
+    this.router.navigate(['/reports/project', projectId]); // Navigate to the project reports detail route
+  }
 }

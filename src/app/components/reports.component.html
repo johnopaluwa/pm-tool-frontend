@@ -1,9 +1,34 @@
 <div class="reports-container">
   <h2>Reports</h2>
+
+  <!-- Aggregate Reports Overview -->
+  <h3>Overall Reports</h3>
   <div class="reports-list">
-    <div *ngFor="let report of mockReports" class="report-item">
-      <h3>{{ report.title }}</h3>
-      <p>{{ report.value }}</p>
+    <div class="report-item" [routerLink]="['/reports/overall-completion']">
+      <h3>Overall Project Completion Rate</h3>
+      <p>View Details →</p>
+    </div>
+    <div class="report-item" [routerLink]="['/reports/overall-status']">
+      <h3>Overall Project Status Distribution</h3>
+      <p>View Details →</p>
+    </div>
+    <!-- TODO: Add other aggregate report links here -->
+  </div>
+
+  <!-- Project-Specific Reports Overview -->
+  <h3>Project Reports</h3>
+  <div class="reports-list">
+    <div
+      class="report-item"
+      *ngFor="let project of projects"
+      [routerLink]="['/reports/project', project.id]"
+    >
+      <h3>{{ project.name }}</h3>
+      <p>View Reports →</p>
+    </div>
+    <div class="report-item" *ngIf="projects.length === 0">
+      <h3>No Projects Available</h3>
+      <p>Create a new project to view reports.</p>
     </div>
   </div>
 </div>

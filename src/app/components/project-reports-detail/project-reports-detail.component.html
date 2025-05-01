@@ -1,0 +1,19 @@
+<div class="report-detail-container">
+  <h2 *ngIf="project">{{ project.name }} Reports</h2>
+
+  <div class="reports-list">
+    <div class="report-item" *ngIf="projectPredictionsCount !== undefined">
+      <h3>Predictions Count</h3>
+      <p>{{ projectPredictionsCount }}</p>
+    </div>
+    <div class="report-item" *ngIf="projectPredictionTypeDistribution">
+      <h3>Prediction Type Distribution</h3>
+      <ul>
+        <li *ngFor="let type of projectPredictionTypeDistribution | keyvalue">
+          {{ type.key }}: {{ type.value }}
+        </li>
+      </ul>
+    </div>
+    <!-- TODO: Add more project-specific reports here -->
+  </div>
+</div>

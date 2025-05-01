@@ -1,36 +1,92 @@
 .reports-container {
-  padding: 24px; /* Adjusted padding */
+  max-width: 1200px; /* Match project list max width */
+  margin: 0 auto;
+  padding: 32px 24px; /* Match project list padding */
+}
+
+.reports-container h2 {
+  font-size: 2rem; /* Match project list heading size */
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: calc(
+    var(--spacing-unit) * 4
+  ); /* Add margin below main heading */
+}
+
+.reports-container h3 {
+  font-size: 1.5rem; /* Style section headings */
+  font-weight: 600;
+  color: var(--text-color);
+  margin-top: calc(
+    var(--spacing-unit) * 4
+  ); /* Add margin above section headings */
+  margin-bottom: calc(
+    var(--spacing-unit) * 2
+  ); /* Add margin below section headings */
 }
 
 .reports-list {
-  display: grid;
+  display: grid; /* Use grid for the list */
   grid-template-columns: repeat(
     auto-fill,
-    minmax(280px, 1fr)
-  ); /* Adjusted minmax width */
-  gap: 24px; /* Adjusted gap */
-  margin-top: 24px; /* Adjusted margin */
+    minmax(300px, 1fr)
+  ); /* Responsive grid, match project list minmax */
+  gap: 24px; /* Match project list gap */
+  /* Remove margin-top as section headings provide spacing */
 }
 
 .report-item {
   background-color: var(--surface-color); /* Use surface color */
-  border: 1px solid var(--divider-color); /* Use divider color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  padding: 20px; /* Adjusted padding */
-  text-align: center;
+  padding: 24px; /* Match project list card padding */
+  display: flex; /* Use flexbox for content within card */
+  flex-direction: column;
+  gap: 12px; /* Gap between title and meta */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  transition: box-shadow 0.2s ease;
+  cursor: pointer; /* Add cursor pointer */
+  border: 1px solid var(--divider-color); /* Add a subtle border */
+  text-decoration: none; /* Remove underline from links */
+  color: inherit; /* Inherit text color */
+}
+
+.report-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
 }
 
 .report-item h3 {
-  margin-top: 0;
-  color: var(--text-color); /* Use text color */
-  font-size: 1.2rem; /* Adjusted font size */
+  font-size: 1.1rem; /* Match project card title size */
   font-weight: 600;
-  margin-bottom: 12px; /* Add margin below heading */
+  color: var(--text-color); /* Use text color */
+  margin: 0; /* Remove default heading margin */
 }
 
 .report-item p {
-  font-size: 1.5em; /* Larger font size for value */
-  color: var(--primary-color); /* Use primary color */
-  font-weight: 700; /* Bolder font weight */
+  font-size: 0.9rem; /* Smaller font size for description/link text */
+  color: var(--secondary-text-color); /* Use secondary text color */
+  margin: 0; /* Remove default paragraph margin */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .reports-container {
+    padding: 24px 16px; /* Match project list padding */
+  }
+
+  .reports-container h2 {
+    margin-bottom: 24px; /* Adjusted margin */
+  }
+
+  .reports-container h3 {
+    margin-top: 24px; /* Adjusted margin */
+    margin-bottom: 16px; /* Adjusted margin */
+  }
+
+  .reports-list {
+    gap: 16px; /* Match project list gap */
+  }
+
+  .report-item {
+    padding: 16px; /* Match project list card padding */
+  }
 }

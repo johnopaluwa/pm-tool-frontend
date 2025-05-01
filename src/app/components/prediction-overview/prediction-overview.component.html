@@ -5,18 +5,23 @@
 
   <ul
     class="prediction-list"
-    *ngIf="!error && !loading && projectKeys.length > 0"
+    *ngIf="!error && !loading && predictionReviews.length > 0"
   >
-    <li *ngFor="let project of projectKeys">
-      Predictions generated for <b>{{ project }}</b>
-      <button class="review-btn" (click)="reviewPredictions(project)">
-        Review Now →
+    <li *ngFor="let review of predictionReviews">
+      Predictions generated for <b>{{ review.projectName }}</b>
+      <!-- Button to view report for this project -->
+      <button class="report-btn" (click)="viewProjectReport(review.projectId)">
+        View Report →
       </button>
+      <!-- Optional: Keep Review button if needed -->
+      <!-- <button class="review-btn" (click)="reviewPredictions(review.projectName)">
+        Review Now →
+      </button> -->
     </li>
   </ul>
 
   <div
-    *ngIf="!error && !loading && projectKeys.length === 0"
+    *ngIf="!error && !loading && predictionReviews.length === 0"
     class="empty-message"
   >
     No recent prediction activity found.

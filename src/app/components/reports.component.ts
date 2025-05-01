@@ -1,17 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router'; // Import RouterLink
+import { Project, ProjectService } from '../services/project.service'; // Assuming Project interface is here
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink], // Add RouterLink here
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css'],
 })
-export class ReportsComponent {
-  mockReports = [
-    { title: 'Project Completion Rate', value: '85%' },
-    { title: 'Average Bug Resolution Time', value: '3 days' },
-    { title: 'Predicted vs Actual Stories', value: '90% match' },
-  ];
+export class ReportsComponent implements OnInit {
+  projects: Project[] = [];
+
+  constructor(
+    private projectService: ProjectService // Inject ProjectService
+  ) {}
+
+  ngOnInit(): void {
+    // Fetch list of projects for the overview
+    this.projectService.getProjects().subscribe((projects: Project[]) => {
+      this.projects = projects;
+    });
+  }
+
+  // No longer need onProjectSelect or onProjectDropdownChange in the overview component
 }
