@@ -1,19 +1,41 @@
 <div class="report-detail-container">
   <h2 *ngIf="project">{{ project.name }} Reports</h2>
 
-  <div class="reports-list">
-    <div class="report-item" *ngIf="projectPredictionsCount !== undefined">
-      <h3>Predictions Count</h3>
-      <p>{{ projectPredictionsCount }}</p>
+  <ng-container *ngIf="reportStatus === 'pending'">
+    <p>Report generation pending.</p>
+    <button (click)="generateReport(projectId!)">Generate Report</button>
+  </ng-container>
+
+  <ng-container *ngIf="reportStatus === 'generating'">
+    <app-loading-spinner></app-loading-spinner>
+    <p>Generating report...</p>
+  </ng-container>
+
+  <ng-container *ngIf="reportStatus === 'completed' && !showReportContent">
+    <p>Report generated successfully.</p>
+    <button (click)="viewReport(projectId!)">View Report</button>
+  </ng-container>
+
+  <ng-container *ngIf="reportStatus === 'completed' && showReportContent">
+    <div class="reports-list">
+      <div class="report-item" *ngIf="projectPredictionsCount !== undefined">
+        <h3>Predictions Count</h3>
+        <p>{{ projectPredictionsCount }}</p>
+      </div>
+      <div class="report-item" *ngIf="projectPredictionTypeDistribution">
+        <h3>Prediction Type Distribution</h3>
+        <ul>
+          <li *ngFor="let type of projectPredictionTypeDistribution | keyvalue">
+            {{ type.key }}: {{ type.value }}
+          </li>
+        </ul>
+      </div>
+      <!-- TODO: Add more project-specific reports here -->
     </div>
-    <div class="report-item" *ngIf="projectPredictionTypeDistribution">
-      <h3>Prediction Type Distribution</h3>
-      <ul>
-        <li *ngFor="let type of projectPredictionTypeDistribution | keyvalue">
-          {{ type.key }}: {{ type.value }}
-        </li>
-      </ul>
-    </div>
-    <!-- TODO: Add more project-specific reports here -->
-  </div>
+  </ng-container>
+
+  <ng-container *ngIf="reportStatus === 'failed'">
+    <p>Failed to generate report.</p>
+    <button (click)="generateReport(projectId!)">Retry Generation</button>
+  </ng-container>
 </div>

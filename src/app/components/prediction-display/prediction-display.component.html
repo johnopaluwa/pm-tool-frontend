@@ -259,8 +259,20 @@
     </section>
 
     <div class="review-actions">
-      <button class="finish-btn" (click)="finishReview()">
+      <button
+        class="finish-btn"
+        (click)="finishReview()"
+        *ngIf="project && project.status !== 'completed'"
+      >
         Generate Report
+      </button>
+      <!-- New button to view report when available -->
+      <button
+        class="finish-btn"
+        (click)="viewProjectReport()"
+        *ngIf="project && project.status === 'completed'"
+      >
+        View Report →
       </button>
     </div>
   </div>

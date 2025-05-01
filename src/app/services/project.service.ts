@@ -17,6 +17,7 @@ export interface Project {
   duration: string;
   keywords: string;
   businessSpecification: string;
+  reportGenerated?: boolean; // Add reportGenerated flag
 }
 
 @Injectable({
@@ -58,5 +59,13 @@ export class ProjectService {
   ): Observable<Project> {
     // No loading spinner for status updates as per user feedback
     return this.http.patch<Project>(`${this.apiUrl}/${id}/status`, { status });
+  }
+
+  markReportGenerated(projectId: number): Observable<Project> {
+    // No loading spinner for this action
+    return this.http.patch<Project>(
+      `${this.apiUrl}/${projectId}/mark-report-generated`,
+      {}
+    );
   }
 }

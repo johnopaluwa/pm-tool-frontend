@@ -10,15 +10,39 @@ export class ReportService {
 
   constructor(private http: HttpClient) {}
 
+  generateOverallReports(): Observable<{ status: string }> {
+    return this.http.post<{ status: string }>(
+      `${this.apiUrl}/generate/overall`,
+      {}
+    );
+  }
+
+  getOverallReportsStatus(): Observable<{ status: string }> {
+    return this.http.get<{ status: string }>(`${this.apiUrl}/status/overall`);
+  }
+
   getOverallProjectCompletionRate(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/completion-rate`);
+    return this.http.get<number>(`${this.apiUrl}/overall/completion-rate`);
   }
 
   getOverallProjectStatusDistribution(): Observable<{
     [status: string]: number;
   }> {
     return this.http.get<{ [status: string]: number }>(
-      `${this.apiUrl}/status-distribution`
+      `${this.apiUrl}/overall/status-distribution`
+    );
+  }
+
+  generateProjectReports(projectId: number): Observable<{ status: string }> {
+    return this.http.post<{ status: string }>(
+      `${this.apiUrl}/generate/projects/${projectId}`,
+      {}
+    );
+  }
+
+  getProjectReportsStatus(projectId: number): Observable<{ status: string }> {
+    return this.http.get<{ status: string }>(
+      `${this.apiUrl}/status/projects/${projectId}`
     );
   }
 

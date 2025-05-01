@@ -10,13 +10,21 @@
     <li *ngFor="let review of predictionReviews">
       Predictions generated for <b>{{ review.projectName }}</b>
       <!-- Button to view report for this project -->
-      <button class="report-btn" (click)="viewProjectReport(review.projectId)">
+      <!-- Button to view report for this project -->
+      <button
+        class="report-btn"
+        (click)="viewProjectReport(review.projectId)"
+        *ngIf="projectReportStatus[review.projectId] === 'completed'"
+      >
         View Report →
       </button>
-      <!-- Optional: Keep Review button if needed -->
-      <!-- <button class="review-btn" (click)="reviewPredictions(review.projectName)">
+      <!-- Button to review predictions -->
+      <button
+        class="review-btn"
+        (click)="reviewPredictions(review.projectName)"
+      >
         Review Now →
-      </button> -->
+      </button>
     </li>
   </ul>
 

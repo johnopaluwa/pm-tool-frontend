@@ -1,11 +1,34 @@
 <div class="report-detail-container">
   <h2>Overall Project Status Distribution</h2>
-  <div class="report-item" *ngIf="overallStatusDistribution">
-    <h3>Status Distribution</h3>
-    <ul>
-      <li *ngFor="let status of overallStatusDistribution | keyvalue">
-        {{ status.key }}: {{ status.value }}
-      </li>
-    </ul>
-  </div>
+
+  <ng-container *ngIf="reportStatus === 'pending'">
+    <p>Report generation pending.</p>
+    <button (click)="generateReport()">Generate Report</button>
+  </ng-container>
+
+  <ng-container *ngIf="reportStatus === 'generating'">
+    <app-loading-spinner></app-loading-spinner>
+    <p>Generating report...</p>
+  </ng-container>
+
+  <ng-container *ngIf="reportStatus === 'completed' && !showReportContent">
+    <p>Report generated successfully.</p>
+    <button (click)="viewReport()">View Report</button>
+  </ng-container>
+
+  <ng-container *ngIf="reportStatus === 'completed' && showReportContent">
+    <div class="report-item" *ngIf="overallStatusDistribution">
+      <h3>Status Distribution</h3>
+      <ul>
+        <li *ngFor="let status of overallStatusDistribution | keyvalue">
+          {{ status.key }}: {{ status.value }}
+        </li>
+      </ul>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="reportStatus === 'failed'">
+    <p>Failed to generate report.</p>
+    <button (click)="generateReport()">Retry Generation</button>
+  </ng-container>
 </div>

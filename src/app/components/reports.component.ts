@@ -11,7 +11,12 @@ import { Project, ProjectService } from '../services/project.service'; // Assumi
   styleUrls: ['./reports.component.css'],
 })
 export class ReportsComponent implements OnInit {
-  projects: Project[] = [];
+  private _allProjects: Project[] = []; // Store all fetched projects
+
+  get projects(): Project[] {
+    // Filter projects to show only those with reportGenerated set to true
+    return this._allProjects.filter((project) => project.reportGenerated);
+  }
 
   constructor(
     private projectService: ProjectService // Inject ProjectService
@@ -20,7 +25,7 @@ export class ReportsComponent implements OnInit {
   ngOnInit(): void {
     // Fetch list of projects for the overview
     this.projectService.getProjects().subscribe((projects: Project[]) => {
-      this.projects = projects;
+      this._allProjects = projects; // Store all projects
     });
   }
 

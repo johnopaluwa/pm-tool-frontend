@@ -6,6 +6,7 @@ import {
   PredictionReviewService,
 } from '../../services/prediction-review.service'; // Import PredictionReviewService
 import { Prediction } from '../../services/prediction.service'; // Import the updated Prediction interface
+import { Project, ProjectService } from '../../services/project.service'; // Import ProjectService and Project
 
 @Component({
   selector: 'app-prediction-display',
@@ -16,6 +17,7 @@ import { Prediction } from '../../services/prediction.service'; // Import the up
 })
 export class PredictionDisplayComponent implements OnInit {
   predictionReview: PredictionReview | undefined; // Store the fetched review
+  project: Project | undefined; // Store the associated project
   filteredUserStoryPredictions: Prediction[] = [];
   filteredBugPredictions: Prediction[] = [];
   loading = false;
@@ -25,8 +27,9 @@ export class PredictionDisplayComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private predictionReviewService: PredictionReviewService
-  ) {} // Inject PredictionReviewService
+    private predictionReviewService: PredictionReviewService,
+    private projectService: ProjectService // Inject ProjectService
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -62,6 +65,10 @@ export class PredictionDisplayComponent implements OnInit {
           } else {
             this.error = `Prediction review with ID "${this.reviewId}" not found.`;
           }
+          // After loading the review, load the associated project
+          if (this.predictionReview) {
+            this.loadProject(this.predictionReview.projectId);
+          }
         },
         error: (err) => {
           this.loading = false;
@@ -69,6 +76,18 @@ export class PredictionDisplayComponent implements OnInit {
           console.error(err);
         },
       });
+  }
+
+  loadProject(projectId: number): void {
+    this.projectService.getProjectById(projectId).subscribe({
+      next: (project) => {
+        this.project = project;
+      },
+      error: (err) => {
+        console.error('Failed to load project for review:', err);
+        // Optionally set an error message for the project loading
+      },
+    });
   }
 
   // Method to toggle acceptance status based on checkbox
@@ -121,14 +140,47 @@ export class PredictionDisplayComponent implements OnInit {
   }
 
   finishReview() {
-    // Placeholder for finish logic (could send feedback to backend via service)
-    // In a real app, you might call a service method here to save the reviewed predictions
-    this.router.navigate(['/reports']); // Navigate to the reports page
+    // Mark report as generated for this project
+    if (this.predictionReview) {
+      this.projectService
+        .markReportGenerated(this.predictionReview.projectId)
+        .subscribe({
+          next: () => {
+            console.log(
+              `Report marked as generated for project ${this.predictionReview?.projectId}`
+            );
+            // Navigate to the reports overview page after marking the report as generated
+            this.router.navigate(['/reports']);
+          },
+          error: (err) => {
+            console.error('Failed to mark report as generated:', err);
+            // Optionally show an error message to the user
+            // Still navigate to reports page even if marking fails? Depends on desired behavior.
+            // For now, navigate anyway.
+            this.router.navigate(['/reports']);
+          },
+        });
+    } else {
+      console.error(
+        'No prediction review available, cannot mark report as generated.'
+      );
+      // Navigate to reports page even if no review is available
+      this.router.navigate(['/reports']);
+    }
   }
 
   viewPredictionDetail(predictionId: string) {
     // This navigation might need adjustment depending on how prediction detail is implemented
     // If prediction detail needs the review context, you might pass reviewId as well
     this.router.navigate(['/predictions/detail', predictionId]);
+  }
+
+  viewProjectReport(): void {
+    if (this.project) {
+      this.router.navigate(['/reports/project', this.project.id]);
+    } else {
+      console.error('Project not loaded, cannot navigate to report.');
+      // Optionally show an error message to the user
+    }
   }
 }
