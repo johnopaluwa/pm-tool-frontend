@@ -145,12 +145,12 @@ export class NewProjectFormComponent {
         },
         error: (err) => {
           console.error(err);
-          alert('Failed to save draft.');
+          // TODO: Replace alert with a notification service
         },
       });
     } else {
       this.projectForm.markAllAsTouched(); // Mark fields as touched to show validation errors
-      alert('Please fill in all required fields before saving a draft.'); // Optional: alert user
+      // Validation errors are handled by Angular forms, no need for an alert
     }
   }
 

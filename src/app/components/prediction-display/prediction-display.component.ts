@@ -94,13 +94,11 @@ export class PredictionDisplayComponent implements OnInit {
 
   editPrediction(pred: Prediction) {
     // Placeholder for edit logic (could open a modal)
-    alert('Edit functionality not implemented yet.');
     // If implemented, update the prediction in the local review object and potentially in the service
   }
 
   finishReview() {
     // Placeholder for finish logic (could send feedback to backend via service)
-    alert('Review finished! (Feedback not yet sent to backend)');
     // In a real app, you might call a service method here to save the reviewed predictions
     this.router.navigate(['/predictions/overview']); // Navigate back to overview
   }
