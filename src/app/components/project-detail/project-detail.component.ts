@@ -5,10 +5,7 @@ import {
   PredictionReview,
   PredictionReviewService,
 } from '../../services/prediction-review.service'; // Import PredictionReviewService
-import {
-  Prediction,
-  PredictionService,
-} from '../../services/prediction.service'; // Import PredictionService and Prediction
+import { PredictionService } from '../../services/prediction.service'; // Import PredictionService and Prediction
 import { Project, ProjectService } from '../../services/project.service'; // Import ProjectService and Project interface
 
 @Component({
@@ -58,39 +55,23 @@ export class ProjectDetailComponent {
     this.generatingPredictions = true;
     this.predictionError = null;
 
-    // Use project data to generate predictions
+    // Use project data to generate and save predictions and review
     this.predictionService
-      .generatePredictions(this.project, this.project.id)
+      .generateAndSavePredictionReview(this.project, this.project.id) // Use the new combined method
       .subscribe({
-        next: (predictions: Prediction[]) => {
-          // Create a new prediction review
-          const newReview: Omit<PredictionReview, 'id' | 'generatedAt'> = {
-            projectId: this.project!.id,
-            projectName: this.project!.name,
-            clientName: this.project!.client,
-            predictions: predictions,
-          };
-
-          // Add the new review using the PredictionReviewService
-          this.predictionReviewService
-            .addPredictionReview(newReview)
-            .subscribe({
-              next: (addedReview: PredictionReview) => {
-                this.generatingPredictions = false;
-                // Add the new review to the local array to update the display
-                this.predictionReviews.push(addedReview);
-              },
-              error: (err: any) => {
-                this.generatingPredictions = false;
-                this.predictionError = 'Failed to save prediction review.';
-                console.error(err);
-              },
-            });
+        next: (addedReview: PredictionReview) => {
+          this.generatingPredictions = false;
+          // Add the new review to the local array to update the display
+          this.predictionReviews.push(addedReview);
+          console.log(
+            'Prediction review and predictions generated and saved successfully:',
+            addedReview
+          );
         },
         error: (err: any) => {
           this.generatingPredictions = false;
           this.predictionError =
-            'Failed to generate predictions. Please try again.';
+            'Failed to generate and save prediction review. Please try again.';
           console.error(err);
         },
       });

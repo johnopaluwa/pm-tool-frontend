@@ -8,14 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import {
-  PredictionReview,
-  PredictionReviewService, // Import PredictionReviewService
-} from '../../services/prediction-review.service';
-import {
-  Prediction,
-  PredictionService,
-} from '../../services/prediction.service';
+import { PredictionReview } from '../../services/prediction-review.service';
+import { PredictionService } from '../../services/prediction.service';
 import { ProjectService } from '../../services/project.service'; // Import ProjectService
 
 @Component({
@@ -44,7 +38,6 @@ export class NewProjectFormComponent {
     private fb: FormBuilder,
     private router: Router,
     private projectService: ProjectService, // Inject ProjectService
-    private predictionReviewService: PredictionReviewService, // Inject PredictionReviewService
     private predictionService: PredictionService // Inject PredictionService
   ) {
     this.projectForm = this.fb.group({
@@ -85,37 +78,26 @@ export class NewProjectFormComponent {
           // Navigate to the project detail page immediately after project creation
           this.router.navigate(['/projects', newProjectId]);
 
-          // Generate predictions and create review in the background
+          // Generate predictions and save review in the background using the new combined endpoint
           this.predictionService
-            .generatePredictions(this.projectForm.value, newProjectId) // Pass projectData and newProjectId
+            .generateAndSavePredictionReview(
+              this.projectForm.value,
+              newProjectId
+            ) // Use the new combined method
             .subscribe({
-              next: (predictions: Prediction[]) => {
-                // Create and add a new prediction review
-                const newReview: Omit<PredictionReview, 'id' | 'generatedAt'> =
-                  {
-                    projectId: newProjectId,
-                    projectName: this.projectForm.value.projectName,
-                    clientName: this.projectForm.value.clientName,
-                    predictions: predictions,
-                  };
-
-                this.predictionReviewService
-                  .addPredictionReview(newReview)
-                  .subscribe({
-                    next: () => {
-                      console.log('Prediction review created successfully.');
-                      // Optionally, you could emit an event or update a shared service
-                      // to notify the prediction overview page that new data is available.
-                    },
-                    error: (err) => {
-                      console.error('Failed to add prediction review:', err);
-                      // Handle error, maybe show a notification on the overview page
-                      // Consider updating status to an error state if needed
-                    },
-                  });
+              next: (predictionReview: PredictionReview) => {
+                console.log(
+                  'Prediction review and predictions created successfully:',
+                  predictionReview
+                );
+                // Optionally, you could emit an event or update a shared service
+                // to notify the prediction overview page that new data is available.
               },
               error: (err) => {
-                console.error('Failed to generate predictions:', err);
+                console.error(
+                  'Failed to generate and save prediction review:',
+                  err
+                );
                 // Handle error, maybe show a notification on the overview page
                 // Consider updating status to an error state if needed
               },

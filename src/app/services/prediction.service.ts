@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { LoadingService } from './loading.service';
+import { PredictionReview } from './prediction-review.service'; // Import PredictionReview
 
 export interface Prediction {
   id: string;
@@ -62,6 +63,19 @@ export class PredictionService {
     return this.http
       .post<Prediction[]>(`${this.apiUrl}/generate/${projectId}`, projectData)
       .pipe(finalize(() => {})); // Keep finalize but do nothing
+  }
+
+  generateAndSavePredictionReview(
+    projectData: any,
+    projectId: number
+  ): Observable<PredictionReview> {
+    this.loadingService.show(); // Show loading spinner
+    return this.http
+      .post<PredictionReview>(
+        `${this.apiUrl}/generate-and-review/${projectId}`,
+        projectData
+      )
+      .pipe(finalize(() => this.loadingService.hide())); // Hide loading spinner on completion
   }
 
   sendFeedback(feedbackData: any): Observable<any> {
