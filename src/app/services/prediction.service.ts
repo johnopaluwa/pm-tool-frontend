@@ -69,13 +69,17 @@ export class PredictionService {
     projectData: any,
     projectId: number
   ): Observable<PredictionReview> {
-    this.loadingService.show(); // Show loading spinner
+    // this.loadingService.show(); // Show loading spinner
     return this.http
       .post<PredictionReview>(
         `${this.apiUrl}/generate-and-review/${projectId}`,
         projectData
       )
-      .pipe(finalize(() => this.loadingService.hide())); // Hide loading spinner on completion
+      .pipe(
+        finalize(() => {
+          //  this.loadingService.hide()
+        })
+      ); // Hide loading spinner on completion
   }
 
   sendFeedback(feedbackData: any): Observable<any> {
