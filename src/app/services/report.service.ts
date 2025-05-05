@@ -26,18 +26,18 @@ export class ReportService {
     return this.http.get<any>(`${this.apiUrl}/overall`);
   }
 
-  getProjectReport(projectId: number): Observable<any> {
+  getProjectReport(projectId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/project/${projectId}`);
   }
 
-  generateProjectReports(projectId: number): Observable<{ status: string }> {
+  generateProjectReports(projectId: string): Observable<{ status: string }> {
     return this.http.post<{ status: string }>(
       `${this.apiUrl}/generate/projects/${projectId}`,
       {}
     );
   }
 
-  getProjectReportsStatus(projectId: number): Observable<{ status: string }> {
+  getProjectReportsStatus(projectId: string): Observable<{ status: string }> {
     return this.http.get<{ status: string }>(
       `${this.apiUrl}/project/${projectId}`
     );
@@ -58,14 +58,14 @@ export class ReportService {
     );
   }
 
-  getPredictionsCountForProject(projectId: number): Observable<number> {
+  getPredictionsCountForProject(projectId: string): Observable<number> {
     return this.getProjectReport(projectId).pipe(
       map((report: any) => report?.predictions_count)
     );
   }
 
   getPredictionTypeDistributionForProject(
-    projectId: number
+    projectId: string
   ): Observable<{ [type: string]: number }> {
     return this.getProjectReport(projectId).pipe(
       map((report: any) => report?.prediction_type_distribution)

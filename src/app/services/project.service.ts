@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators'; // Import map
 import { LoadingService } from './loading.service';
 
 export interface Project {
-  id: number;
+  id: string;
   name: string;
   client: string;
   status: 'new' | 'predicting' | 'completed';
@@ -38,30 +38,31 @@ export class ProjectService {
       .pipe(finalize(() => this.loadingService.hide()));
   }
 
-  getProjectById(id: number): Observable<Project> {
+  getProjectById(id: string): Observable<Project> {
     this.loadingService.show();
     return this.http
       .get<Project>(`${this.apiUrl}/${id}`)
       .pipe(finalize(() => this.loadingService.hide()));
   }
 
-  addProject(project: any): Observable<number> {
+  addProject(project: any): Observable<string> {
     // The backend expects projectName and clientName, which are already in the project object
     this.loadingService.show();
-    return this.http
-      .post<number>(this.apiUrl, project)
-      .pipe(finalize(() => this.loadingService.hide()));
+    return this.http.post<{ id: string }>(this.apiUrl, project).pipe(
+      map((response) => response.id), // Extract the id from the response object
+      finalize(() => this.loadingService.hide())
+    );
   }
 
   updateProjectStatus(
-    id: number,
+    id: string,
     status: 'new' | 'predicting' | 'completed'
   ): Observable<Project> {
     // No loading spinner for status updates as per user feedback
     return this.http.patch<Project>(`${this.apiUrl}/${id}/status`, { status });
   }
 
-  markReportGenerated(projectId: number): Observable<Project> {
+  markReportGenerated(projectId: string): Observable<Project> {
     // No loading spinner for this action
     return this.http.patch<Project>(
       `${this.apiUrl}/${projectId}/mark-report-generated`,

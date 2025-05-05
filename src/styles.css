@@ -1,3 +1,6 @@
+html {
+  font-size: 80%; /* Reduce base font size by 20% */
+}
 /* Global Styles */
 
 :root {

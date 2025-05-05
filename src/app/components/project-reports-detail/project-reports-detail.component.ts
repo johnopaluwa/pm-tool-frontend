@@ -14,7 +14,7 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
   styleUrl: './project-reports-detail.component.css',
 })
 export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
-  projectId: number | null = null;
+  projectId: string | null = null;
   project: Project | undefined;
   projectPredictionsCount: number | undefined;
   projectPredictionTypeDistribution: { [type: string]: number } | undefined;
@@ -35,10 +35,10 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
     this.paramMapSubscription = this.route.paramMap.subscribe((params) => {
       const id = params.get('projectId');
       if (id) {
-        this.projectId = +id; // Convert string to number
-        this.loadProjectDetails(this.projectId);
+        this.projectId = id;
+        this.loadProjectDetails(id);
         // Fetch report data directly as the API returns data, not status
-        this.getReportData(this.projectId);
+        this.getReportData(id);
       }
     });
   }
@@ -51,7 +51,7 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
     this.typeDistributionSubscription?.unsubscribe();
   }
 
-  loadProjectDetails(projectId: number): void {
+  loadProjectDetails(projectId: string): void {
     this.projectSubscription = this.projectService
       .getProjectById(projectId)
       .subscribe((project) => {
@@ -61,7 +61,7 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
 
   // Removed checkReportStatus as API returns data directly
 
-  generateReport(projectId: number): void {
+  generateReport(projectId: string): void {
     // This method might need to be adjusted or removed if report generation is not a separate step
     this.reportStatus = 'generating'; // Keep status for UI feedback if needed
     this.generateReportSubscription = this.reportService
@@ -84,7 +84,7 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
 
   // Removed viewReport as getReportData is called directly
 
-  getReportData(projectId: number): void {
+  getReportData(projectId: string): void {
     this.predictionsCountSubscription = this.reportService
       .getPredictionsCountForProject(projectId)
       .subscribe(

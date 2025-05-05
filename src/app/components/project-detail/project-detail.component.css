@@ -1,8 +1,16 @@
+.project-detail-page {
+  max-width: 1200px; /* Slightly wider max width */
+  margin: 0 auto;
+  padding: 32px 24px; /* Adjusted padding */
+  display: grid; /* Use grid for the main layout */
+  grid-template-columns: 1fr; /* Single column by default */
+  gap: 24px; /* Gap between grid items */
+}
+
 .project-detail-container {
   padding: 32px; /* Adjusted padding */
   border: 1px solid var(--divider-color); /* Use divider color */
   border-radius: var(--border-radius); /* Use border radius variable */
-  margin-top: 24px; /* Adjusted margin */
   background-color: var(--surface-color); /* Use surface color */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
 }
@@ -152,4 +160,74 @@
 
 .status-completed {
   background-color: #10b981; /* Green */
+}
+
+/* Add grid layout for larger screens */
+@media (min-width: 769px) {
+  .project-detail-page {
+    grid-template-columns: 2fr 1fr; /* Two columns: project details and perhaps a sidebar/summary */
+    grid-template-areas: "details sidebar"; /* Define grid areas */
+  }
+
+  .project-detail-container {
+    grid-area: details; /* Assign project details to 'details' area */
+  }
+
+  /* You would add a new container/component for the sidebar content and assign it to 'sidebar' */
+  /* Example:
+  .project-sidebar {
+    grid-area: sidebar;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    border: 1px solid var(--divider-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  */
+}
+
+@media (max-width: 768px) {
+  .project-detail-page {
+    padding: 24px 16px; /* Adjusted padding for smaller screens */
+    gap: 16px; /* Adjusted gap */
+  }
+
+  .project-detail-container {
+    padding: 16px; /* Adjusted padding for smaller screens */
+  }
+}
+
+/* Add grid layout for larger screens */
+@media (min-width: 769px) {
+  .project-detail-page {
+    grid-template-columns: 2fr 1fr; /* Two columns: project details and perhaps a sidebar/summary */
+    grid-template-areas: "details sidebar"; /* Define grid areas */
+  }
+
+  .project-detail-container {
+    grid-area: details; /* Assign project details to 'details' area */
+  }
+
+  /* You would add a new container/component for the sidebar content and assign it to 'sidebar' */
+  /* Example:
+  .project-sidebar {
+    grid-area: sidebar;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    border: 1px solid var(--divider-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  */
+}
+
+@media (max-width: 768px) {
+  .project-detail-page {
+    padding: 24px 16px; /* Adjusted padding for smaller screens */
+    gap: 16px; /* Adjusted gap */
+  }
+
+  .project-detail-container {
+    padding: 16px; /* Adjusted padding for smaller screens */
+  }
 }

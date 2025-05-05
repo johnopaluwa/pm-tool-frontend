@@ -85,7 +85,7 @@ export class PredictionDisplayComponent implements OnInit, OnDestroy {
       });
   }
 
-  loadProject(projectId: number): void {
+  loadProject(projectId: string): void {
     this.projectSubscription = this.projectService
       .getProjectById(projectId)
       .subscribe({

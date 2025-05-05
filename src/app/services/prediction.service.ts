@@ -58,7 +58,7 @@ export class PredictionService {
 
   generatePredictions(
     projectData: any,
-    projectId: number
+    projectId: string
   ): Observable<Prediction[]> {
     return this.http
       .post<Prediction[]>(`${this.apiUrl}/generate/${projectId}`, projectData)
@@ -67,7 +67,7 @@ export class PredictionService {
 
   generateAndSavePredictionReview(
     projectData: any,
-    projectId: number
+    projectId: string
   ): Observable<PredictionReview> {
     // this.loadingService.show(); // Show loading spinner
     return this.http
@@ -89,7 +89,7 @@ export class PredictionService {
       .pipe(finalize(() => this.loadingService.hide()));
   }
 
-  getPredictionHistory(projectId: number): Observable<Prediction[]> {
+  getPredictionHistory(projectId: string): Observable<Prediction[]> {
     this.loadingService.show();
     return this.http
       .get<Prediction[]>(`${this.apiUrl}/history/${projectId}`)

@@ -24,9 +24,9 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
   loading = false;
   error: string | null = null;
   projectReportStatus: {
-    [projectId: number]: 'pending' | 'generating' | 'completed' | 'failed';
+    [projectId: string]: 'pending' | 'generating' | 'completed' | 'failed';
   } = {}; // Store report status for each project
-  private statusSubscriptions: { [projectId: number]: Subscription } = {};
+  private statusSubscriptions: { [projectId: string]: Subscription } = {};
   private projectsSubscription: Subscription | undefined;
   private reviewsSubscription: Subscription | undefined;
 
@@ -57,7 +57,7 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
     this.reviewsSubscription?.unsubscribe();
   }
 
-  projectsMap: { [id: number]: Project } = {}; // Map projects by ID
+  projectsMap: { [id: string]: Project } = {}; // Map projects by ID
 
   loadProjects(): void {
     this.projectsSubscription = this.projectService
@@ -66,7 +66,7 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
         this.projectsMap = projects.reduce((acc, project) => {
           acc[project.id] = project;
           return acc;
-        }, {} as { [id: number]: Project });
+        }, {} as { [id: string]: Project });
       });
   }
 
@@ -101,7 +101,7 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
       });
   }
 
-  checkProjectReportStatus(projectId: number): void {
+  checkProjectReportStatus(projectId: string): void {
     console.log(`Checking report status for project ID: ${projectId}`); // Log when checking status
     // Initialize status if not already present
     if (!this.projectReportStatus[projectId]) {
@@ -171,7 +171,7 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  viewProjectReport(projectId: number) {
+  viewProjectReport(projectId: string) {
     this.router.navigate(['/reports/project', projectId]); // Navigate to the project reports detail route
   }
 }

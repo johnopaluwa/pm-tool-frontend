@@ -66,8 +66,10 @@
   border-left: 4px solid var(--primary-light-color); /* Adjusted border width */
   border: 1px solid var(--divider-color); /* Add subtle border */
   margin-bottom: 8px; /* Add margin bottom to separate list items */
-  display: flex; /* Use flexbox */
-  flex-direction: column; /* Stack children vertically */
+  display: grid; /* Use grid */
+  grid-template-columns: auto 1fr auto; /* Checkbox, Title (takes space), Actions */
+  align-items: center; /* Vertically align items */
+  gap: 10px; /* Gap between grid items */
 }
 
 .prediction-list-item:hover {
@@ -85,9 +87,9 @@
 }
 
 .list-item-header {
-  display: flex;
-  align-items: center;
+  /* This element is now a grid item, flexbox is no longer needed here */
   /* Removed margin-bottom here, spacing will be handled by gap in parent */
+  display: contents; /* Make children participate in the grid of the parent (.prediction-list-item) */
 }
 
 .list-item-header input[type="checkbox"] {
@@ -103,9 +105,10 @@
 }
 
 .prediction-actions {
+  /* This element is now a grid item */
   display: flex; /* Keep buttons in a row */
   gap: 10px; /* Adjusted gap */
-  /* Removed justify-content as it's in the header now */
+  justify-content: flex-end; /* Align actions to the right */
 }
 
 .prediction-actions button {
@@ -151,6 +154,8 @@
 }
 
 .list-item-details {
+  /* This element spans across the grid columns */
+  grid-column: 1 / -1; /* Span from the first to the last column */
   margin-top: 8px; /* Space above details */
   margin-left: 24px; /* Indent details */
   border-left: 1px solid var(--divider-color); /* Vertical line */
@@ -158,7 +163,7 @@
 }
 
 .prediction-main {
-  display: flex; /* Use flexbox for details line */
+  display: flex; /* Keep flexbox for details line */
   align-items: center;
   gap: 15px; /* Adjusted gap */
   flex-wrap: wrap;

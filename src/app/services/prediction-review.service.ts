@@ -7,7 +7,7 @@ import { Prediction } from './prediction.service'; // Assuming Prediction interf
 
 export interface PredictionReview {
   id: string;
-  projectId: number; // Link to the project
+  projectId: string; // Link to the project
   projectName: string;
   clientName?: string;
   generatedAt: string; // Store as ISO string
@@ -50,7 +50,7 @@ export class PredictionReviewService {
   }
 
   getPredictionReviewsByProjectId(
-    projectId: number
+    projectId: string
   ): Observable<PredictionReview[]> {
     this.loadingService.show();
     return this.http

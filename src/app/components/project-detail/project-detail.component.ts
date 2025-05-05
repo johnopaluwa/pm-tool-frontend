@@ -35,16 +35,15 @@ export class ProjectDetailComponent implements OnDestroy {
   ngOnInit(): void {
     const projectId = this.route.snapshot.paramMap.get('id');
     if (projectId) {
-      const id = +projectId; // Convert string ID to number
       this.projectSubscription = this.projectService
-        .getProjectById(id)
+        .getProjectById(projectId)
         .subscribe((project) => {
           this.project = project;
         });
 
       // Fetch prediction reviews for this project
       this.reviewsSubscription = this.predictionReviewService
-        .getPredictionReviewsByProjectId(id)
+        .getPredictionReviewsByProjectId(projectId)
         .subscribe((reviews: PredictionReview[]) => {
           this.predictionReviews = reviews;
         });
