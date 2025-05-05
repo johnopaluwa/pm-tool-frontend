@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import {
   PredictionReview,
   PredictionReviewService,
@@ -14,9 +15,11 @@ import { Project, ProjectService } from '../services/project.service'; // Import
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   projects: Project[] = []; // Use Project interface
   recentReviews: PredictionReview[] = []; // Property to store recent reviews
+  private projectsSubscription: Subscription | undefined;
+  private reviewsSubscription: Subscription | undefined;
 
   constructor(
     private projectService: ProjectService, // Inject ProjectService
@@ -25,9 +28,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // Fetch projects
-    this.projectService.getProjects().subscribe((projects: Project[]) => {
-      this.projects = projects;
-    });
+    this.projectsSubscription = this.projectService
+      .getProjects()
+      .subscribe((projects: Project[]) => {
+        this.projects = projects;
+      });
 
     // Fetch recent prediction reviews
     this.predictionReviewService
@@ -36,5 +41,10 @@ export class DashboardComponent implements OnInit {
         // For dashboard, maybe show a limited number of recent reviews
         this.recentReviews = reviews.slice(-5); // Get the last 5 reviews
       });
+  }
+
+  ngOnDestroy(): void {
+    this.projectsSubscription?.unsubscribe();
+    this.reviewsSubscription?.unsubscribe();
   }
 }

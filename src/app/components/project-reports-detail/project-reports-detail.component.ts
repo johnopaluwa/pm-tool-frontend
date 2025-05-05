@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { interval, Subscription } from 'rxjs';
-import { filter, startWith, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { Project, ProjectService } from '../../services/project.service'; // Assuming Project interface is here
 import { ReportService } from '../../services/report.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
@@ -20,8 +19,11 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
   projectPredictionsCount: number | undefined;
   projectPredictionTypeDistribution: { [type: string]: number } | undefined;
   reportStatus: 'pending' | 'generating' | 'completed' | 'failed' = 'pending';
-  showReportContent: boolean = false; // New variable to control visibility
-  private statusSubscription: Subscription | undefined;
+  private paramMapSubscription: Subscription | undefined;
+  private projectSubscription: Subscription | undefined;
+  private generateReportSubscription: Subscription | undefined;
+  private predictionsCountSubscription: Subscription | undefined;
+  private typeDistributionSubscription: Subscription | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,116 +32,89 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
+    this.paramMapSubscription = this.route.paramMap.subscribe((params) => {
       const id = params.get('projectId');
       if (id) {
         this.projectId = +id; // Convert string to number
         this.loadProjectDetails(this.projectId);
-        this.checkReportStatus(this.projectId);
+        // Fetch report data directly as the API returns data, not status
+        this.getReportData(this.projectId);
       }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.statusSubscription) {
-      this.statusSubscription.unsubscribe();
-    }
+    this.paramMapSubscription?.unsubscribe();
+    this.projectSubscription?.unsubscribe();
+    this.generateReportSubscription?.unsubscribe();
+    this.predictionsCountSubscription?.unsubscribe();
+    this.typeDistributionSubscription?.unsubscribe();
   }
 
   loadProjectDetails(projectId: number): void {
-    this.projectService.getProjectById(projectId).subscribe((project) => {
-      this.project = project;
-    });
+    this.projectSubscription = this.projectService
+      .getProjectById(projectId)
+      .subscribe((project) => {
+        this.project = project;
+      });
   }
 
-  checkReportStatus(projectId: number): void {
-    this.reportStatus = 'pending'; // Set initial status
-    this.statusSubscription = interval(5000) // Poll every 5 seconds
-      .pipe(
-        startWith(0), // Check immediately on init
-        switchMap(() => this.reportService.getProjectReportsStatus(projectId)),
-        filter((response) => response !== undefined) // Only proceed if response is not undefined
-      )
+  // Removed checkReportStatus as API returns data directly
+
+  generateReport(projectId: number): void {
+    // This method might need to be adjusted or removed if report generation is not a separate step
+    this.reportStatus = 'generating'; // Keep status for UI feedback if needed
+    this.generateReportSubscription = this.reportService
+      .generateProjectReports(projectId)
       .subscribe(
-        (response) => {
-          this.reportStatus = response.status as
-            | 'pending'
-            | 'generating'
-            | 'completed'
-            | 'failed';
-          if (this.reportStatus === 'completed') {
-            // Report is generated, no need to fetch data immediately
-            if (this.statusSubscription) {
-              this.statusSubscription.unsubscribe();
-            }
-          } else if (this.reportStatus === 'failed') {
-            if (this.statusSubscription) {
-              this.statusSubscription.unsubscribe();
-            }
-          }
+        () => {
+          // After triggering generation, fetch the data
+          this.getReportData(projectId);
+          this.reportStatus = 'completed'; // Set status to completed after triggering fetch
         },
         (error: any) => {
-          // Explicitly type error
           console.error(
-            `Error checking report status for project ${projectId}:`,
+            `Error generating report for project ${projectId}:`,
             error
           );
           this.reportStatus = 'failed';
-          if (this.statusSubscription) {
-            this.statusSubscription.unsubscribe();
-          }
         }
       );
   }
 
-  generateReport(projectId: number): void {
-    this.reportStatus = 'generating';
-    this.showReportContent = false; // Hide content when generating
-    this.reportService.generateProjectReports(projectId).subscribe(
-      () => {
-        // Start polling for status after triggering generation
-        this.checkReportStatus(projectId);
-      },
-      (error: any) => {
-        // Explicitly type error
-        console.error(
-          `Error generating report for project ${projectId}:`,
-          error
-        );
-        this.reportStatus = 'failed';
-      }
-    );
-  }
-
-  viewReport(projectId: number): void {
-    this.getReportData(projectId);
-  }
+  // Removed viewReport as getReportData is called directly
 
   getReportData(projectId: number): void {
-    this.reportService.getPredictionsCountForProject(projectId).subscribe(
-      (count) => {
-        this.projectPredictionsCount = count;
-        this.showReportContent = true; // Show content after fetching data
-      },
-      (error: any) => {
-        // Explicitly type error
-        console.error(
-          `Error fetching predictions count for project ${projectId}:`,
-          error
-        );
-        this.reportStatus = 'failed'; // Set status to failed if fetching data fails
-      }
-    );
+    this.predictionsCountSubscription = this.reportService
+      .getPredictionsCountForProject(projectId)
+      .subscribe(
+        (count) => {
+          this.projectPredictionsCount = count;
+          // Check if both subscriptions have completed before setting status to completed
+          if (this.projectPredictionTypeDistribution !== undefined) {
+            this.reportStatus = 'completed';
+          }
+        },
+        (error: any) => {
+          console.error(
+            `Error fetching predictions count for project ${projectId}:`,
+            error
+          );
+          this.reportStatus = 'failed'; // Set status to failed if fetching data fails
+        }
+      );
 
-    this.reportService
+    this.typeDistributionSubscription = this.reportService
       .getPredictionTypeDistributionForProject(projectId)
       .subscribe(
         (distribution) => {
           this.projectPredictionTypeDistribution = distribution;
-          this.showReportContent = true; // Show content after fetching data
+          // Check if both subscriptions have completed before setting status to completed
+          if (this.projectPredictionsCount !== undefined) {
+            this.reportStatus = 'completed';
+          }
         },
         (error: any) => {
-          // Explicitly type error
           console.error(
             `Error fetching prediction type distribution for project ${projectId}:`,
             error

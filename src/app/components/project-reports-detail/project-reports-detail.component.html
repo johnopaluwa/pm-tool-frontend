@@ -11,12 +11,7 @@
     <p>Generating report...</p>
   </ng-container>
 
-  <ng-container *ngIf="reportStatus === 'completed' && !showReportContent">
-    <p>Report generated successfully.</p>
-    <button (click)="viewReport(projectId!)">View Report</button>
-  </ng-container>
-
-  <ng-container *ngIf="reportStatus === 'completed' && showReportContent">
+  <ng-container *ngIf="reportStatus === 'completed'">
     <div class="reports-list">
       <div class="report-item" *ngIf="projectPredictionsCount !== undefined">
         <h3>Predictions Count</h3>

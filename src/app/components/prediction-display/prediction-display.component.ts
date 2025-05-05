@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import {
   PredictionReview,
   PredictionReviewService,
@@ -15,9 +16,13 @@ import { Project, ProjectService } from '../../services/project.service'; // Imp
   templateUrl: './prediction-display.component.html',
   styleUrls: ['./prediction-display.component.css'],
 })
-export class PredictionDisplayComponent implements OnInit {
+export class PredictionDisplayComponent implements OnInit, OnDestroy {
   predictionReview: PredictionReview | undefined; // Store the fetched review
   project: Project | undefined; // Store the associated project
+  private queryParamsSubscription: Subscription | undefined;
+  private reviewSubscription: Subscription | undefined;
+  private projectSubscription: Subscription | undefined;
+  private markReportSubscription: Subscription | undefined;
   filteredUserStoryPredictions: Prediction[] = [];
   filteredBugPredictions: Prediction[] = [];
   loading = false;
@@ -32,10 +37,12 @@ export class PredictionDisplayComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.reviewId = params['reviewId'] || null; // Get reviewId from query params
-      this.loadPredictionReview();
-    });
+    this.queryParamsSubscription = this.route.queryParams.subscribe(
+      (params) => {
+        this.reviewId = params['reviewId'] || null; // Get reviewId from query params
+        this.loadPredictionReview();
+      }
+    );
   }
 
   loadPredictionReview() {
@@ -46,7 +53,7 @@ export class PredictionDisplayComponent implements OnInit {
 
     this.loading = true;
     this.error = null;
-    this.predictionReviewService
+    this.reviewSubscription = this.predictionReviewService
       .getPredictionReviewById(this.reviewId)
       .subscribe({
         next: (review) => {
@@ -79,15 +86,22 @@ export class PredictionDisplayComponent implements OnInit {
   }
 
   loadProject(projectId: number): void {
-    this.projectService.getProjectById(projectId).subscribe({
-      next: (project) => {
-        this.project = project;
-      },
-      error: (err) => {
-        console.error('Failed to load project for review:', err);
-        // Optionally set an error message for the project loading
-      },
-    });
+    this.projectSubscription = this.projectService
+      .getProjectById(projectId)
+      .subscribe({
+        next: (project) => {
+          this.project = project;
+          console.log('Project loaded:', this.project);
+          console.log(
+            'Report generated status:',
+            this.project?.reportGenerated
+          );
+        },
+        error: (err) => {
+          console.error('Failed to load project for review:', err);
+          // Optionally set an error message for the project loading
+        },
+      });
   }
 
   // Method to toggle acceptance status based on checkbox
@@ -142,10 +156,16 @@ export class PredictionDisplayComponent implements OnInit {
   finishReview() {
     // Mark report as generated for this project
     if (this.predictionReview) {
-      this.projectService
+      this.markReportSubscription = this.projectService
         .markReportGenerated(this.predictionReview.projectId)
         .subscribe({
-          next: () => {
+          next: (updatedProject) => {
+            console.log('markReportGenerated success:', updatedProject);
+            // Update the local project object with the changes from the backend
+            if (this.project && updatedProject) {
+              this.project.reportGenerated = updatedProject.reportGenerated;
+              this.project.status = updatedProject.status; // Also update status if backend changes it
+            }
             console.log(
               `Report marked as generated for project ${this.predictionReview?.projectId}`
             );
@@ -153,7 +173,8 @@ export class PredictionDisplayComponent implements OnInit {
             this.router.navigate(['/reports']);
           },
           error: (err) => {
-            console.error('Failed to mark report as generated:', err);
+            console.error('markReportGenerated error:', err);
+            this.error = 'Failed to generate report. Please try again.';
             // Optionally show an error message to the user
             // Still navigate to reports page even if marking fails? Depends on desired behavior.
             // For now, navigate anyway.
@@ -182,5 +203,11 @@ export class PredictionDisplayComponent implements OnInit {
       console.error('Project not loaded, cannot navigate to report.');
       // Optionally show an error message to the user
     }
+  }
+  ngOnDestroy(): void {
+    this.queryParamsSubscription?.unsubscribe();
+    this.reviewSubscription?.unsubscribe();
+    this.projectSubscription?.unsubscribe();
+    this.markReportSubscription?.unsubscribe();
   }
 }

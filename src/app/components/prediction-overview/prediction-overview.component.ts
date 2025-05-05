@@ -27,6 +27,8 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
     [projectId: number]: 'pending' | 'generating' | 'completed' | 'failed';
   } = {}; // Store report status for each project
   private statusSubscriptions: { [projectId: number]: Subscription } = {};
+  private projectsSubscription: Subscription | undefined;
+  private reviewsSubscription: Subscription | undefined;
 
   get projectKeys(): string[] {
     return Object.keys(this.groupedPredictions);
@@ -51,46 +53,52 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
         this.statusSubscriptions[projectId].unsubscribe();
       }
     }
+    this.projectsSubscription?.unsubscribe();
+    this.reviewsSubscription?.unsubscribe();
   }
 
   projectsMap: { [id: number]: Project } = {}; // Map projects by ID
 
   loadProjects(): void {
-    this.projectService.getProjects().subscribe((projects) => {
-      this.projectsMap = projects.reduce((acc, project) => {
-        acc[project.id] = project;
-        return acc;
-      }, {} as { [id: number]: Project });
-    });
+    this.projectsSubscription = this.projectService
+      .getProjects()
+      .subscribe((projects) => {
+        this.projectsMap = projects.reduce((acc, project) => {
+          acc[project.id] = project;
+          return acc;
+        }, {} as { [id: number]: Project });
+      });
   }
 
   loadRecentPredictions() {
     this.loading = true;
     this.error = null;
-    this.predictionReviewService.getPredictionReviews().subscribe({
-      next: (reviews) => {
-        this.predictionReviews = reviews;
-        // Group predictions from all reviews by project name for display
-        this.groupedPredictions = reviews.reduce((acc, review) => {
-          if (!acc[review.projectName]) {
-            acc[review.projectName] = [];
+    this.reviewsSubscription = this.predictionReviewService
+      .getPredictionReviews()
+      .subscribe({
+        next: (reviews) => {
+          this.predictionReviews = reviews;
+          // Group predictions from all reviews by project name for display
+          this.groupedPredictions = reviews.reduce((acc, review) => {
+            if (!acc[review.projectName]) {
+              acc[review.projectName] = [];
+            }
+            acc[review.projectName].push(...review.predictions);
+            // Start checking report status for each project
+            this.checkProjectReportStatus(review.projectId);
+            return acc;
+          }, {} as { [project: string]: Prediction[] });
+          this.loading = false;
+          if (this.projectKeys.length === 0) {
+            this.error = 'No recent prediction activity found.';
           }
-          acc[review.projectName].push(...review.predictions);
-          // Start checking report status for each project
-          this.checkProjectReportStatus(review.projectId);
-          return acc;
-        }, {} as { [project: string]: Prediction[] });
-        this.loading = false;
-        if (this.projectKeys.length === 0) {
-          this.error = 'No recent prediction activity found.';
-        }
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = 'Failed to load prediction reviews.';
-        console.error(err);
-      },
-    });
+        },
+        error: (err) => {
+          this.loading = false;
+          this.error = 'Failed to load prediction reviews.';
+          console.error(err);
+        },
+      });
   }
 
   checkProjectReportStatus(projectId: number): void {

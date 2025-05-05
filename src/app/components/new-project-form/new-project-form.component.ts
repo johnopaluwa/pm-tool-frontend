@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { PredictionReview } from '../../services/prediction-review.service';
 import { PredictionService } from '../../services/prediction.service';
 import { ProjectService } from '../../services/project.service'; // Import ProjectService
@@ -19,7 +20,7 @@ import { ProjectService } from '../../services/project.service'; // Import Proje
   templateUrl: './new-project-form.component.html',
   styleUrls: ['./new-project-form.component.css'],
 })
-export class NewProjectFormComponent {
+export class NewProjectFormComponent implements OnDestroy {
   projectForm: FormGroup;
   techStackOptions = [
     'React',
@@ -31,6 +32,9 @@ export class NewProjectFormComponent {
     'Azure',
     'Other',
   ];
+  private addProjectSubscription: Subscription | undefined;
+  private generateReviewSubscription: Subscription | undefined;
+  private saveDraftSubscription: Subscription | undefined;
   loading = false;
   error: string | null = null;
 
@@ -73,44 +77,46 @@ export class NewProjectFormComponent {
       this.error = null;
 
       // Add the new project using the ProjectService
-      this.projectService.addProject(this.projectForm.value).subscribe({
-        next: (newProjectId) => {
-          // Navigate to the project detail page immediately after project creation
-          this.router.navigate(['/projects', newProjectId]);
+      this.addProjectSubscription = this.projectService
+        .addProject(this.projectForm.value)
+        .subscribe({
+          next: (newProjectId) => {
+            // Navigate to the project detail page immediately after project creation
+            this.router.navigate(['/projects', newProjectId]);
 
-          // Generate predictions and save review in the background using the new combined endpoint
-          this.predictionService
-            .generateAndSavePredictionReview(
-              this.projectForm.value,
-              newProjectId
-            ) // Use the new combined method
-            .subscribe({
-              next: (predictionReview: PredictionReview) => {
-                console.log(
-                  'Prediction review and predictions created successfully:',
-                  predictionReview
-                );
-                // Optionally, you could emit an event or update a shared service
-                // to notify the prediction overview page that new data is available.
-              },
-              error: (err) => {
-                console.error(
-                  'Failed to generate and save prediction review:',
-                  err
-                );
-                // Handle error, maybe show a notification on the overview page
-                // Consider updating status to an error state if needed
-              },
-            });
+            // Generate predictions and save review in the background using the new combined endpoint
+            this.generateReviewSubscription = this.predictionService
+              .generateAndSavePredictionReview(
+                this.projectForm.value,
+                newProjectId
+              ) // Use the new combined method
+              .subscribe({
+                next: (predictionReview: PredictionReview) => {
+                  console.log(
+                    'Prediction review and predictions created successfully:',
+                    predictionReview
+                  );
+                  // Optionally, you could emit an event or update a shared service
+                  // to notify the prediction overview page that new data is available.
+                },
+                error: (err) => {
+                  console.error(
+                    'Failed to generate and save prediction review:',
+                    err
+                  );
+                  // Handle error, maybe show a notification on the overview page
+                  // Consider updating status to an error state if needed
+                },
+              });
 
-          this.loading = false; // Set loading to false after navigation starts
-        },
-        error: (err) => {
-          this.loading = false;
-          this.error = 'Failed to add project. Please try again.';
-          console.error(err);
-        },
-      });
+            this.loading = false; // Set loading to false after navigation starts
+          },
+          error: (err) => {
+            this.loading = false;
+            this.error = 'Failed to add project. Please try again.';
+            console.error(err);
+          },
+        });
     } else {
       this.projectForm.markAllAsTouched();
     }
@@ -120,20 +126,28 @@ export class NewProjectFormComponent {
     if (this.projectForm.valid) {
       // Check form validity before saving draft
       // Add the new project using the ProjectService
-      this.projectService.addProject(this.projectForm.value).subscribe({
-        next: (newProjectId) => {
-          // Navigate to the detail page of the newly created project
-          this.router.navigate(['/projects', newProjectId]);
-        },
-        error: (err) => {
-          console.error(err);
-          // TODO: Replace alert with a notification service
-        },
-      });
+      this.saveDraftSubscription = this.projectService
+        .addProject(this.projectForm.value)
+        .subscribe({
+          next: (newProjectId) => {
+            // Navigate to the detail page of the newly created project
+            this.router.navigate(['/projects', newProjectId]);
+          },
+          error: (err) => {
+            console.error(err);
+            // TODO: Replace alert with a notification service
+          },
+        });
     } else {
       this.projectForm.markAllAsTouched(); // Mark fields as touched to show validation errors
       // Validation errors are handled by Angular forms, no need for an alert
     }
+  }
+
+  ngOnDestroy(): void {
+    this.addProjectSubscription?.unsubscribe();
+    this.generateReviewSubscription?.unsubscribe();
+    this.saveDraftSubscription?.unsubscribe();
   }
 
   onCancel() {

@@ -17,6 +17,8 @@ export class OverallCompletionReportComponent implements OnInit, OnDestroy {
   reportStatus: 'pending' | 'generating' | 'completed' | 'failed' = 'pending';
   showReportContent: boolean = false; // New variable to control visibility
   private statusSubscription: Subscription | undefined;
+  private generateReportSubscription: Subscription | undefined;
+  private getReportDataSubscription: Subscription | undefined;
 
   constructor(private reportService: ReportService) {}
 
@@ -25,9 +27,9 @@ export class OverallCompletionReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.statusSubscription) {
-      this.statusSubscription.unsubscribe();
-    }
+    this.statusSubscription?.unsubscribe();
+    this.generateReportSubscription?.unsubscribe();
+    this.getReportDataSubscription?.unsubscribe();
   }
 
   checkReportStatus(): void {
@@ -68,17 +70,19 @@ export class OverallCompletionReportComponent implements OnInit, OnDestroy {
   generateReport(): void {
     this.reportStatus = 'generating';
     this.showReportContent = false; // Hide content when generating
-    this.reportService.generateOverallReports().subscribe(
-      () => {
-        // Start polling for status after triggering generation
-        this.checkReportStatus();
-      },
-      (error: any) => {
-        // Explicitly type error
-        console.error('Error generating report:', error);
-        this.reportStatus = 'failed';
-      }
-    );
+    this.generateReportSubscription = this.reportService
+      .generateOverallReports()
+      .subscribe(
+        () => {
+          // Start polling for status after triggering generation
+          this.checkReportStatus();
+        },
+        (error: any) => {
+          // Explicitly type error
+          console.error('Error generating report:', error);
+          this.reportStatus = 'failed';
+        }
+      );
   }
 
   viewReport(): void {
@@ -86,16 +90,18 @@ export class OverallCompletionReportComponent implements OnInit, OnDestroy {
   }
 
   getReportData(): void {
-    this.reportService.getOverallProjectCompletionRate().subscribe(
-      (rate) => {
-        this.overallCompletionRate = rate;
-        this.showReportContent = true; // Show content after fetching data
-      },
-      (error: any) => {
-        // Explicitly type error
-        console.error('Error fetching report data:', error);
-        this.reportStatus = 'failed'; // Set status to failed if fetching data fails
-      }
-    );
+    this.getReportDataSubscription = this.reportService
+      .getOverallProjectCompletionRate()
+      .subscribe(
+        (rate) => {
+          this.overallCompletionRate = rate;
+          this.showReportContent = true; // Show content after fetching data
+        },
+        (error: any) => {
+          // Explicitly type error
+          console.error('Error fetching report data:', error);
+          this.reportStatus = 'failed'; // Set status to failed if fetching data fails
+        }
+      );
   }
 }

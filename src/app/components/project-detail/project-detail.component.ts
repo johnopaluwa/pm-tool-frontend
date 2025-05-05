@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router'; // Import RouterModule
+import { Subscription } from 'rxjs';
 import {
   PredictionReview,
   PredictionReviewService,
@@ -15,9 +16,12 @@ import { Project, ProjectService } from '../../services/project.service'; // Imp
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.css'],
 })
-export class ProjectDetailComponent {
+export class ProjectDetailComponent implements OnDestroy {
   project: Project | undefined; // Define Project interface
   predictionReviews: PredictionReview[] = []; // Property to store prediction reviews for this project
+  private projectSubscription: Subscription | undefined;
+  private reviewsSubscription: Subscription | undefined;
+  private generatePredictionsSubscription: Subscription | undefined;
   generatingPredictions = false; // Loading state for prediction generation
   predictionError: string | null = null; // Error state for prediction generation
 
@@ -32,12 +36,14 @@ export class ProjectDetailComponent {
     const projectId = this.route.snapshot.paramMap.get('id');
     if (projectId) {
       const id = +projectId; // Convert string ID to number
-      this.projectService.getProjectById(id).subscribe((project) => {
-        this.project = project;
-      });
+      this.projectSubscription = this.projectService
+        .getProjectById(id)
+        .subscribe((project) => {
+          this.project = project;
+        });
 
       // Fetch prediction reviews for this project
-      this.predictionReviewService
+      this.reviewsSubscription = this.predictionReviewService
         .getPredictionReviewsByProjectId(id)
         .subscribe((reviews: PredictionReview[]) => {
           this.predictionReviews = reviews;
@@ -56,7 +62,7 @@ export class ProjectDetailComponent {
     this.predictionError = null;
 
     // Use project data to generate and save predictions and review
-    this.predictionService
+    this.generatePredictionsSubscription = this.predictionService
       .generateAndSavePredictionReview(this.project, this.project.id) // Use the new combined method
       .subscribe({
         next: (addedReview: PredictionReview) => {
@@ -75,5 +81,10 @@ export class ProjectDetailComponent {
           console.error(err);
         },
       });
+  }
+  ngOnDestroy(): void {
+    this.projectSubscription?.unsubscribe();
+    this.reviewsSubscription?.unsubscribe();
+    this.generatePredictionsSubscription?.unsubscribe();
   }
 }

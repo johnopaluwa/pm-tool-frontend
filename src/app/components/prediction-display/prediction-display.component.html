@@ -262,7 +262,9 @@
       <button
         class="finish-btn"
         (click)="finishReview()"
-        *ngIf="project && project.status !== 'completed'"
+        *ngIf="
+          project && project.status === 'completed' && !project.reportGenerated
+        "
       >
         Generate Report
       </button>
@@ -270,7 +272,9 @@
       <button
         class="finish-btn"
         (click)="viewProjectReport()"
-        *ngIf="project && project.status === 'completed'"
+        *ngIf="
+          project && project.status === 'completed' && project.reportGenerated
+        "
       >
         View Report →
       </button>

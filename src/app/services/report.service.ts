@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -21,16 +22,12 @@ export class ReportService {
     return this.http.get<{ status: string }>(`${this.apiUrl}/status/overall`);
   }
 
-  getOverallProjectCompletionRate(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/overall/completion-rate`);
+  getOverallReport(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/overall`);
   }
 
-  getOverallProjectStatusDistribution(): Observable<{
-    [status: string]: number;
-  }> {
-    return this.http.get<{ [status: string]: number }>(
-      `${this.apiUrl}/overall/status-distribution`
-    );
+  getProjectReport(projectId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/project/${projectId}`);
   }
 
   generateProjectReports(projectId: number): Observable<{ status: string }> {
@@ -42,21 +39,36 @@ export class ReportService {
 
   getProjectReportsStatus(projectId: number): Observable<{ status: string }> {
     return this.http.get<{ status: string }>(
-      `${this.apiUrl}/status/projects/${projectId}`
+      `${this.apiUrl}/project/${projectId}`
+    );
+  }
+
+  // The getter methods will now call the new endpoints and extract data
+  getOverallProjectCompletionRate(): Observable<number> {
+    return this.getOverallReport().pipe(
+      map((report: any) => report?.completion_rate)
+    );
+  }
+
+  getOverallProjectStatusDistribution(): Observable<{
+    [status: string]: number;
+  }> {
+    return this.getOverallReport().pipe(
+      map((report: any) => report?.status_distribution)
     );
   }
 
   getPredictionsCountForProject(projectId: number): Observable<number> {
-    return this.http.get<number>(
-      `${this.apiUrl}/projects/${projectId}/predictions-count`
+    return this.getProjectReport(projectId).pipe(
+      map((report: any) => report?.predictions_count)
     );
   }
 
   getPredictionTypeDistributionForProject(
     projectId: number
   ): Observable<{ [type: string]: number }> {
-    return this.http.get<{ [type: string]: number }>(
-      `${this.apiUrl}/projects/${projectId}/prediction-type-distribution`
+    return this.getProjectReport(projectId).pipe(
+      map((report: any) => report?.prediction_type_distribution)
     );
   }
 
