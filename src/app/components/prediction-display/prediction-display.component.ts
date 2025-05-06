@@ -8,6 +8,7 @@ import {
 } from '../../services/prediction-review.service'; // Import PredictionReviewService
 import { Prediction } from '../../services/prediction.service'; // Import the updated Prediction interface
 import { Project, ProjectService } from '../../services/project.service'; // Import ProjectService and Project
+import { ReportService } from '../../services/report.service'; // Import ReportService
 
 @Component({
   selector: 'app-prediction-display',
@@ -33,7 +34,8 @@ export class PredictionDisplayComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private predictionReviewService: PredictionReviewService,
-    private projectService: ProjectService // Inject ProjectService
+    private projectService: ProjectService, // Inject ProjectService
+    private reportService: ReportService // Inject ReportService
   ) {}
 
   ngOnInit(): void {
@@ -154,40 +156,40 @@ export class PredictionDisplayComponent implements OnInit, OnDestroy {
   }
 
   finishReview() {
-    // Mark report as generated for this project
-    if (this.predictionReview) {
-      this.markReportSubscription = this.projectService
-        .markReportGenerated(this.predictionReview.projectId)
-        .subscribe({
-          next: (updatedProject) => {
-            console.log('markReportGenerated success:', updatedProject);
-            // Update the local project object with the changes from the backend
-            if (this.project && updatedProject) {
-              this.project.reportGenerated = updatedProject.reportGenerated;
-              this.project.status = updatedProject.status; // Also update status if backend changes it
-            }
-            console.log(
-              `Report marked as generated for project ${this.predictionReview?.projectId}`
-            );
-            // Navigate to the reports overview page after marking the report as generated
-            this.router.navigate(['/reports']);
-          },
-          error: (err) => {
-            console.error('markReportGenerated error:', err);
-            this.error = 'Failed to generate report. Please try again.';
-            // Optionally show an error message to the user
-            // Still navigate to reports page even if marking fails? Depends on desired behavior.
-            // For now, navigate anyway.
-            this.router.navigate(['/reports']);
-          },
-        });
-    } else {
-      console.error(
-        'No prediction review available, cannot mark report as generated.'
-      );
-      // Navigate to reports page even if no review is available
-      this.router.navigate(['/reports']);
+    if (!this.predictionReview) {
+      console.error('No prediction review available, cannot generate report.');
+      this.error = 'No prediction review available.';
+      return;
     }
+
+    this.loading = true;
+    this.error = null;
+
+    // Call the report service to generate project reports (backend will also mark as generated)
+    this.markReportSubscription = this.reportService
+      .generateProjectReports(this.predictionReview.projectId)
+      .subscribe({
+        next: (reportResponse) => {
+          console.log('Report generation triggered:', reportResponse);
+          this.loading = false;
+          // Optionally refetch the project to update the reportGenerated status in the UI
+          if (this.project) {
+            this.loadProject(this.project.id);
+          }
+          console.log(
+            `Report generation completed for project ${this.predictionReview?.projectId}`
+          );
+          // Navigate to the reports overview page after report generation
+          this.router.navigate(['/reports']);
+        },
+        error: (reportErr) => {
+          this.loading = false;
+          console.error('generateProjectReports error:', reportErr);
+          this.error = 'Failed to generate report. Please try again.';
+          // Optionally show an error message to the user
+          // Do not navigate if report generation fails, as the report won't exist
+        },
+      });
   }
 
   viewPredictionDetail(predictionId: string) {
