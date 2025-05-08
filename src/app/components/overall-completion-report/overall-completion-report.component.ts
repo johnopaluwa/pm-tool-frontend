@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { interval, Subscription } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ReportService } from '../../services/report.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
@@ -14,94 +13,52 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 })
 export class OverallCompletionReportComponent implements OnInit, OnDestroy {
   overallCompletionRate: number | undefined;
-  reportStatus: 'pending' | 'generating' | 'completed' | 'failed' = 'pending';
-  showReportContent: boolean = false; // New variable to control visibility
-  private statusSubscription: Subscription | undefined;
-  private generateReportSubscription: Subscription | undefined;
+  overallStatusDistribution: { [status: string]: number } | undefined; // New property for status distribution
+  showReportContent: boolean = false; // Variable to control visibility
+  isLoading: boolean = false; // Variable to control loading spinner
   private getReportDataSubscription: Subscription | undefined;
 
   constructor(private reportService: ReportService) {}
 
   ngOnInit(): void {
-    this.checkReportStatus();
+    this.getReportData(); // Fetch report data on init
   }
 
   ngOnDestroy(): void {
-    this.statusSubscription?.unsubscribe();
-    this.generateReportSubscription?.unsubscribe();
     this.getReportDataSubscription?.unsubscribe();
   }
 
-  checkReportStatus(): void {
-    this.statusSubscription = interval(5000) // Poll every 5 seconds
-      .pipe(
-        startWith(0), // Check immediately on init
-        switchMap(() => this.reportService.getOverallReportsStatus())
-      )
-      .subscribe(
-        (response) => {
-          this.reportStatus = response.status as
-            | 'pending'
-            | 'generating'
-            | 'completed'
-            | 'failed';
-          if (this.reportStatus === 'completed') {
-            // Report is generated, no need to fetch data immediately
-            if (this.statusSubscription) {
-              this.statusSubscription.unsubscribe();
-            }
-          } else if (this.reportStatus === 'failed') {
-            if (this.statusSubscription) {
-              this.statusSubscription.unsubscribe();
-            }
-          }
-        },
-        (error: any) => {
-          // Explicitly type error
-          console.error('Error checking report status:', error);
-          this.reportStatus = 'failed';
-          if (this.statusSubscription) {
-            this.statusSubscription.unsubscribe();
-          }
-        }
-      );
-  }
-
-  generateReport(): void {
-    this.reportStatus = 'generating';
-    this.showReportContent = false; // Hide content when generating
-    this.generateReportSubscription = this.reportService
-      .generateOverallReports()
-      .subscribe(
-        () => {
-          // Start polling for status after triggering generation
-          this.checkReportStatus();
-        },
-        (error: any) => {
-          // Explicitly type error
-          console.error('Error generating report:', error);
-          this.reportStatus = 'failed';
-        }
-      );
-  }
-
-  viewReport(): void {
-    this.getReportData();
-  }
-
   getReportData(): void {
+    this.isLoading = true; // Show loading spinner
+    this.showReportContent = false; // Hide content while loading
     this.getReportDataSubscription = this.reportService
-      .getOverallProjectCompletionRate()
+      .getOverallReport() // Call getOverallReport to get the full report object
       .subscribe(
-        (rate) => {
-          this.overallCompletionRate = rate;
-          this.showReportContent = true; // Show content after fetching data
+        (report) => {
+          if (report) {
+            this.overallCompletionRate = report.completion_rate;
+            this.overallStatusDistribution = report.status_distribution;
+            this.showReportContent = true; // Show content after fetching data
+          } else {
+            this.showReportContent = false; // Hide content if no report data
+          }
+          this.isLoading = false; // Hide loading spinner
         },
         (error: any) => {
-          // Explicitly type error
           console.error('Error fetching report data:', error);
-          this.reportStatus = 'failed'; // Set status to failed if fetching data fails
+          this.showReportContent = false; // Hide content if fetching data fails
+          this.isLoading = false; // Hide loading spinner
         }
       );
+  }
+
+  // Renamed generateReport to retryGeneration to reflect its new purpose
+  retryGeneration(): void {
+    this.getReportData(); // Retry fetching data
+  }
+
+  // Helper to get object keys for *ngFor in template
+  objectKeys(obj: any): string[] {
+    return Object.keys(obj);
   }
 }
