@@ -21,9 +21,16 @@
 }
 
 .logo {
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem; /* Increased font size */
   font-weight: 700;
   color: var(--primary-color); /* Use primary color for logo */
+  padding: 8px 0; /* Add vertical padding */
+}
+
+.logo img {
+  margin-right: 12px; /* Increased space between logo and text */
 }
 
 .search-bar input {
