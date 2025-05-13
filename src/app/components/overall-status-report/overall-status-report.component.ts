@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { interval, Subscription } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ReportService } from '../../services/report.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
@@ -21,79 +20,43 @@ export class OverallStatusReportComponent implements OnInit, OnDestroy {
   overallDurationDistribution: { [duration: string]: number } | undefined;
   overallTotalPredictionsCount: number | undefined;
   overallAveragePredictionsPerProject: number | undefined;
-  reportStatus: 'pending' | 'generating' | 'completed' | 'failed' = 'pending';
-  showReportContent: boolean = false; // New variable to control visibility
-  private statusSubscription: Subscription | undefined;
-  private generateReportSubscription: Subscription | undefined;
+  reportStatus: 'loading' | 'generating' | 'loaded' | 'failed' = 'loading'; // Re-added generating status
+  showReportContent: boolean = false;
+  private generateReportSubscription: Subscription | undefined; // Re-added subscription
   private getReportDataSubscription: Subscription | undefined;
 
   constructor(private reportService: ReportService) {}
 
   ngOnInit(): void {
-    this.checkReportStatus();
+    this.loadReport(); // Attempt to load report on init
   }
 
   ngOnDestroy(): void {
-    this.statusSubscription?.unsubscribe();
-    this.generateReportSubscription?.unsubscribe();
+    this.generateReportSubscription?.unsubscribe(); // Unsubscribe from generation
     this.getReportDataSubscription?.unsubscribe();
   }
 
-  checkReportStatus(): void {
-    this.statusSubscription = interval(5000) // Poll every 5 seconds
-      .pipe(
-        startWith(0), // Check immediately on init
-        switchMap(() => this.reportService.getOverallReportsStatus())
-      )
-      .subscribe(
-        (response) => {
-          this.reportStatus = response.status as
-            | 'pending'
-            | 'generating'
-            | 'completed'
-            | 'failed';
-          if (this.reportStatus === 'completed') {
-            // Report is generated, no need to fetch data immediately
-            if (this.statusSubscription) {
-              this.statusSubscription.unsubscribe();
-            }
-          } else if (this.reportStatus === 'failed') {
-            if (this.statusSubscription) {
-              this.statusSubscription.unsubscribe();
-            }
-          }
-        },
-        (error: any) => {
-          // Explicitly type error
-          console.error('Error checking report status:', error);
-          this.reportStatus = 'failed';
-          if (this.statusSubscription) {
-            this.statusSubscription.unsubscribe();
-          }
-        }
-      );
-  }
-
   generateReport(): void {
-    this.reportStatus = 'generating';
-    this.showReportContent = false; // Hide content when generating
+    // Re-added generateReport method
+    this.reportStatus = 'generating'; // Set status to generating
+    this.showReportContent = false; // Hide content while generating
     this.generateReportSubscription = this.reportService
-      .generateOverallReports()
+      .generateOverallReports() // Call the backend POST endpoint
       .subscribe(
         () => {
-          // Start polling for status after triggering generation
-          this.checkReportStatus();
+          this.loadReport(); // Load the report after successful generation
         },
         (error: any) => {
-          // Explicitly type error
           console.error('Error generating report:', error);
-          this.reportStatus = 'failed';
+          this.reportStatus = 'failed'; // Set status to failed on generation error
         }
       );
   }
 
-  viewReport(): void {
-    this.getReportData();
+  loadReport(): void {
+    this.reportStatus = 'loading'; // Set status to loading
+    this.showReportContent = false; // Hide content while loading
+    this.getReportData(); // Fetch the report data
   }
 
   getReportData(): void {
@@ -114,6 +77,7 @@ export class OverallStatusReportComponent implements OnInit, OnDestroy {
             this.overallAveragePredictionsPerProject =
               report.average_predictions_per_project;
             this.showReportContent = true; // Show content after fetching data
+            this.reportStatus = 'loaded'; // Set status to loaded on success
           } else {
             this.showReportContent = false; // Hide content if no report data
             this.reportStatus = 'failed'; // Set status to failed if no report data

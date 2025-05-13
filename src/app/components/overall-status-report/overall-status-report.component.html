@@ -1,9 +1,9 @@
 <div class="report-detail-container">
   <h2>Overall Project Reports</h2>
 
-  <ng-container *ngIf="reportStatus === 'pending'">
-    <p>Report generation pending.</p>
-    <button (click)="generateReport()">Generate Report</button>
+  <ng-container *ngIf="reportStatus === 'loading'">
+    <app-loading-spinner></app-loading-spinner>
+    <p>Loading report...</p>
   </ng-container>
 
   <ng-container *ngIf="reportStatus === 'generating'">
@@ -11,12 +11,7 @@
     <p>Generating report...</p>
   </ng-container>
 
-  <ng-container *ngIf="reportStatus === 'completed' && !showReportContent">
-    <p>Report generated successfully.</p>
-    <button (click)="viewReport()">View Report</button>
-  </ng-container>
-
-  <ng-container *ngIf="reportStatus === 'completed' && showReportContent">
+  <ng-container *ngIf="reportStatus === 'loaded' && showReportContent">
     <div class="report-grid-container">
       <div class="report-item" *ngIf="overallCompletionRate !== undefined">
         <h3>Completion Rate</h3>
@@ -91,7 +86,7 @@
   </ng-container>
 
   <ng-container *ngIf="reportStatus === 'failed'">
-    <p>Failed to generate report.</p>
+    <p>Failed to load report.</p>
     <button (click)="generateReport()">Retry Generation</button>
   </ng-container>
 </div>
