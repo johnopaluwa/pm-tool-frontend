@@ -1,1 +1,34 @@
-/* Add styles for overall completion report here */
+.report-grid-container {
+  display: grid;
+  grid-template-columns: 1fr; /* One column by default */
+  gap: 20px; /* Gap between grid items */
+  padding: 20px;
+}
+
+/* Two columns on larger screens */
+@media (min-width: 768px) {
+  .report-grid-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.report-item {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.report-item h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.report-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+.report-item li {
+  margin-bottom: 5px;
+}

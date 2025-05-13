@@ -27,6 +27,7 @@ export class PredictionDisplayComponent implements OnInit, OnDestroy {
   filteredUserStoryPredictions: Prediction[] = [];
   filteredBugPredictions: Prediction[] = [];
   loading = false;
+  isGeneratingReport = false; // New property for report generation loading
   error: string | null = null;
   reviewId: string | null = null; // Store the review ID from query params
 
@@ -162,7 +163,8 @@ export class PredictionDisplayComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.loading = true;
+    this.loading = true; // Keep this for initial review loading if needed elsewhere
+    this.isGeneratingReport = true; // Set generating report flag
     this.error = null;
 
     // Call the report service to generate project reports (backend will also mark as generated)
@@ -171,7 +173,8 @@ export class PredictionDisplayComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (reportResponse) => {
           console.log('Report generation triggered:', reportResponse);
-          this.loading = false;
+          this.loading = false; // Reset initial loading flag
+          this.isGeneratingReport = false; // Reset generating report flag
           // Optionally refetch the project to update the reportGenerated status in the UI
           if (this.project) {
             this.loadProject(this.project.id);
@@ -183,7 +186,8 @@ export class PredictionDisplayComponent implements OnInit, OnDestroy {
           this.router.navigate(['/reports']);
         },
         error: (reportErr) => {
-          this.loading = false;
+          this.loading = false; // Reset initial loading flag
+          this.isGeneratingReport = false; // Reset generating report flag
           console.error('generateProjectReports error:', reportErr);
           this.error = 'Failed to generate report. Please try again.';
           // Optionally show an error message to the user

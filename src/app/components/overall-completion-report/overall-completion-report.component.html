@@ -1,5 +1,5 @@
 <div class="report-detail-container">
-  <h2>Overall Project Completion Rate</h2>
+  <h2>Overall Project Reports</h2>
 
   <ng-container *ngIf="isLoading">
     <app-loading-spinner></app-loading-spinner>
@@ -7,18 +7,76 @@
   </ng-container>
 
   <ng-container *ngIf="!isLoading && showReportContent">
-    <div class="report-item">
-      <h3>Completion Rate</h3>
-      <p>{{ overallCompletionRate | number : "1.0-2" }}%</p>
-    </div>
+    <div class="report-grid-container">
+      <div class="report-item">
+        <h3>Completion Rate</h3>
+        <p>{{ overallCompletionRate | number : "1.0-2" }}%</p>
+      </div>
 
-    <div class="report-item" *ngIf="overallStatusDistribution">
-      <h3>Status Distribution</h3>
-      <ul>
-        <li *ngFor="let status of objectKeys(overallStatusDistribution)">
-          {{ status }}: {{ overallStatusDistribution[status] }}
-        </li>
-      </ul>
+      <div class="report-item" *ngIf="overallStatusDistribution">
+        <h3>Status Distribution</h3>
+        <ul>
+          <li *ngFor="let status of objectKeys(overallStatusDistribution)">
+            {{ status }}: {{ overallStatusDistribution[status] }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="report-item" *ngIf="overallProjectTypeDistribution">
+        <h3>Project Type Distribution</h3>
+        <ul>
+          <li *ngFor="let type of objectKeys(overallProjectTypeDistribution)">
+            {{ type }}: {{ overallProjectTypeDistribution[type] }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="report-item" *ngIf="overallClientIndustryDistribution">
+        <h3>Client Industry Distribution</h3>
+        <ul>
+          <li
+            *ngFor="
+              let industry of objectKeys(overallClientIndustryDistribution)
+            "
+          >
+            {{ industry }}: {{ overallClientIndustryDistribution[industry] }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="report-item" *ngIf="overallTeamSizeDistribution">
+        <h3>Team Size Distribution</h3>
+        <ul>
+          <li *ngFor="let size of objectKeys(overallTeamSizeDistribution)">
+            {{ size }}: {{ overallTeamSizeDistribution[size] }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="report-item" *ngIf="overallDurationDistribution">
+        <h3>Duration Distribution</h3>
+        <ul>
+          <li *ngFor="let duration of objectKeys(overallDurationDistribution)">
+            {{ duration }}: {{ overallDurationDistribution[duration] }}
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="report-item"
+        *ngIf="overallTotalPredictionsCount !== undefined"
+      >
+        <h3>Total Predictions Count</h3>
+        <p>{{ overallTotalPredictionsCount }}</p>
+      </div>
+
+      <div
+        class="report-item"
+        *ngIf="overallAveragePredictionsPerProject !== undefined"
+      >
+        <h3>Average Predictions Per Project</h3>
+        <p>{{ overallAveragePredictionsPerProject | number : "1.0-2" }}</p>
+      </div>
     </div>
   </ng-container>
 

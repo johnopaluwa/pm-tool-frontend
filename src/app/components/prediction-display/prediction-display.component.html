@@ -1,19 +1,39 @@
 <div class="prediction-review-container">
   <h2>Prediction Review</h2>
   <div *ngIf="error" class="error-message">{{ error }}</div>
-  <div *ngIf="loading" class="loading-message">Loading predictions...</div>
-  <div class="prediction-legend">
-    <p>
-      <strong>Score:</strong> Indicates the similarity score of the prediction.
-    </p>
-    <p>
-      <strong>Commonality:</strong> Shows how frequently similar items appear in
-      the source data.
-    </p>
-    <p><strong>Source:</strong> Specifies the origin of the prediction.</p>
-  </div>
 
-  <div *ngIf="!error && !loading">
+  <ng-container *ngIf="loading && !isGeneratingReport">
+    <div class="loading-message">Loading prediction review details...</div>
+  </ng-container>
+
+  <ng-container *ngIf="isGeneratingReport">
+    <div
+      class="generating-report-message"
+      style="
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        text-align: center;
+      "
+    >
+      <p>Generating report... This may take a few minutes.</p>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && !isGeneratingReport">
+    <div class="prediction-legend">
+      <p>
+        <strong>Score:</strong> Indicates the similarity score of the
+        prediction.
+      </p>
+      <p>
+        <strong>Commonality:</strong> Shows how frequently similar items appear
+        in the source data.
+      </p>
+      <p><strong>Source:</strong> Specifies the origin of the prediction.</p>
+    </div>
+
     <section class="prediction-section">
       <h3>Predicted User Stories</h3>
       <div
@@ -279,5 +299,5 @@
         View Report →
       </button>
     </div>
-  </div>
+  </ng-container>
 </div>

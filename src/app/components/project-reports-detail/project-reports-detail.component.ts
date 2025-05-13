@@ -18,12 +18,21 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
   project: Project | undefined;
   projectPredictionsCount: number | undefined;
   projectPredictionTypeDistribution: { [type: string]: number } | undefined;
+  projectPredictionStatusDistribution: { [status: string]: number } | undefined;
+  projectPredictionPriorityDistribution:
+    | { [priority: string]: number }
+    | undefined;
+  projectPredictionSeverityDistribution:
+    | { [severity: string]: number }
+    | undefined;
+  projectAverageEstimatedTime: number | undefined;
+  projectTopKeywords: string[] | undefined;
+  projectTechStackList: string[] | undefined;
   reportStatus: 'pending' | 'generating' | 'completed' | 'failed' = 'pending';
   private paramMapSubscription: Subscription | undefined;
   private projectSubscription: Subscription | undefined;
   private generateReportSubscription: Subscription | undefined;
-  private predictionsCountSubscription: Subscription | undefined;
-  private typeDistributionSubscription: Subscription | undefined;
+  private getReportDataSubscription: Subscription | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,8 +56,7 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
     this.paramMapSubscription?.unsubscribe();
     this.projectSubscription?.unsubscribe();
     this.generateReportSubscription?.unsubscribe();
-    this.predictionsCountSubscription?.unsubscribe();
-    this.typeDistributionSubscription?.unsubscribe();
+    this.getReportDataSubscription?.unsubscribe();
   }
 
   loadProjectDetails(projectId: string): void {
@@ -59,10 +67,7 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  // Removed checkReportStatus as API returns data directly
-
   generateReport(projectId: string): void {
-    // This method might need to be adjusted or removed if report generation is not a separate step
     this.reportStatus = 'generating'; // Keep status for UI feedback if needed
     this.generateReportSubscription = this.reportService
       .generateProjectReports(projectId)
@@ -82,43 +87,31 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
       );
   }
 
-  // Removed viewReport as getReportData is called directly
-
   getReportData(projectId: string): void {
-    this.predictionsCountSubscription = this.reportService
-      .getPredictionsCountForProject(projectId)
+    this.getReportDataSubscription = this.reportService
+      .getProjectReport(projectId) // Fetch the full project report
       .subscribe(
-        (count) => {
-          this.projectPredictionsCount = count;
-          // Check if both subscriptions have completed before setting status to completed
-          if (this.projectPredictionTypeDistribution !== undefined) {
-            this.reportStatus = 'completed';
+        (report) => {
+          if (report) {
+            this.projectPredictionsCount = report.predictions_count;
+            this.projectPredictionTypeDistribution =
+              report.prediction_type_distribution;
+            this.projectPredictionStatusDistribution =
+              report.prediction_status_distribution;
+            this.projectPredictionPriorityDistribution =
+              report.prediction_priority_distribution;
+            this.projectPredictionSeverityDistribution =
+              report.prediction_severity_distribution;
+            this.projectAverageEstimatedTime = report.average_estimated_time;
+            this.projectTopKeywords = report.top_keywords;
+            this.projectTechStackList = report.tech_stack_list;
+            this.reportStatus = 'completed'; // Set status to completed after fetching data
+          } else {
+            this.reportStatus = 'failed'; // Set status to failed if no report data
           }
         },
         (error: any) => {
-          console.error(
-            `Error fetching predictions count for project ${projectId}:`,
-            error
-          );
-          this.reportStatus = 'failed'; // Set status to failed if fetching data fails
-        }
-      );
-
-    this.typeDistributionSubscription = this.reportService
-      .getPredictionTypeDistributionForProject(projectId)
-      .subscribe(
-        (distribution) => {
-          this.projectPredictionTypeDistribution = distribution;
-          // Check if both subscriptions have completed before setting status to completed
-          if (this.projectPredictionsCount !== undefined) {
-            this.reportStatus = 'completed';
-          }
-        },
-        (error: any) => {
-          console.error(
-            `Error fetching prediction type distribution for project ${projectId}:`,
-            error
-          );
+          console.error('Error fetching project report data:', error);
           this.reportStatus = 'failed'; // Set status to failed if fetching data fails
         }
       );

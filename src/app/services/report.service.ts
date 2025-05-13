@@ -72,5 +72,83 @@ export class ReportService {
     );
   }
 
-  // TODO: Add methods for other reports
+  getOverallProjectTypeDistribution(): Observable<{ [type: string]: number }> {
+    return this.getOverallReport().pipe(
+      map((report: any) => report?.project_type_distribution)
+    );
+  }
+
+  getOverallClientIndustryDistribution(): Observable<{
+    [industry: string]: number;
+  }> {
+    return this.getOverallReport().pipe(
+      map((report: any) => report?.client_industry_distribution)
+    );
+  }
+
+  getOverallTeamSizeDistribution(): Observable<{ [size: string]: number }> {
+    return this.getOverallReport().pipe(
+      map((report: any) => report?.team_size_distribution)
+    );
+  }
+
+  getOverallDurationDistribution(): Observable<{ [duration: string]: number }> {
+    return this.getOverallReport().pipe(
+      map((report: any) => report?.duration_distribution)
+    );
+  }
+
+  getOverallTotalPredictionsCount(): Observable<number> {
+    return this.getOverallReport().pipe(
+      map((report: any) => report?.total_predictions_count)
+    );
+  }
+
+  getOverallAveragePredictionsPerProject(): Observable<number> {
+    return this.getOverallReport().pipe(
+      map((report: any) => report?.average_predictions_per_project)
+    );
+  }
+
+  getProjectPredictionStatusDistribution(
+    projectId: string
+  ): Observable<{ [status: string]: number }> {
+    return this.getProjectReport(projectId).pipe(
+      map((report: any) => report?.prediction_status_distribution)
+    );
+  }
+
+  getProjectPredictionPriorityDistribution(
+    projectId: string
+  ): Observable<{ [priority: string]: number }> {
+    return this.getProjectReport(projectId).pipe(
+      map((report: any) => report?.prediction_priority_distribution)
+    );
+  }
+
+  getProjectPredictionSeverityDistribution(
+    projectId: string
+  ): Observable<{ [severity: string]: number }> {
+    return this.getProjectReport(projectId).pipe(
+      map((report: any) => report?.prediction_severity_distribution)
+    );
+  }
+
+  getProjectAverageEstimatedTime(projectId: string): Observable<number> {
+    return this.getProjectReport(projectId).pipe(
+      map((report: any) => report?.average_estimated_time)
+    );
+  }
+
+  getProjectTopKeywords(projectId: string): Observable<string[]> {
+    return this.getProjectReport(projectId).pipe(
+      map((report: any) => report?.top_keywords)
+    );
+  }
+
+  getProjectTechStackList(projectId: string): Observable<string[]> {
+    return this.getProjectReport(projectId).pipe(
+      map((report: any) => report?.tech_stack_list)
+    );
+  }
 }

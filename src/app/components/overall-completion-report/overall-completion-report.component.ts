@@ -14,6 +14,12 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 export class OverallCompletionReportComponent implements OnInit, OnDestroy {
   overallCompletionRate: number | undefined;
   overallStatusDistribution: { [status: string]: number } | undefined; // New property for status distribution
+  overallProjectTypeDistribution: { [type: string]: number } | undefined;
+  overallClientIndustryDistribution: { [industry: string]: number } | undefined;
+  overallTeamSizeDistribution: { [size: string]: number } | undefined;
+  overallDurationDistribution: { [duration: string]: number } | undefined;
+  overallTotalPredictionsCount: number | undefined;
+  overallAveragePredictionsPerProject: number | undefined;
   showReportContent: boolean = false; // Variable to control visibility
   isLoading: boolean = false; // Variable to control loading spinner
   private getReportDataSubscription: Subscription | undefined;
@@ -38,6 +44,15 @@ export class OverallCompletionReportComponent implements OnInit, OnDestroy {
           if (report) {
             this.overallCompletionRate = report.completion_rate;
             this.overallStatusDistribution = report.status_distribution;
+            this.overallProjectTypeDistribution =
+              report.project_type_distribution;
+            this.overallClientIndustryDistribution =
+              report.client_industry_distribution;
+            this.overallTeamSizeDistribution = report.team_size_distribution;
+            this.overallDurationDistribution = report.duration_distribution;
+            this.overallTotalPredictionsCount = report.total_predictions_count;
+            this.overallAveragePredictionsPerProject =
+              report.average_predictions_per_project;
             this.showReportContent = true; // Show content after fetching data
           } else {
             this.showReportContent = false; // Hide content if no report data
