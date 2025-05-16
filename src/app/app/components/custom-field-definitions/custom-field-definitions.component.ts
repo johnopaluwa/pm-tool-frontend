@@ -5,6 +5,7 @@ import {
   CustomFieldDefinition,
   CustomizationService,
 } from '../../../services/customization.service'; // Corrected import path
+import { DialogService } from '../../../services/dialog.service'; // Import DialogService
 
 @Component({
   selector: 'app-custom-field-definitions',
@@ -23,7 +24,10 @@ export class CustomFieldDefinitionsComponent implements OnInit {
   entityTypes = ['project', 'task', 'user']; // Available entity types
   fieldTypes = ['text', 'number', 'date', 'dropdown']; // Available field types
 
-  constructor(private customizationService: CustomizationService) {}
+  constructor(
+    private customizationService: CustomizationService,
+    private dialogService: DialogService // Inject DialogService
+  ) {}
 
   ngOnInit(): void {
     this.loadFieldDefinitions();
@@ -111,8 +115,12 @@ export class CustomFieldDefinitionsComponent implements OnInit {
     this.editingField = null;
   }
 
-  deleteField(id: string): void {
-    if (confirm('Are you sure you want to delete this custom field?')) {
+  async deleteField(id: string): Promise<void> {
+    const confirmed = await this.dialogService.openConfirmationDialog(
+      'Are you sure you want to delete this custom field?'
+    );
+
+    if (confirmed) {
       this.customizationService.deleteFieldDefinition(id).subscribe({
         next: () => {
           this.customFieldDefinitions = this.customFieldDefinitions.filter(
