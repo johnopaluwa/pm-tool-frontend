@@ -95,6 +95,18 @@
     </div>
     <!-- Entity type is typically not editable after creation -->
     <!-- Add options input for dropdown type if needed -->
+    <div>
+      <label for="editEntityType">Applies To:</label>
+      <select
+        id="editEntityType"
+        [(ngModel)]="editingField.entity_type"
+        required
+      >
+        <option *ngFor="let entityType of entityTypes" [value]="entityType">
+          {{ entityType }}
+        </option>
+      </select>
+    </div>
   </div>
   <div class="full-width-edit">
     <button (click)="saveEditedField()">Save</button>
