@@ -1,0 +1,103 @@
+<div class="custom-fields-container">
+  <h2>Custom Field Definitions</h2>
+
+  <!-- Form to Create New Custom Field -->
+  <div class="form-section">
+    <h3>Create New Field</h3>
+    <div class="form-grid">
+      <div>
+        <label for="newName">Name:</label>
+        <input
+          id="newName"
+          [(ngModel)]="newField.name"
+          placeholder="Field Name"
+          required
+        />
+      </div>
+      <div>
+        <label for="newType">Type:</label>
+        <select id="newType" [(ngModel)]="newField.type" required>
+          <option *ngFor="let type of fieldTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <label for="newEntityType">Applies To:</label>
+        <select
+          id="newEntityType"
+          [(ngModel)]="newField.entity_type"
+          required
+          (change)="onEntityTypeChange()"
+        >
+          <option *ngFor="let entityType of entityTypes" [value]="entityType">
+            {{ entityType }}
+          </option>
+        </select>
+      </div>
+      <!-- Add options input for dropdown type if needed -->
+      <div class="full-width">
+        <button (click)="createField()">Create Field</button>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- List of Existing Custom Fields -->
+  <div class="list-section" *ngIf="!editingField">
+    <h3>Existing Fields</h3>
+    <div *ngIf="customFieldDefinitions.length === 0">
+      <p>No custom fields defined yet.</p>
+    </div>
+    <div class="field-grid-container">
+      <div class="field-grid-header">
+        <div>Name</div>
+        <div>Type</div>
+        <div>Applies To</div>
+        <div>Actions</div>
+      </div>
+      <div *ngFor="let field of customFieldDefinitions" class="field-grid-item">
+        <div>{{ field.name }}</div>
+        <div>{{ field.type }}</div>
+        <div>{{ field.entity_type }}</div>
+        <div class="actions">
+          <button class="secondary" (click)="editField(field)">Edit</button>
+          <button class="secondary" (click)="deleteField(field.id!)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form to Edit Existing Custom Field (shown conditionally) -->
+<div *ngIf="editingField" class="edit-form form-section">
+  <h4>Edit Field</h4>
+  <div class="form-grid">
+    <div>
+      <label for="editName">Name:</label>
+      <input
+        id="editName"
+        [(ngModel)]="editingField.name"
+        placeholder="Field Name"
+        required
+      />
+    </div>
+    <div>
+      <label for="editType">Type:</label>
+      <select id="editType" [(ngModel)]="editingField.type" required>
+        <option *ngFor="let type of fieldTypes" [value]="type">
+          {{ type }}
+        </option>
+      </select>
+    </div>
+    <!-- Entity type is typically not editable after creation -->
+    <!-- Add options input for dropdown type if needed -->
+  </div>
+  <div class="full-width-edit">
+    <button (click)="saveEditedField()">Save</button>
+    <button class="secondary" (click)="cancelEditing()">Cancel</button>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="task-detail-container">
+  <h2>Task Detail</h2>
+
+  <div *ngIf="task; else taskNotFound">
+    <h3>{{ task.title }}</h3>
+
+    <div class="task-details-grid">
+      <div class="grid-item">
+        <strong>Project:</strong> {{ project?.name || "N/A" }}
+      </div>
+      <div class="grid-item">
+        <strong>Status:</strong>
+        <span *ngIf="workflow; else defaultStatusDisplay">
+          <select [(ngModel)]="selectedStatusId" (change)="updateTaskStatus()">
+            <option
+              *ngFor="let status of validNextStatuses"
+              [value]="status.id"
+            >
+              {{ status.name }}
+            </option>
+          </select>
+        </span>
+        <ng-template #defaultStatusDisplay>
+          {{ task.status?.name || "N/A" }}
+        </ng-template>
+      </div>
+      <div class="grid-item">
+        <strong>Description:</strong> {{ task.description || "N/A" }}
+      </div>
+      <!-- Add other basic task details here as needed (e.g., due date, assigned user) -->
+    </div>
+
+    <hr />
+
+    <!-- Custom Fields Section -->
+    <div
+      *ngIf="customFieldDefinitions.length > 0"
+      class="custom-fields-section"
+    >
+      <h4>Custom Fields</h4>
+      <div class="custom-fields-grid">
+        <div *ngFor="let field of customFieldDefinitions">
+          <strong>{{ field.name }}:</strong>
+          {{ getCustomFieldValue(field.id!) || "N/A" }}
+          <!-- TODO: Add inline editing functionality here -->
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="customFieldDefinitions.length === 0" class="no-custom-fields">
+      <p>No custom fields defined for tasks.</p>
+    </div>
+
+    <!-- TODO: Add other task-related sections like comments, subtasks, etc. -->
+  </div>
+
+  <ng-template #taskNotFound>
+    <p>Task not found.</p>
+  </ng-template>
+</div>

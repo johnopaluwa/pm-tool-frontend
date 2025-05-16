@@ -1,0 +1,27 @@
+.workflow-list-container {
+  margin-top: 20px;
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
+  gap: 10px; /* Gap between grid items */
+  align-items: center; /* Vertically align items */
+}
+
+.grid-header {
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.grid-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.no-workflows-message {
+  margin-top: 20px;
+  font-style: italic;
+  color: #666;
+}

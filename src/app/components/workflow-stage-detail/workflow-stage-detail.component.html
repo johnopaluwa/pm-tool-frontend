@@ -1,0 +1,54 @@
+<div class="stage-detail-container">
+  <h2>{{ stageId ? "Edit Workflow Stage" : "Create New Workflow Stage" }}</h2>
+
+  <form
+    [formGroup]="workflowStageForm"
+    (ngSubmit)="saveStage()"
+    class="stage-detail-form"
+  >
+    <div class="form-grid">
+      <div class="grid-item">
+        <label for="name">Name:</label>
+        <input id="name" type="text" formControlName="name" required />
+      </div>
+
+      <div class="grid-item">
+        <label for="order">Order:</label>
+        <input id="order" type="number" formControlName="order" required />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="save-button"
+        [disabled]="!workflowStageForm.valid"
+      >
+        Save Stage
+      </button>
+      <button
+        *ngIf="stageId"
+        type="button"
+        class="delete-button"
+        (click)="deleteStage()"
+      >
+        Delete Stage
+      </button>
+      <button type="button" class="cancel-button" (click)="close()">
+        Close
+      </button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="stageId" class="stage-statuses-section">
+  <h3>Statuses</h3>
+  <!-- Placeholder for stage status list component -->
+  <app-stage-status-list
+    *ngIf="!isEditingStatus"
+    [workflowId]="workflowId!"
+    [stageId]="stageId!"
+  ></app-stage-status-list>
+  <!-- Router outlet for stage status detail -->
+  <router-outlet></router-outlet>
+</div>

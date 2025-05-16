@@ -8,7 +8,7 @@ export interface Project {
   id: string;
   name: string;
   client: string;
-  status: 'new' | 'predicting' | 'completed';
+  status: string; // Changed type to string to accommodate workflow statuses
   description: string;
   projectType: string;
   clientIndustry: string;
@@ -18,6 +18,7 @@ export interface Project {
   keywords: string;
   businessSpecification: string;
   reportGenerated?: boolean; // Add reportGenerated flag
+  workflow_id?: string | null; // Add optional workflow_id, allow null
 }
 
 @Injectable({
@@ -54,9 +55,16 @@ export class ProjectService {
     );
   }
 
+  updateProject(id: string, project: Partial<Project>): Observable<Project> {
+    this.loadingService.show();
+    return this.http
+      .put<Project>(`${this.apiUrl}/${id}`, project)
+      .pipe(finalize(() => this.loadingService.hide()));
+  }
+
   updateProjectStatus(
     id: string,
-    status: 'new' | 'predicting' | 'completed'
+    status: string // Changed type to string
   ): Observable<Project> {
     // No loading spinner for status updates as per user feedback
     return this.http.patch<Project>(`${this.apiUrl}/${id}/status`, { status });

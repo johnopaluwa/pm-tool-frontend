@@ -1,0 +1,51 @@
+<div class="stage-status-detail-container">
+  <h2>{{ statusId ? "Edit Stage Status" : "Create New Stage Status" }}</h2>
+
+  <form [formGroup]="stageStatusForm" (ngSubmit)="saveStatus()">
+    <div class="form-grid">
+      <div class="grid-item">
+        <label for="name">Name:</label>
+        <input id="name" type="text" formControlName="name" required />
+      </div>
+
+      <div class="grid-item">
+        <label for="order">Order:</label>
+        <input id="order" type="number" formControlName="order" required />
+      </div>
+
+      <div class="grid-item checkbox-item">
+        <input id="is_default" type="checkbox" formControlName="is_default" />
+        <label for="is_default">Is Default Status</label>
+      </div>
+
+      <div class="grid-item checkbox-item">
+        <input
+          id="is_completion_status"
+          type="checkbox"
+          formControlName="is_completion_status"
+        />
+        <label for="is_completion_status">Is Completion Status</label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        [disabled]="!stageStatusForm.valid || !workflowId || !stageId"
+      >
+        Save Status
+      </button>
+      <button
+        *ngIf="statusId"
+        type="button"
+        class="delete-button"
+        (click)="deleteStatus()"
+      >
+        Delete Status
+      </button>
+      <button type="button" class="secondary-button" (click)="close()">
+        Close
+      </button>
+    </div>
+  </form>
+</div>

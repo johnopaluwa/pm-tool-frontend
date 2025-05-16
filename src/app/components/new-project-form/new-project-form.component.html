@@ -175,6 +175,17 @@
         formControlName="businessSpecification"
       ></textarea>
     </div>
+    <div class="form-group">
+      <label for="workflow">Workflow</label>
+      <select id="workflow" name="workflow" formControlName="workflow_id">
+        <option [value]="null">Select workflow (Optional)</option>
+        <ng-container *ngIf="workflows$ | async as workflows">
+          <option *ngFor="let workflow of workflows" [value]="workflow.id">
+            {{ workflow.name }}
+          </option>
+        </ng-container>
+      </select>
+    </div>
     <div class="form-actions">
       <button type="button" class="primary-btn" (click)="onSaveDraft()">
         Save Project

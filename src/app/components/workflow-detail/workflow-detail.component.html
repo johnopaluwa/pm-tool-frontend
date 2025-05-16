@@ -1,0 +1,58 @@
+<div class="workflow-detail-container">
+  <div class="workflow-details-section">
+    <h2>{{ workflowId ? "Edit Workflow" : "Create New Workflow" }}</h2>
+    <p>
+      Workflows define the sequence of stages and statuses that tasks progress
+      through in a project. You can customize workflows to match your project's
+      specific process.
+    </p>
+
+    <form [formGroup]="workflowForm" (ngSubmit)="saveWorkflow()">
+      <div class="form-grid">
+        <div class="grid-item">
+          <label for="name">Name:</label>
+          <input id="name" type="text" formControlName="name" required />
+        </div>
+
+        <div class="grid-item">
+          <label for="description">Description:</label>
+          <textarea id="description" formControlName="description"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="save-button"
+          [disabled]="!workflowForm.valid"
+        >
+          Save Workflow
+        </button>
+        <button
+          *ngIf="workflowId"
+          type="button"
+          class="delete-button"
+          (click)="deleteWorkflow()"
+        >
+          Delete Workflow
+        </button>
+        <button type="button" class="cancel-button" (click)="close()">
+          Close
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="workflow-stages-section">
+    <div *ngIf="workflowId && !isChildRouteActive">
+      <h3>Workflow Stages</h3>
+      <app-workflow-stage-list
+        [workflowId]="workflowId"
+      ></app-workflow-stage-list>
+    </div>
+
+    <!-- Router outlet for nested workflow stage detail -->
+    <!-- Router outlet for nested workflow stage and stage status details -->
+    <router-outlet></router-outlet>
+  </div>
+</div>

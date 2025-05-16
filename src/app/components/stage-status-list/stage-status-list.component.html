@@ -1,0 +1,40 @@
+<div class="stage-status-list-container">
+  <a class="add-status-button" (click)="onAddStatusClick()"> Add New Status </a>
+
+  <div *ngIf="statuses$ | async as statuses">
+    <div *ngIf="statuses.length > 0; else noStatuses">
+      <div class="stage-status-grid">
+        <div class="grid-header">Name</div>
+        <div class="grid-header">Order</div>
+        <div class="grid-header">Is Default</div>
+        <div class="grid-header">Is Completion</div>
+        <div class="grid-header">Actions</div>
+
+        <ng-container *ngFor="let status of statuses">
+          <div class="grid-item">{{ status.name }}</div>
+          <div class="grid-item">{{ status.order }}</div>
+          <div class="grid-item">{{ status.is_default ? "Yes" : "No" }}</div>
+          <div class="grid-item">
+            {{ status.is_completion_status ? "Yes" : "No" }}
+          </div>
+          <div class="grid-item">
+            <a
+              [routerLink]="[
+                '/workflows',
+                workflowId,
+                'stages',
+                stageId,
+                'statuses',
+                status.id
+              ]"
+              >View/Edit</a
+            >
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <ng-template #noStatuses>
+      <p>No statuses found for this stage. Add a new one to get started.</p>
+    </ng-template>
+  </div>
+</div>

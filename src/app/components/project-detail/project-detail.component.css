@@ -162,39 +162,42 @@
   background-color: #10b981; /* Green */
 }
 
-/* Add grid layout for larger screens */
-@media (min-width: 769px) {
-  .project-detail-page {
-    grid-template-columns: 2fr 1fr; /* Two columns: project details and perhaps a sidebar/summary */
-    grid-template-areas: "details sidebar"; /* Define grid areas */
-  }
-
-  .project-detail-container {
-    grid-area: details; /* Assign project details to 'details' area */
-  }
-
-  /* You would add a new container/component for the sidebar content and assign it to 'sidebar' */
-  /* Example:
-  .project-sidebar {
-    grid-area: sidebar;
-    background-color: var(--surface-color);
-    border-radius: var(--border-radius);
-    padding: 24px;
-    border: 1px solid var(--divider-color);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  }
-  */
+.custom-fields-section {
+  margin-top: 24px; /* Adjusted margin */
+  margin-bottom: 24px; /* Adjusted margin */
 }
 
-@media (max-width: 768px) {
-  .project-detail-page {
-    padding: 24px 16px; /* Adjusted padding for smaller screens */
-    gap: 16px; /* Adjusted gap */
-  }
+.custom-fields-section h4 {
+  color: var(--text-color); /* Use text color */
+  margin-bottom: 16px; /* Adjusted margin */
+  border-bottom: 1px solid var(--divider-color); /* Use divider color */
+  padding-bottom: 8px; /* Adjusted padding */
+  font-size: 1.2rem;
+  font-weight: 600;
+}
 
-  .project-detail-container {
-    padding: 16px; /* Adjusted padding for smaller screens */
-  }
+.custom-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Responsive grid */
+  gap: 16px; /* Gap between custom field items */
+}
+
+.custom-fields-grid div {
+  background-color: var(--background-color); /* Use background color */
+  border: 1px solid var(--divider-color); /* Use divider color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: 12px; /* Adjusted padding */
+  font-size: 1rem;
+  color: var(--text-color); /* Use text color */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.custom-fields-grid div strong {
+  color: var(--secondary-text-color); /* Use secondary text color for labels */
+  margin-right: 8px; /* Space between label and value */
 }
 
 /* Add grid layout for larger screens */

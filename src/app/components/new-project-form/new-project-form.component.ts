@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core'; // Import OnInit
 import {
   FormArray,
   FormBuilder,
@@ -8,10 +8,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs'; // Import Observable
 import { PredictionReview } from '../../services/prediction-review.service';
 import { PredictionService } from '../../services/prediction.service';
-import { ProjectService } from '../../services/project.service'; // Import ProjectService
+import { ProjectService } from '../../services/project.service';
+import { Workflow, WorkflowService } from '../../services/workflow.service'; // Import WorkflowService and Workflow interface
 
 @Component({
   selector: 'app-new-project-form',
@@ -20,7 +21,8 @@ import { ProjectService } from '../../services/project.service'; // Import Proje
   templateUrl: './new-project-form.component.html',
   styleUrls: ['./new-project-form.component.css'],
 })
-export class NewProjectFormComponent implements OnDestroy {
+export class NewProjectFormComponent implements OnInit, OnDestroy {
+  // Implement OnInit
   projectForm: FormGroup;
   techStackOptions = [
     'React',
@@ -32,6 +34,7 @@ export class NewProjectFormComponent implements OnDestroy {
     'Azure',
     'Other',
   ];
+  workflows$!: Observable<Workflow[]>; // Observable to hold workflows
   private addProjectSubscription: Subscription | undefined;
   private generateReviewSubscription: Subscription | undefined;
   private saveDraftSubscription: Subscription | undefined;
@@ -41,8 +44,9 @@ export class NewProjectFormComponent implements OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private projectService: ProjectService, // Inject ProjectService
-    private predictionService: PredictionService // Inject PredictionService
+    private projectService: ProjectService,
+    private predictionService: PredictionService,
+    private workflowService: WorkflowService // Inject WorkflowService
   ) {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
@@ -53,10 +57,15 @@ export class NewProjectFormComponent implements OnDestroy {
       teamSize: ['', Validators.required],
       duration: ['', Validators.required],
       keywords: [''],
-      businessSpecification: [''], // Add new field
-      description: [''], // Add description field
-      status: ['new'], // Set initial status to 'new'
+      businessSpecification: [''],
+      description: [''],
+      status: ['new'],
+      workflow_id: [null], // Add workflow_id form control
     });
+  }
+
+  ngOnInit(): void {
+    this.workflows$ = this.workflowService.getWorkflows(); // Fetch workflows on init
   }
 
   onTechStackChange(event: any) {
@@ -89,7 +98,7 @@ export class NewProjectFormComponent implements OnDestroy {
               .generateAndSavePredictionReview(
                 this.projectForm.value,
                 newProjectId
-              ) // Use the new combined method
+              )
               .subscribe({
                 next: (predictionReview: PredictionReview) => {
                   console.log(

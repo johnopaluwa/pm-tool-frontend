@@ -1,0 +1,26 @@
+<div class="workflow-list-container">
+  <h2>Workflows</h2>
+
+  <button [routerLink]="['/workflows/new']">Create New Workflow</button>
+
+  <div *ngIf="workflows$ | async as workflows">
+    <div *ngIf="workflows.length > 0; else noWorkflows">
+      <div class="workflow-grid">
+        <div class="grid-header">Name</div>
+        <div class="grid-header">Description</div>
+        <div class="grid-header">Actions</div>
+
+        <ng-container *ngFor="let workflow of workflows">
+          <div class="grid-item">{{ workflow.name }}</div>
+          <div class="grid-item">{{ workflow.description }}</div>
+          <div class="grid-item">
+            <a [routerLink]="['/workflows', workflow.id]">View/Edit</a>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <ng-template #noWorkflows>
+      <p>No workflows found. Create a new one to get started.</p>
+    </ng-template>
+  </div>
+</div>

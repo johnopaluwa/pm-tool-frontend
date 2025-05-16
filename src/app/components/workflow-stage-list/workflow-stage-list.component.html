@@ -1,0 +1,36 @@
+<div class="workflow-stage-list-container">
+  <h4>Stages</h4>
+
+  <button [routerLink]="['/workflows', workflowId, 'stages', 'new']">
+    Add New Stage
+  </button>
+
+  <div *ngIf="stages$ | async as stages">
+    <div *ngIf="stages.length > 0; else noStages">
+      <div class="workflow-stage-grid">
+        <div class="grid-header">Name</div>
+        <div class="grid-header">Order</div>
+        <div class="grid-header">Actions</div>
+
+        <ng-container *ngFor="let stage of stages">
+          <div class="grid-item">{{ stage.name }}</div>
+          <div class="grid-item">{{ stage.order }}</div>
+          <div class="grid-item stage-actions">
+            <button
+              class="edit-button"
+              [routerLink]="['/workflows', workflowId, 'stages', stage.id]"
+            >
+              View/Edit
+            </button>
+            <!-- Add button to navigate to add new status for this stage -->
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <ng-template #noStages>
+      <p class="no-stages-message">
+        No stages found for this workflow. Add a new one to get started.
+      </p>
+    </ng-template>
+  </div>
+</div>

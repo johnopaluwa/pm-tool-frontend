@@ -1,0 +1,51 @@
+.stage-status-list-container {
+  margin-top: 20px;
+}
+
+.stage-status-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    5,
+    1fr
+  ); /* Five columns for Name, Order, Is Default, Is Completion, Actions */
+  gap: 10px; /* Gap between grid items */
+  align-items: center; /* Vertically align items */
+}
+
+.grid-header {
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.grid-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.status-actions {
+  display: flex;
+  gap: 10px; /* Gap between buttons */
+}
+
+.view-edit-link {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none; /* Remove underline from link */
+  display: inline-block; /* Allow padding and margin */
+  text-align: center;
+}
+
+.view-edit-link:hover {
+  opacity: 0.9;
+}
+
+.no-statuses-message {
+  margin-top: 20px;
+  font-style: italic;
+  color: #666;
+}

@@ -12,7 +12,71 @@
       }}</span>
     </p>
     <p>Description: {{ project.description }}</p>
+  </div>
 
+  <!-- Workflow Selection Section -->
+  <div *ngIf="project" class="workflow-selection-section">
+    <h4>Workflow</h4>
+    <div class="workflow-grid">
+      <div class="grid-item">
+        <label for="workflow">Assigned Workflow:</label>
+        <select
+          id="workflow"
+          name="workflow"
+          [(ngModel)]="selectedWorkflowId"
+          (change)="updateProjectWorkflow()"
+        >
+          <option [value]="null">No Workflow Assigned</option>
+          <ng-container *ngIf="workflows$ | async as workflows">
+            <option *ngFor="let workflow of workflows" [value]="workflow.id">
+              {{ workflow.name }}
+            </option>
+          </ng-container>
+        </select>
+      </div>
+      <!-- A button to explicitly save the workflow change could be added here if auto-save on change is not desired -->
+      <!-- <button (click)="updateProjectWorkflow()">Update Workflow</button> -->
+    </div>
+  </div>
+
+  <!-- Custom Fields Section -->
+  <div
+    *ngIf="project && customFieldDefinitions.length > 0"
+    class="custom-fields-section"
+  >
+    <h4>Custom Fields</h4>
+    <div class="custom-fields-grid">
+      <div *ngFor="let field of customFieldDefinitions">
+        <strong>{{ field.name }}:</strong>
+        <!-- Display value when not editing -->
+        <span *ngIf="!isEditingField(field.id!)">
+          {{ getCustomFieldValue(field.id!) || "N/A" }}
+          <button class="edit-btn" (click)="startEditingField(field)">
+            Edit
+          </button>
+        </span>
+        <!-- Display input when editing -->
+        <span *ngIf="isEditingField(field.id!)" class="edit-input">
+          <input
+            [type]="field.type === 'number' ? 'number' : 'text'"
+            [(ngModel)]="editingFieldValue"
+            (keyup.enter)="saveCustomFieldValue(field.id!)"
+            (keyup.escape)="cancelEditingField()"
+          />
+          <button class="save-btn" (click)="saveCustomFieldValue(field.id!)">
+            Save
+          </button>
+          <button class="cancel-btn" (click)="cancelEditingField()">
+            Cancel
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="project && project.status !== 'predicting' && !generatingPredictions"
+  >
     <h4>Prediction Characteristics:</h4>
     <p>Project Type: {{ project.projectType }}</p>
     <p>Client Industry: {{ project.clientIndustry }}</p>
@@ -69,6 +133,7 @@
     class="prediction-status"
   >
     <p>Generating predictions... This may take a few minutes.</p>
+    <!-- Optional: Add a loading spinner component here -->
   </div>
 
   <div *ngIf="!project">
