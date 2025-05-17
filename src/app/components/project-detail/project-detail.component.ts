@@ -99,9 +99,20 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       this.customizationService.getFieldValuesForEntity('project', projectId), // Fetch values for this specific project
     ]).subscribe({
       next: ([definitions, values]) => {
-        this.customFieldDefinitions = definitions;
+        // Filter definitions to only include those for projects
+        this.customFieldDefinitions = definitions.filter(
+          (def) => def.entity_type === 'project'
+        );
         this.customFieldValues = values;
-        console.log('Custom field definitions:', this.customFieldDefinitions);
+        console.log(
+          'Custom field definitions received (filtered):',
+          this.customFieldDefinitions
+        ); // Log filtered definitions
+        this.customFieldDefinitions.forEach((def) =>
+          console.log(
+            `Definition ID: ${def.id}, Name: ${def.name}, Entity Type: ${def.entity_type}`
+          )
+        ); // Log details of each filtered definition
         console.log('Custom field values:', this.customFieldValues);
       },
       error: (error) => {

@@ -22,7 +22,7 @@ export class CustomFieldDefinitionsComponent implements OnInit {
   }; // Initialize new field form
   editingField: Partial<CustomFieldDefinition> | null = null; // To hold field being edited
   entityTypes = ['project', 'task', 'user']; // Available entity types
-  fieldTypes = ['text', 'number', 'date', 'dropdown']; // Available field types
+  fieldTypes = ['text', 'number']; // Available field types (limited as requested)
 
   constructor(
     private customizationService: CustomizationService,

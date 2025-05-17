@@ -200,6 +200,47 @@
   margin-right: 8px; /* Space between label and value */
 }
 
+.edit-input input {
+  padding: 8px 12px; /* Add some padding */
+  border: 1px solid var(--divider-color); /* Add a border */
+  border-radius: var(--border-radius); /* Match border radius */
+  font-size: 1rem; /* Match font size */
+  color: var(--text-color); /* Match text color */
+  background-color: var(--background-color); /* Match background color */
+  margin-right: 8px; /* Space between input and buttons */
+  width: auto; /* Allow input to size based on content or grid */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+.edit-input button {
+  padding: 8px 12px; /* Match padding of input */
+  border: none;
+  border-radius: var(--border-radius); /* Match border radius */
+  cursor: pointer;
+  font-size: 0.9rem; /* Slightly smaller font for buttons */
+  transition: background-color 0.3s ease;
+}
+
+.edit-input .save-btn {
+  background-color: var(--primary-color);
+  color: white;
+  margin-right: 4px; /* Space between save and cancel buttons */
+}
+
+.edit-input .save-btn:hover {
+  background-color: var(--primary-dark-color);
+}
+
+.edit-input .cancel-btn {
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border: 1px solid var(--divider-color);
+}
+
+.edit-input .cancel-btn:hover {
+  background-color: var(--background-color);
+}
+
 /* Add grid layout for larger screens */
 @media (min-width: 769px) {
   .project-detail-page {
