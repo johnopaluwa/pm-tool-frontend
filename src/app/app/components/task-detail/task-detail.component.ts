@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'; // Import Router
-import { forkJoin, of, Subscription } from 'rxjs'; // Import Observable, of
+import { forkJoin, Observable, of, Subscription } from 'rxjs'; // Import Observable, of
 import { switchMap } from 'rxjs/operators'; // Import switchMap
 
 import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
@@ -86,22 +86,31 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     this.projectSubscription = this.projectService
       .getProjectById(projectId)
       .pipe(
-        switchMap((project) => {
-          this.project = project;
-          if (project?.workflow_id) {
-            // Fetch workflow stages and statuses if workflow is assigned
-            return forkJoin([
-              this.workflowService.getWorkflow(project.workflow_id),
-              this.workflowService.getWorkflowStages(project.workflow_id),
-            ]);
-          } else {
-            // No workflow assigned, return empty observables
-            return of([undefined, []]);
+        switchMap(
+          (
+            project
+          ): Observable<[Workflow, WorkflowStage[]] | [undefined, []]> => {
+            // Explicitly type the switchMap return
+            this.project = project;
+            if (project?.workflow_id) {
+              // Fetch workflow stages and statuses if workflow is assigned
+              return forkJoin([
+                this.workflowService.getWorkflow(project.workflow_id),
+                this.workflowService.getWorkflowStages(project.workflow_id),
+              ]);
+            } else {
+              // No workflow assigned, return empty observables
+              return of([undefined, []]);
+            }
           }
-        })
+        )
       )
       .subscribe({
-        next: ([workflow, stages]) => {
+        next: ([workflow, stages]: [
+          Workflow | undefined,
+          WorkflowStage[] | []
+        ]) => {
+          // Explicitly type the array elements to handle both cases
           this.workflow = workflow;
           this.stages = stages || [];
           // Fetch statuses for all stages in the workflow

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'; // Import MatDialog and MatDialogConfig
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'; // Import Router
 import { forkJoin, Observable, of, Subscription } from 'rxjs'; // Import Observable and of
 
@@ -16,7 +17,9 @@ import {
 } from '../../services/prediction-review.service';
 import { PredictionService } from '../../services/prediction.service';
 import { Project, ProjectService } from '../../services/project.service';
+import { Task, TaskService } from '../../services/task.service'; // Import TaskService and Task interface
 import { Workflow, WorkflowService } from '../../services/workflow.service'; // Import WorkflowService and Workflow interface
+import { NewTaskDialogComponent } from '../dialogs/new-task-dialog/new-task-dialog.component'; // Import NewTaskDialogComponent
 
 @Component({
   selector: 'app-project-detail',
@@ -32,6 +35,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   customFieldValues: CustomFieldValue[] = [];
   editingFieldId: string | null = null;
   editingFieldValue: string | undefined = undefined;
+  tasks: Task[] = []; // Add tasks property
 
   workflows$!: Observable<Workflow[]>; // Observable to hold available workflows
   selectedWorkflowId: string | null = null; // To hold the selected workflow ID for the project
@@ -42,6 +46,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   private customFieldsSubscription: Subscription | undefined;
   private updateFieldValueSubscription: Subscription | undefined;
   private updateProjectSubscription: Subscription | undefined; // Subscription for updating project
+  private tasksSubscription: Subscription | undefined; // Add tasks subscription
 
   generatingPredictions = false;
   predictionError: string | null = null;
@@ -53,7 +58,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     private predictionReviewService: PredictionReviewService,
     private predictionService: PredictionService,
     private customizationService: CustomizationService,
-    private workflowService: WorkflowService // Inject WorkflowService
+    private workflowService: WorkflowService, // Inject WorkflowService
+    private dialog: MatDialog, // Inject MatDialog
+    private taskService: TaskService // Inject TaskService
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +78,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
           if (project) {
             this.selectedWorkflowId = project.workflow_id || null; // Set selected workflow ID
             this.loadCustomFields(projectId); // Load custom fields after project is loaded
+            this.loadTasks(projectId); // Load tasks for the project
             // Fetch prediction reviews for this project
             this.reviewsSubscription = this.predictionReviewService
               .getPredictionReviewsByProjectId(projectId)
@@ -120,6 +128,21 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         // TODO: Display user-friendly error message
       },
     });
+  }
+
+  loadTasks(projectId: string): void {
+    this.tasksSubscription = this.taskService
+      .getTasksByProjectId(projectId)
+      .subscribe({
+        next: (tasks) => {
+          this.tasks = tasks;
+          console.log('Tasks loaded:', this.tasks);
+        },
+        error: (error) => {
+          console.error('Error loading tasks:', error);
+          // TODO: Display user-friendly error message
+        },
+      });
   }
 
   // Method to get the value for a specific custom field
@@ -260,6 +283,44 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  openNewTaskDialog(): void {
+    if (!this.project) {
+      return; // Cannot create task without a project
+    }
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = { projectId: this.project.id }; // Pass project ID to the dialog
+
+    const dialogRef = this.dialog.open(NewTaskDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Handle the task creation logic here
+        console.log('Dialog result:', result);
+        // Call TaskService to create the task
+        const newTask = {
+          title: result.name, // Use 'title' instead of 'name'
+          description: result.description,
+          project_id: this.project!.id, // Use 'project_id' instead of 'projectId'
+          // Add other task properties as needed (e.g., status, due date)
+        };
+        this.taskService.createTask(newTask).subscribe({
+          next: (createdTask) => {
+            console.log('Task created successfully:', createdTask);
+            this.tasks.push(createdTask); // Add the new task to the local array
+            // TODO: Show a success message to the user
+          },
+          error: (error) => {
+            console.error('Error creating task:', error);
+            // TODO: Show an error message to the user
+          },
+        });
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     this.projectSubscription?.unsubscribe();
     this.reviewsSubscription?.unsubscribe();
@@ -267,5 +328,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.customFieldsSubscription?.unsubscribe();
     this.updateFieldValueSubscription?.unsubscribe();
     this.updateProjectSubscription?.unsubscribe(); // Unsubscribe from update project subscription
+    this.tasksSubscription?.unsubscribe(); // Unsubscribe from tasks subscription
   }
 }
