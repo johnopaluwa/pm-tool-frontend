@@ -19,12 +19,21 @@ import { PredictionService } from '../../services/prediction.service';
 import { Project, ProjectService } from '../../services/project.service';
 import { Task, TaskService } from '../../services/task.service'; // Import TaskService and Task interface
 import { Workflow, WorkflowService } from '../../services/workflow.service'; // Import WorkflowService and Workflow interface
+import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component'; // Import ConfirmationDialogComponent
+import { EditTaskDialogComponent } from '../dialogs/edit-task-dialog/edit-task-dialog.component'; // Import EditTaskDialogComponent
 import { NewTaskDialogComponent } from '../dialogs/new-task-dialog/new-task-dialog.component'; // Import NewTaskDialogComponent
 
 @Component({
   selector: 'app-project-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ConfirmationDialogComponent,
+    NewTaskDialogComponent,
+    EditTaskDialogComponent,
+  ],
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.css'],
 })
@@ -276,7 +285,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
           this.project = project;
         },
         error: (error: any) => {
-          // Explicitly type error
           console.error('Error updating project workflow:', error);
           // TODO: Display user-friendly error message
         },
@@ -314,6 +322,66 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
           },
           error: (error) => {
             console.error('Error creating task:', error);
+            // TODO: Show an error message to the user
+          },
+        });
+      }
+    });
+  }
+
+  editTask(task: Task): void {
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+      data: { task: { ...task } }, // Pass a copy of the task data to the dialog
+    });
+
+    dialogRef.afterClosed().subscribe((result: Task | undefined) => {
+      if (result) {
+        // User saved the changes
+        // Create an object with only the updatable properties
+        const taskUpdate: Partial<Task> = {
+          title: result.title,
+          description: result.description,
+          status_id: result.status_id, // Include status_id if the dialog allows changing it
+          // Add other updatable properties here
+        };
+        this.taskService.update(result.id!, taskUpdate).subscribe({
+          next: (updatedTask) => {
+            console.log('Task updated successfully:', updatedTask);
+            // Replace the old task with the updated task in the local array
+            const index = this.tasks.findIndex((t) => t.id === updatedTask.id);
+            if (index !== -1) {
+              this.tasks[index] = updatedTask;
+            }
+            // TODO: Show a success message to the user
+          },
+          error: (error) => {
+            console.error('Error updating task:', error);
+            // TODO: Show an error message to the user
+          },
+        });
+      }
+    });
+  }
+
+  deleteTask(taskId: string): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete this task?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // User confirmed deletion
+        this.taskService.delete(taskId).subscribe({
+          next: () => {
+            console.log('Task deleted successfully:', taskId);
+            // Remove the deleted task from the local array
+            this.tasks = this.tasks.filter((task) => task.id !== taskId);
+            // TODO: Show a success message to the user
+          },
+          error: (error) => {
+            console.error('Error deleting task:', error);
             // TODO: Show an error message to the user
           },
         });

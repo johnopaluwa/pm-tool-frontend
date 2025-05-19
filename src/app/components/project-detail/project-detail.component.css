@@ -24,6 +24,80 @@
   font-weight: 700;
 }
 
+.tasks-section ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 16px; /* Adjusted margin */
+}
+
+.tasks-section li {
+  display: flex; /* Use flexbox for layout within list item */
+  justify-content: space-between; /* Space out content and buttons */
+  align-items: center; /* Vertically align items */
+  background-color: var(--background-color); /* Use background color */
+  border: 1px solid var(--divider-color); /* Use divider color */
+  border-radius: var(--border-radius); /* Use border radius variable */
+  padding: 12px 16px; /* Adjusted padding */
+  margin-bottom: 8px; /* Adjusted margin */
+  font-size: 1rem;
+  color: var(--text-color); /* Use text color */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.tasks-section li strong {
+  margin-right: 8px; /* Space between title and description */
+}
+
+.tasks-section li .task-actions {
+  display: flex; /* Use flexbox for buttons */
+  gap: 8px; /* Space between buttons */
+  margin-left: 16px; /* Space between description and buttons */
+  flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.tasks-section li button {
+  padding: 6px 12px; /* Adjusted padding */
+  border: none;
+  border-radius: var(--border-radius); /* Match border radius */
+  cursor: pointer;
+  font-size: 0.9rem; /* Slightly smaller font */
+  transition: background-color 0.3s ease;
+}
+
+.tasks-section li .edit-btn {
+  background-color: var(--accent-color); /* Use accent color for edit */
+  color: white; /* White text */
+}
+
+.tasks-section li .edit-btn:hover {
+  background-color: var(--accent-dark-color); /* Darker accent on hover */
+}
+
+.tasks-section li .delete-btn {
+  background-color: var(--danger-color); /* Use danger color for delete */
+  color: black; /* Change text color to black for visibility test */
+}
+
+.tasks-section li .delete-btn:hover {
+  background-color: var(--danger-dark-color); /* Darker danger on hover */
+}
+
+.custom-fields-grid div span button.edit-btn {
+  background-color: var(--accent-color); /* Use accent color for edit */
+  color: white; /* White text */
+  border: none;
+  border-radius: var(--border-radius); /* Match border radius */
+  padding: 6px 12px; /* Adjusted padding */
+  cursor: pointer;
+  font-size: 0.9rem; /* Slightly smaller font */
+  transition: background-color 0.3s ease;
+}
+
+.custom-fields-grid div span button.edit-btn:hover {
+  background-color: var(--accent-dark-color); /* Darker accent on hover */
+}
+
 .project-detail-container h3 {
   color: var(--text-color); /* Use text color */
   margin-top: 24px; /* Adjusted margin */

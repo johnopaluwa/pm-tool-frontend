@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Edit Task</h2>
+
+<mat-dialog-content>
+  <form class="edit-task-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput [(ngModel)]="data.task.title" name="title" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="data.task.description"
+        name="description"
+      ></textarea>
+    </mat-form-field>
+
+    <!-- Add other fields for editing task properties like status, etc. if needed -->
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data.task" cdkFocusInitial>
+    Save
+  </button>
+</mat-dialog-actions>

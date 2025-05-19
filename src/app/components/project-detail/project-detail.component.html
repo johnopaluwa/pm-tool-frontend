@@ -25,6 +25,12 @@
       <li *ngFor="let task of tasks">
         <strong>{{ task.title }}</strong
         >: {{ task.description }}
+        <div class="task-actions">
+          <button class="edit-btn" (click)="editTask(task)">Edit</button>
+          <button class="delete-btn" (click)="deleteTask(task.id!)">
+            Delete
+          </button>
+        </div>
       </li>
     </ul>
   </div>
