@@ -1,5 +1,9 @@
 <div class="project-detail-container">
-  <h2>Project Detail</h2>
+  <div class="project-header">
+    <h2>Project Detail</h2>
+    <button class="edit-btn" (click)="editProject()">Edit Project</button>
+  </div>
+
   <div
     *ngIf="project && project.status !== 'predicting' && !generatingPredictions"
   >

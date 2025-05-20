@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Edit Project</h2>
+
+<mat-dialog-content>
+  <form class="edit-project-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Project Name</mat-label>
+      <input matInput [(ngModel)]="data.project.name" name="name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Client</mat-label>
+      <input
+        matInput
+        [(ngModel)]="data.project.client"
+        name="client"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="data.project.description"
+        name="description"
+      ></textarea>
+    </mat-form-field>
+
+    <!-- Add other project fields here as needed (e.g., projectType, clientIndustry, techStack, teamSize, duration, keywords, businessSpecification) -->
+    <!-- For simplicity, I will only include the basic fields for now -->
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data.project" cdkFocusInitial>
+    Save
+  </button>
+</mat-dialog-actions>

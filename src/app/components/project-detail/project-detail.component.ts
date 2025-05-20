@@ -20,6 +20,7 @@ import { Project, ProjectService } from '../../services/project.service';
 import { Task, TaskService } from '../../services/task.service'; // Import TaskService and Task interface
 import { Workflow, WorkflowService } from '../../services/workflow.service'; // Import WorkflowService and Workflow interface
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component'; // Import ConfirmationDialogComponent
+import { EditProjectDialogComponent } from '../dialogs/edit-project-dialog/edit-project-dialog.component'; // Import EditProjectDialogComponent
 import { EditTaskDialogComponent } from '../dialogs/edit-task-dialog/edit-task-dialog.component'; // Import EditTaskDialogComponent
 import { NewTaskDialogComponent } from '../dialogs/new-task-dialog/new-task-dialog.component'; // Import NewTaskDialogComponent
 
@@ -33,6 +34,7 @@ import { NewTaskDialogComponent } from '../dialogs/new-task-dialog/new-task-dial
     ConfirmationDialogComponent,
     NewTaskDialogComponent,
     EditTaskDialogComponent,
+    EditProjectDialogComponent, // Add EditProjectDialogComponent here
   ],
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.css'],
@@ -387,6 +389,12 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  editProject(): void {
+    if (this.project?.id) {
+      this.router.navigate(['/projects/edit', this.project.id]); // Navigate to a new route for editing
+    }
   }
 
   ngOnDestroy(): void {

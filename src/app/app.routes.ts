@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { CustomFieldDefinitionsComponent } from './app/components/custom-field-definitions/custom-field-definitions.component'; // Import the new component
 import { DashboardComponent } from './components/dashboard.component';
+import { EditProjectPageComponent } from './components/edit-project-page/edit-project-page.component'; // Import EditProjectPageComponent
 import { NewProjectFormComponent } from './components/new-project-form/new-project-form.component';
 import { OverallCompletionReportComponent } from './components/overall-completion-report/overall-completion-report.component'; // Import new component
 import { OverallStatusReportComponent } from './components/overall-status-report/overall-status-report.component'; // Import new component
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'projects', component: ProjectListComponent },
   { path: 'projects/new', component: NewProjectFormComponent },
+  { path: 'projects/edit/:id', component: EditProjectPageComponent }, // Add route for editing projects
   { path: 'reports', component: ReportsComponent }, // Reports Overview
   {
     path: 'reports/overall-completion',

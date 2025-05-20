@@ -1,0 +1,115 @@
+<div class="edit-project-container">
+  <h2>Edit Project</h2>
+
+  <form class="edit-project-form" (ngSubmit)="saveProject()">
+    <div class="form-group">
+      <label for="projectName">Project Name*</label>
+      <input
+        id="projectName"
+        name="projectName"
+        type="text"
+        [(ngModel)]="projectName"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="client">Client*</label>
+      <input
+        id="client"
+        name="client"
+        type="text"
+        [(ngModel)]="client"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="description">Description (Optional)</label>
+      <textarea
+        id="description"
+        name="description"
+        rows="3"
+        [(ngModel)]="description"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label for="projectType">Project Type*</label>
+      <input
+        id="projectType"
+        name="projectType"
+        type="text"
+        [(ngModel)]="projectType"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="clientIndustry">Client Industry*</label>
+      <input
+        id="clientIndustry"
+        name="clientIndustry"
+        type="text"
+        [(ngModel)]="clientIndustry"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label>Technology Stack*</label>
+      <div class="tech-stack-options">
+        <label *ngFor="let tech of techStackOptions">
+          <input
+            type="checkbox"
+            [value]="tech"
+            (change)="onTechStackChange($event)"
+            [checked]="techStack.includes(tech)"
+          />
+          {{ tech }}
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="teamSize">Estimated Team Size*</label>
+      <select id="teamSize" name="teamSize" [(ngModel)]="teamSize" required>
+        <option value="">Select size</option>
+        <option>1-3</option>
+        <option>4-6</option>
+        <option>7-10</option>
+        <option>10+</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="duration">Estimated Duration*</label>
+      <select id="duration" name="duration" [(ngModel)]="duration" required>
+        <option value="">Select duration</option>
+        <option><1 month</option>
+        <option>1-3 months</option>
+        <option>3-6 months</option>
+        <option>6+ months</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="keywords">High-level Keywords/Features</label>
+      <textarea
+        id="keywords"
+        name="keywords"
+        rows="2"
+        placeholder="User auth, payment gateway, ..."
+        [(ngModel)]="keywords"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label for="businessSpecification"
+        >Business Specification (Optional)</label
+      >
+      <textarea
+        id="businessSpecification"
+        name="businessSpecification"
+        rows="4"
+        [(ngModel)]="businessSpecification"
+      ></textarea>
+    </div>
+    <!-- Workflow field is not included in edit as per typical workflow management -->
+    <div class="form-actions">
+      <button type="button" (click)="cancelEditing()">Cancel</button>
+      <button type="submit">Save Project</button>
+    </div>
+  </form>
+</div>
