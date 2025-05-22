@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { CustomFieldDefinitionsComponent } from './app/components/custom-field-definitions/custom-field-definitions.component'; // Import the new component
 import { DashboardComponent } from './components/dashboard.component';
 import { EditProjectPageComponent } from './components/edit-project-page/edit-project-page.component'; // Import EditProjectPageComponent
+import { ImportTasksComponent } from './components/import-tasks/import-tasks.component'; // Import ImportTasksComponent
 import { NewProjectFormComponent } from './components/new-project-form/new-project-form.component';
 import { OverallCompletionReportComponent } from './components/overall-completion-report/overall-completion-report.component'; // Import new component
 import { OverallStatusReportComponent } from './components/overall-status-report/overall-status-report.component'; // Import new component
@@ -42,6 +43,9 @@ export const routes: Routes = [
   { path: 'predictions/overview', component: PredictionOverviewComponent },
   { path: 'predictions/list', component: PredictionDisplayComponent },
   { path: 'projects/:id', component: ProjectDetailComponent },
+  { path: 'import', component: ImportTasksComponent }, // Route for the import component
+  { path: 'import/azure-devops/callback', component: ImportTasksComponent }, // Route for Azure DevOps callback
+  { path: 'import/trello/callback', component: ImportTasksComponent }, // Route for Trello callback
   {
     // Workflow Management Routes
     path: 'workflows',
