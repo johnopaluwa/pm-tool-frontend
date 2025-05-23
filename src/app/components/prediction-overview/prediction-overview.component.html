@@ -3,30 +3,31 @@
   <div *ngIf="error" class="error-message">{{ error }}</div>
   <div *ngIf="loading" class="loading-message">Loading recent activity...</div>
 
-  <ul
-    class="prediction-list"
+  <table
+    class="prediction-table"
     *ngIf="!error && !loading && predictionReviews.length > 0"
   >
-    <li *ngFor="let review of predictionReviews">
-      Predictions generated for <b>{{ review.projectName }}</b>
-      <!-- Button to view report for this project -->
-      <!-- Button to view report for this project -->
-      <button
-        class="report-btn"
-        (click)="viewProjectReport(review.projectId)"
-        *ngIf="projectReportStatus[review.projectId] === 'completed'"
-      >
-        View Report →
-      </button>
-      <!-- Button to review predictions -->
-      <button
-        class="review-btn"
-        (click)="reviewPredictions(review.projectName)"
-      >
-        Review Now →
-      </button>
-    </li>
-  </ul>
+    <thead>
+      <tr>
+        <th>Project Name</th>
+        <th>User Stories</th>
+        <th>Bugs</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let review of predictionReviews">
+        <td>{{ review.projectName }}</td>
+        <td>{{ calculateTotalUserStories(review.predictions) }}</td>
+        <td>{{ calculateTotalBugs(review.predictions) }}</td>
+        <td>
+          <button class="detail-btn" (click)="viewPredictionDetails(review.id)">
+            View Details
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
   <div
     *ngIf="!error && !loading && predictionReviews.length === 0"

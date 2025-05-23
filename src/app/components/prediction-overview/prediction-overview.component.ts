@@ -155,20 +155,20 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
       });
   }
 
-  reviewPredictions(projectName: string) {
-    // Find the review ID for the given project name
-    const review = this.predictionReviews.find(
-      (r) => r.projectName === projectName
-    );
-    if (review) {
-      // Navigate to the detailed prediction list page, passing the review ID
-      this.router.navigate(['/predictions/list'], {
-        queryParams: { reviewId: review.id },
-      });
-    } else {
-      console.error('Review not found for project:', projectName);
-      // Optionally show an error message to the user
-    }
+  calculateTotalUserStories(predictions: Prediction[]): number {
+    return predictions.filter((prediction) => prediction.type === 'user-story')
+      .length;
+  }
+
+  calculateTotalBugs(predictions: Prediction[]): number {
+    return predictions.filter((prediction) => prediction.type === 'bug').length;
+  }
+
+  viewPredictionDetails(reviewId: string) {
+    // Navigate to the detailed prediction list page, passing the review ID
+    this.router.navigate(['/predictions/list'], {
+      queryParams: { reviewId: reviewId },
+    });
   }
 
   viewProjectReport(projectId: string) {

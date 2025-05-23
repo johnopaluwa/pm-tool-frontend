@@ -17,52 +17,59 @@
   font-weight: 600;
 }
 
-.prediction-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px; /* Adjusted gap */
+.prediction-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  background-color: var(--background-color);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--border-radius);
+  overflow: hidden; /* Ensures rounded corners are visible */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.prediction-list li {
-  background-color: var(--background-color); /* Use background color */
-  border: 1px solid var(--divider-color); /* Use divider color */
-  border-radius: var(--border-radius); /* Use border radius variable */
-  padding: 12px 16px; /* Adjusted padding */
-  margin-bottom: 0; /* Removed margin-bottom */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-  font-size: 1rem;
-  color: var(--text-color); /* Use text color */
+.prediction-table th,
+.prediction-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--divider-color);
+  color: var(--text-color);
 }
 
-.prediction-list li b {
-  margin-right: 8px; /* Adjusted margin */
-  color: var(--text-color); /* Use text color */
+.prediction-table th {
+  background-color: var(--surface-color);
+  font-weight: 600;
+  color: var(--secondary-text-color);
+  text-transform: uppercase;
+  font-size: 0.9rem;
 }
 
-.review-btn {
-  background-color: var(--primary-color); /* Use primary color */
-  color: white; /* White text */
+.prediction-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prediction-table tbody tr:hover {
+  background-color: var(--hover-color); /* Use hover color variable */
+}
+
+.detail-btn {
+  background-color: var(--primary-color);
+  color: white;
   border: none;
   border-radius: 25px; /* Pill shape */
-  padding: 8px 16px; /* Adjusted padding */
+  padding: 8px 16px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: background-color 0.3s ease;
 }
 
-.review-btn:hover {
-  background-color: var(--primary-dark-color); /* Darker primary on hover */
+.detail-btn:hover {
+  background-color: var(--primary-dark-color);
 }
 
 .empty-message {
-  color: var(--secondary-text-color); /* Use secondary text color */
+  color: var(--secondary-text-color);
   font-style: italic;
   text-align: center;
-  padding: 20px; /* Adjusted padding */
+  padding: 20px;
 }
