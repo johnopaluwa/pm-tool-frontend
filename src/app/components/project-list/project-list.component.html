@@ -4,19 +4,26 @@
     <a class="new-project-btn" routerLink="/projects/new">+ New Project</a>
   </div>
 
-  <div class="projects-list">
-    <div
-      *ngFor="let project of projects"
-      class="project-card"
-      [routerLink]="['/projects', project.id]"
-    >
-      <div class="project-title">{{ project.name }}</div>
-      <div class="project-meta">
-        <span class="client-name">{{ project.client }}</span>
-        <span class="status status-{{ project.status | lowercase }}">{{
-          project.status
-        }}</span>
-      </div>
-    </div>
-  </div>
+  <table class="projects-table">
+    <thead>
+      <tr>
+        <th>Project Name</th>
+        <th>Prediction Run</th>
+        <th>Description</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of projects">
+        <td>{{ project.name }}</td>
+        <td>{{ hasPredictionRun(project.id) ? "True" : "False" }}</td>
+        <td>{{ project.description }}</td>
+        <td>
+          <button class="detail-btn" [routerLink]="['/projects', project.id]">
+            View Details
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

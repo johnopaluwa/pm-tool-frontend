@@ -36,98 +36,52 @@
   background-color: var(--primary-dark-color);
 }
 
-.projects-list {
-  display: grid; /* Use grid for the list */
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(300px, 1fr)
-  ); /* Responsive grid */
-  gap: 24px; /* Adjusted gap */
+.projects-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  background-color: var(--background-color);
+  border: 1px solid var(--divider-color);
+  border-radius: var(--border-radius);
+  overflow: hidden; /* Ensures rounded corners are visible */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.project-card {
-  background-color: var(--surface-color); /* Use surface color */
-  border-radius: var(--border-radius); /* Use border radius variable */
-  padding: 24px; /* Adjusted padding */
-  display: flex; /* Use flexbox for content within card */
-  flex-direction: column;
-  gap: 12px; /* Gap between title and meta */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-  transition: box-shadow 0.2s ease;
-  cursor: pointer; /* Add cursor pointer */
-  border: 1px solid var(--divider-color); /* Add a subtle border */
+.projects-table th,
+.projects-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--divider-color);
+  color: var(--text-color);
 }
 
-.project-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
-}
-
-.project-title {
-  font-size: 1.1rem; /* Slightly larger font size */
+.projects-table th {
+  background-color: var(--surface-color);
   font-weight: 600;
-  color: var(--text-color); /* Use text color */
-}
-
-.project-meta {
-  display: flex; /* Use flexbox for meta items */
-  justify-content: space-between; /* Space out client name and status */
-  align-items: center;
-  font-size: 0.9rem;
   color: var(--secondary-text-color);
-}
-
-.client-name {
+  text-transform: uppercase;
   font-size: 0.9rem;
-  color: var(--text-color); /* Use text color */
-  font-weight: 500;
-  /* Removed background and padding for a cleaner look */
 }
 
-.status {
-  font-size: 0.8rem; /* Slightly smaller font size */
-  font-weight: 600;
-  padding: 4px 10px; /* Adjusted padding */
-  border-radius: var(--border-radius); /* Use global border radius */
-  color: white; /* White text on status pills */
-  text-transform: uppercase; /* Uppercase status text */
+.projects-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
-.status-new {
-  background-color: #6b7280; /* Grey */
+.projects-table tbody tr:hover {
+  background-color: var(--hover-color); /* Use hover color variable */
 }
 
-.status-predicting {
-  background-color: var(--accent-color); /* Blue/Cyan */
+.detail-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 25px; /* Pill shape */
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
 }
 
-.status-completed {
-  background-color: #10b981; /* Green */
-}
-
-@media (max-width: 768px) {
-  /* Adjusted breakpoint */
-  .projects-page {
-    padding: 24px 16px; /* Adjusted padding */
-  }
-
-  .projects-header {
-    flex-direction: column; /* Stack header items */
-    align-items: flex-start;
-    gap: 16px; /* Add gap */
-    margin-bottom: 24px; /* Adjusted margin */
-  }
-
-  .projects-list {
-    gap: 16px; /* Adjusted gap */
-  }
-
-  .project-card {
-    padding: 16px; /* Adjusted padding */
-  }
-
-  .project-meta {
-    flex-direction: column; /* Stack meta items */
-    align-items: flex-start;
-    gap: 8px; /* Adjusted gap */
-  }
+.detail-btn:hover {
+  background-color: var(--primary-dark-color);
 }
