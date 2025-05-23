@@ -12,6 +12,7 @@
         <th>Project Name</th>
         <th>User Stories</th>
         <th>Bugs</th>
+        <th>Date Run</th>
         <th>Details</th>
       </tr>
     </thead>
@@ -20,6 +21,7 @@
         <td>{{ review.projectName }}</td>
         <td>{{ calculateTotalUserStories(review.predictions) }}</td>
         <td>{{ calculateTotalBugs(review.predictions) }}</td>
+        <td>{{ review.generatedAt | date : "short" }}</td>
         <td>
           <button class="detail-btn" (click)="viewPredictionDetails(review.id)">
             View Details
