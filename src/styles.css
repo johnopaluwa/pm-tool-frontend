@@ -5,21 +5,21 @@ html {
 
 :root {
   /* Calendly inspired colors */
-  --primary-color: #006bff; /* A vibrant blue */
-  --primary-light-color: #509dff;
-  --primary-dark-color: #0056b3;
-  --accent-color: #00a2ff; /* Another shade of blue/cyan */
-  --accent-light-color: #66caff;
-  --accent-dark-color: #007bb2;
-  --warn-color: #ff4d4f; /* A standard error red */
+  --primary-color: #007f7f; /* Dark teal/green */
+  --primary-light-color: #009999;
+  --primary-dark-color: #005f5f;
+  --accent-color: #007f7f; /* Using the same for now, can adjust later if needed */
+  --accent-light-color: #009999;
+  --accent-dark-color: #005f5f;
+  --warn-color: #ff4d4f; /* Keep standard error red */
   --warn-light-color: #ff7875;
   --warn-dark-color: #d9363e;
 
-  --text-color: #1f2937; /* Dark grey for text */
-  --secondary-text-color: #6b7280; /* Medium grey for secondary text */
-  --divider-color: #e5e7eb; /* Light grey for dividers */
+  --text-color: #333333; /* Dark grey for text */
+  --secondary-text-color: #666666; /* Medium grey for secondary text */
+  --divider-color: #cccccc; /* Light grey for dividers */
 
-  --background-color: #f9fafb; /* Very light grey background */
+  --background-color: #f8f8f8; /* Very light grey background */
   --surface-color: #ffffff; /* White for cards/surfaces */
   --error-color: #ff4d4f; /* Same as warn-color */
 
@@ -122,5 +122,11 @@ button.secondary:hover {
   color: white;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

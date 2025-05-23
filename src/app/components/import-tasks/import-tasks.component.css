@@ -1,0 +1,189 @@
+.import-tasks-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--divider-color);
+}
+
+.import-tasks-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 24px 0;
+  border-bottom: 1px solid var(--divider-color);
+  padding-bottom: 12px;
+}
+
+.tool-selection {
+  margin-bottom: 32px;
+}
+
+.tool-selection h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-color);
+}
+
+.tool-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.tool-card {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  border: 1px solid var(--divider-color);
+}
+
+.tool-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-color);
+}
+
+.tool-card.selected {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 127, 127, 0.2); /* Teal focus ring */
+}
+
+.tool-icon {
+  font-size: 3rem; /* Placeholder for icons */
+  color: var(--secondary-text-color);
+}
+
+.tool-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.import-settings {
+  margin-bottom: 32px;
+}
+
+.import-settings h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-color);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.form-group input[type="text"],
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--divider-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 127, 127, 0.2); /* Teal focus ring */
+}
+
+.import-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+}
+
+.import-button:hover {
+  background-color: var(--primary-dark-color);
+}
+
+.import-button:disabled {
+  background-color: var(--divider-color);
+  color: var(--secondary-text-color);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .import-tasks-container {
+    padding: 24px 16px;
+  }
+
+  .import-tasks-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .tool-cards {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+  }
+
+  .tool-card {
+    padding: 16px;
+  }
+
+  .tool-icon {
+    font-size: 2.5rem;
+  }
+
+  .tool-name {
+    font-size: 0.9rem;
+  }
+
+  .import-settings h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+
+  .form-group input[type="text"],
+  .form-group select {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+
+  .import-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
