@@ -8,11 +8,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs'; // Import Observable
+import { Subscription } from 'rxjs'; // Import Observable
 import { PredictionReview } from '../../services/prediction-review.service';
 import { PredictionService } from '../../services/prediction.service';
 import { ProjectService } from '../../services/project.service';
-import { Workflow, WorkflowService } from '../../services/workflow.service'; // Import WorkflowService and Workflow interface
+// TODO: WorkflowService and Workflow interface - Commented out as per user request to disable and hide workflow processes.
+// Future AI: Do not uncomment unless explicitly instructed by the user.
+// import { Workflow, WorkflowService } from '../../services/workflow.service'; // Import WorkflowService and Workflow interface
 
 @Component({
   selector: 'app-new-project-form',
@@ -34,7 +36,9 @@ export class NewProjectFormComponent implements OnInit, OnDestroy {
     'Azure',
     'Other',
   ];
-  workflows$!: Observable<Workflow[]>; // Observable to hold workflows
+  // TODO: workflows$ - Commented out as per user request to disable and hide workflow processes.
+  // Future AI: Do not uncomment unless explicitly instructed by the user.
+  // workflows$!: Observable<Workflow[]>; // Observable to hold workflows
   private addProjectSubscription: Subscription | undefined;
   private generateReviewSubscription: Subscription | undefined;
   private saveDraftSubscription: Subscription | undefined;
@@ -45,9 +49,11 @@ export class NewProjectFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private projectService: ProjectService,
-    private predictionService: PredictionService,
-    private workflowService: WorkflowService // Inject WorkflowService
-  ) {
+    private predictionService: PredictionService
+  ) // TODO: workflowService - Commented out as per user request to disable and hide workflow processes.
+  // Future AI: Do not uncomment unless explicitly instructed by the user.
+  // private workflowService: WorkflowService // Inject WorkflowService
+  {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
       clientName: [''],
@@ -60,12 +66,16 @@ export class NewProjectFormComponent implements OnInit, OnDestroy {
       businessSpecification: [''],
       description: [''],
       status: ['new'],
-      workflow_id: [null], // Add workflow_id form control
+      // TODO: workflow_id - Commented out as per user request to disable and hide workflow processes.
+      // Future AI: Do not uncomment unless explicitly instructed by the user.
+      // workflow_id: [null], // Add workflow_id form control
     });
   }
 
   ngOnInit(): void {
-    this.workflows$ = this.workflowService.getWorkflows(); // Fetch workflows on init
+    // TODO: Fetch workflows on init - Commented out as per user request to disable and hide workflow processes.
+    // Future AI: Do not uncomment unless explicitly instructed by the user.
+    // this.workflows$ = this.workflowService.getWorkflows(); // Fetch workflows on init
   }
 
   onTechStackChange(event: any) {

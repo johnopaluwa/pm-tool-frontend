@@ -110,6 +110,9 @@ export class EditProjectPageComponent implements OnInit {
       keywords: this.keywords,
       businessSpecification: this.businessSpecification,
       // Do not include status or reportGenerated as they are not edited here
+      // TODO: workflow_id - Commented out as per user request to disable and hide workflow processes.
+      // Future AI: Do not include workflow_id in the updated project object unless explicitly instructed by the user.
+      // workflow_id: this.project?.workflow_id,
     };
 
     this.projectService

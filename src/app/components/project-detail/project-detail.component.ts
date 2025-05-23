@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'; // Import MatDialog and MatDialogConfig
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'; // Import Router
-import { forkJoin, Observable, of, Subscription } from 'rxjs'; // Import Observable and of
+import { forkJoin, Subscription } from 'rxjs'; // Import Observable and of
 
 import { FormsModule } from '@angular/forms';
 
@@ -18,7 +18,9 @@ import {
 import { PredictionService } from '../../services/prediction.service';
 import { Project, ProjectService } from '../../services/project.service';
 import { Task, TaskService } from '../../services/task.service'; // Import TaskService and Task interface
-import { Workflow, WorkflowService } from '../../services/workflow.service'; // Import WorkflowService and Workflow interface
+// TODO: WorkflowService and Workflow interface - Commented out as per user request to disable and hide workflow processes.
+// Future AI: Do not uncomment unless explicitly instructed by the user.
+// import { Workflow, WorkflowService } from '../../services/workflow.service'; // Import WorkflowService and Workflow interface
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component'; // Import ConfirmationDialogComponent
 import { EditProjectDialogComponent } from '../dialogs/edit-project-dialog/edit-project-dialog.component'; // Import EditProjectDialogComponent
 import { EditTaskDialogComponent } from '../dialogs/edit-task-dialog/edit-task-dialog.component'; // Import EditTaskDialogComponent
@@ -48,8 +50,12 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   editingFieldValue: string | undefined = undefined;
   tasks: Task[] = []; // Add tasks property
 
-  workflows$!: Observable<Workflow[]>; // Observable to hold available workflows
-  selectedWorkflowId: string | null = null; // To hold the selected workflow ID for the project
+  // TODO: workflows$ - Commented out as per user request to disable and hide workflow processes.
+  // Future AI: Do not uncomment unless explicitly instructed by the user.
+  // workflows$!: Observable<Workflow[]>; // Observable to hold available workflows
+  // TODO: selectedWorkflowId - Commented out as per user request to disable and hide workflow processes.
+  // Future AI: Do not uncomment unless explicitly instructed by the user.
+  // selectedWorkflowId: string | null = null; // To hold the selected workflow ID for the project
 
   private projectSubscription: Subscription | undefined;
   private reviewsSubscription: Subscription | undefined;
@@ -69,7 +75,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     private predictionReviewService: PredictionReviewService,
     private predictionService: PredictionService,
     private customizationService: CustomizationService,
-    private workflowService: WorkflowService, // Inject WorkflowService
+    // TODO: workflowService - Commented out as per user request to disable and hide workflow processes.
+    // Future AI: Do not uncomment unless explicitly instructed by the user.
+    // private workflowService: WorkflowService, // Inject WorkflowService
     private dialog: MatDialog, // Inject MatDialog
     private taskService: TaskService // Inject TaskService
   ) {}
@@ -78,34 +86,37 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     const projectId = this.route.snapshot.paramMap.get('id');
     if (projectId) {
       // Fetch project details and available workflows in parallel
-      this.projectSubscription = forkJoin([
-        this.projectService.getProjectById(projectId),
-        this.workflowService.getWorkflows(), // Fetch all workflows
-      ]).subscribe({
-        next: ([project, workflows]) => {
-          this.project = project;
-          this.workflows$ = of(workflows); // Assign workflows to the observable
+      this.projectSubscription = this.projectService
+        .getProjectById(projectId)
+        .subscribe({
+          next: (project) => {
+            this.project = project;
+            // TODO: Fetch all workflows - Commented out as per user request to disable and hide workflow processes.
+            // Future AI: Do not uncomment unless explicitly instructed by the user.
+            // this.workflows$ = this.workflowService.getWorkflows(); // Fetch all workflows
 
-          if (project) {
-            this.selectedWorkflowId = project.workflow_id || null; // Set selected workflow ID
-            this.loadCustomFields(projectId); // Load custom fields after project is loaded
-            this.loadTasks(projectId); // Load tasks for the project
-            // Fetch prediction reviews for this project
-            this.reviewsSubscription = this.predictionReviewService
-              .getPredictionReviewsByProjectId(projectId)
-              .subscribe((reviews: PredictionReview[]) => {
-                this.predictionReviews = reviews;
-              });
-          } else {
-            // Project not found, navigate back or show error
-            this.router.navigate(['/projects']);
-          }
-        },
-        error: (error) => {
-          console.error('Error loading project or workflows:', error);
-          // TODO: Display user-friendly error message
-        },
-      });
+            if (project) {
+              // TODO: Set selected workflow ID - Commented out as per user request to disable and hide workflow processes.
+              // Future AI: Do not uncomment unless explicitly instructed by the user.
+              // this.selectedWorkflowId = project.workflow_id || null; // Set selected workflow ID
+              this.loadCustomFields(projectId); // Load custom fields after project is loaded
+              this.loadTasks(projectId); // Load tasks for the project
+              // Fetch prediction reviews for this project
+              this.reviewsSubscription = this.predictionReviewService
+                .getPredictionReviewsByProjectId(projectId)
+                .subscribe((reviews: PredictionReview[]) => {
+                  this.predictionReviews = reviews;
+                });
+            } else {
+              // Project not found, navigate back or show error
+              this.router.navigate(['/projects']);
+            }
+          },
+          error: (error) => {
+            console.error('Error loading project or workflows:', error);
+            // TODO: Display user-friendly error message
+          },
+        });
     }
   }
 
@@ -267,31 +278,33 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateProjectWorkflow(): void {
-    if (!this.project || this.selectedWorkflowId === undefined) {
-      return;
-    }
+  // TODO: updateProjectWorkflow method - Commented out as per user request to disable and hide workflow processes.
+  // Future AI: Do not uncomment unless explicitly instructed by the user.
+  // updateProjectWorkflow(): void {
+  //   if (!this.project || this.selectedWorkflowId === undefined) {
+  //     return;
+  //   }
 
-    // Create a partial project object with only the workflow_id to update
-    const updatedProject: Partial<Project> = {
-      workflow_id: this.selectedWorkflowId,
-    };
+  //   // Create a partial project object with only the workflow_id to update
+  //   const updatedProject: Partial<Project> = {
+  //     workflow_id: this.selectedWorkflowId,
+  //   };
 
-    this.updateProjectSubscription = this.projectService
-      .updateProject(this.project.id!, updatedProject)
-      .subscribe({
-        next: (project: Project) => {
-          // Explicitly type project
-          console.log('Project workflow updated:', project);
-          // Update the local project object with the returned data
-          this.project = project;
-        },
-        error: (error: any) => {
-          console.error('Error updating project workflow:', error);
-          // TODO: Display user-friendly error message
-        },
-      });
-  }
+  //   this.updateProjectSubscription = this.projectService
+  //     .updateProject(this.project.id!, updatedProject)
+  //     .subscribe({
+  //       next: (project: Project) => {
+  //         // Explicitly type project
+  //         console.log('Project workflow updated:', project);
+  //         // Update the local project object with the returned data
+  //         this.project = project;
+  //       },
+  //       error: (error: any) => {
+  //         console.error('Error updating project workflow:', error);
+  //         // TODO: Display user-friendly error message
+  //       },
+  //     });
+  // }
 
   openNewTaskDialog(): void {
     if (!this.project) {
@@ -403,7 +416,9 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.generatePredictionsSubscription?.unsubscribe();
     this.customFieldsSubscription?.unsubscribe();
     this.updateFieldValueSubscription?.unsubscribe();
-    this.updateProjectSubscription?.unsubscribe(); // Unsubscribe from update project subscription
+    // TODO: Unsubscribe from update project subscription - Commented out as per user request to disable and hide workflow processes.
+    // Future AI: Do not uncomment unless explicitly instructed by the user.
+    // this.updateProjectSubscription?.unsubscribe(); // Unsubscribe from update project subscription
     this.tasksSubscription?.unsubscribe(); // Unsubscribe from tasks subscription
   }
 }

@@ -13,11 +13,6 @@ import { ProjectListComponent } from './components/project-list/project-list.com
 import { ProjectReportsDetailComponent } from './components/project-reports-detail/project-reports-detail.component'; // Import new component
 import { ReportsComponent } from './components/reports.component';
 import { SettingsComponent } from './components/settings.component';
-import { StageStatusDetailComponent } from './components/stage-status-detail/stage-status-detail.component'; // Import StageStatusDetailComponent
-import { WorkflowDetailComponent } from './components/workflow-detail/workflow-detail.component'; // Import WorkflowDetailComponent
-import { WorkflowListComponent } from './components/workflow-list/workflow-list.component'; // Import WorkflowListComponent
-import { WorkflowManagementComponent } from './components/workflow-management/workflow-management.component'; // Import WorkflowManagementComponent
-import { WorkflowStageDetailComponent } from './components/workflow-stage-detail/workflow-stage-detail.component'; // Import WorkflowStageDetailComponent
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -46,33 +41,34 @@ export const routes: Routes = [
   { path: 'import', component: ImportTasksComponent }, // Route for the import component
   { path: 'import/azure-devops/callback', component: ImportTasksComponent }, // Route for Azure DevOps callback
   { path: 'import/trello/callback', component: ImportTasksComponent }, // Route for Trello callback
-  {
-    // Workflow Management Routes
-    path: 'workflows',
-    component: WorkflowManagementComponent,
-    children: [
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
-      { path: 'list', component: WorkflowListComponent },
-      { path: 'new', component: WorkflowDetailComponent },
-      {
-        path: ':workflowId',
-        component: WorkflowDetailComponent,
-        children: [
-          { path: 'stages/new', component: WorkflowStageDetailComponent },
-          {
-            path: 'stages/:stageId',
-            component: WorkflowStageDetailComponent,
-            children: [
-              // Stage status routes moved here
-              { path: 'statuses/new', component: StageStatusDetailComponent },
-              {
-                path: 'statuses/:statusId',
-                component: StageStatusDetailComponent,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+  // TODO: Workflow Management Routes - Commented out as per user request to disable and hide workflow processes.
+  // Future AI: Do not uncomment unless explicitly instructed by the user.
+  // {
+  //   path: 'workflows',
+  //   component: WorkflowManagementComponent,
+  //   children: [
+  //     { path: '', redirectTo: 'list', pathMatch: 'full' },
+  //     { path: 'list', component: WorkflowListComponent },
+  //     { path: 'new', component: WorkflowDetailComponent },
+  //     {
+  //       path: ':workflowId',
+  //       component: WorkflowDetailComponent,
+  //       children: [
+  //         { path: 'stages/new', component: WorkflowStageDetailComponent },
+  //         {
+  //           path: 'stages/:stageId',
+  //           component: WorkflowStageDetailComponent,
+  //           children: [
+  //             // Stage status routes moved here
+  //             { path: 'statuses/new', component: StageStatusDetailComponent },
+  //             {
+  //               path: 'statuses/:statusId',
+  //               component: StageStatusDetailComponent,
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
 ];
