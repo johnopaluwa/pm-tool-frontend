@@ -2,19 +2,26 @@
 
 <mat-dialog-content>
   <form class="edit-task-form">
-    <mat-form-field appearance="fill">
-      <mat-label>Title</mat-label>
-      <input matInput [(ngModel)]="data.task.title" name="title" required />
-    </mat-form-field>
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input
+        id="title"
+        type="text"
+        [(ngModel)]="data.task.title"
+        name="title"
+        required
+      />
+    </div>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Description</mat-label>
+    <div class="form-group">
+      <label for="description">Description</label>
       <textarea
-        matInput
-        [(ngModel)]="data.task.description"
+        id="description"
         name="description"
+        rows="3"
+        [(ngModel)]="data.task.description"
       ></textarea>
-    </mat-form-field>
+    </div>
 
     <!-- Add other fields for editing task properties like status, etc. if needed -->
   </form>

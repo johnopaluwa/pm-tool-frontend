@@ -9,12 +9,12 @@
 
     <form [formGroup]="workflowForm" (ngSubmit)="saveWorkflow()">
       <div class="form-grid">
-        <div class="grid-item">
+        <div class="form-group">
           <label for="name">Name:</label>
           <input id="name" type="text" formControlName="name" required />
         </div>
 
-        <div class="grid-item">
+        <div class="form-group">
           <label for="description">Description:</label>
           <textarea id="description" formControlName="description"></textarea>
         </div>

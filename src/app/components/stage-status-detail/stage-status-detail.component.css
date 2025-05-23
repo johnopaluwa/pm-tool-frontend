@@ -1,88 +1,141 @@
 .stage-status-detail-container {
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 32px;
+  border: 1px solid var(--divider-color);
 }
 
 .stage-status-detail-container h2 {
-  color: #333;
-  margin-top: 0;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 32px;
+  text-align: center;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Two columns */
-  gap: 20px; /* Gap between grid items */
-  align-items: center; /* Vertically align items */
-}
-
-.grid-item {
+.stage-status-detail-form {
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
-.grid-item label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #555;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.grid-item input[type="text"],
-.grid-item input[type="number"] {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.form-group label {
   font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
 }
 
-.checkbox-item {
-  flex-direction: row; /* Align checkbox and label horizontally */
-  align-items: center;
-  gap: 5px; /* Space between checkbox and label */
+.form-group input[type="text"],
+.form-group select,
+.form-group textarea {
+  padding: 10px 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--divider-color);
+  font-size: 1rem;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  outline: none;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.checkbox-item input[type="checkbox"] {
-  margin-top: 0; /* Adjust vertical alignment */
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 107, 255, 0.2);
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .form-actions {
-  margin-top: 20px;
   display: flex;
-  gap: 10px; /* Space between buttons */
+  gap: 16px;
+  margin-top: 24px;
+  justify-content: flex-end;
 }
 
 .form-actions button {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  font-weight: 500;
 }
 
 .form-actions button[type="submit"] {
-  background-color: #007bff; /* Blue color for save */
+  background-color: var(--primary-color);
   color: white;
 }
 
-.form-actions button[type="submit"]:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.form-actions .secondary-button {
-  background-color: #6c757d; /* Gray color for cancel/delete */
-  color: white;
+.form-actions button[type="submit"]:hover {
+  background-color: var(--primary-dark-color);
 }
 
 .form-actions .delete-button {
-  background-color: #dc3545; /* Gray color for cancel/delete */
+  background-color: var(
+    --danger-color
+  ); /* Assuming a danger color variable exists */
   color: white;
 }
 
-.form-actions button:hover:not(:disabled) {
-  opacity: 0.9;
+.form-actions .delete-button:hover {
+  background-color: var(
+    --danger-dark-color
+  ); /* Assuming a danger dark color variable exists */
+}
+
+.form-actions .secondary-button {
+  background-color: transparent;
+  color: var(--secondary-text-color);
+  border: none;
+}
+
+.form-actions .secondary-button:hover {
+  color: var(--text-color);
+  background-color: transparent;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Adjust as needed */
+  gap: 20px; /* Adjust as needed */
+}
+
+.form-group.checkbox-item {
+  flex-direction: row; /* Display checkbox and label in a row */
+  align-items: center; /* Vertically align items */
+  gap: 8px; /* Adjusted gap */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stage-status-detail-container {
+    padding: 24px;
+    margin: 24px auto;
+  }
+  .form-actions {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .form-grid {
+    grid-template-columns: 1fr; /* Stack columns on smaller screens */
+  }
 }

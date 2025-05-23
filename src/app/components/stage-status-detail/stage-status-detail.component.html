@@ -3,22 +3,22 @@
 
   <form [formGroup]="stageStatusForm" (ngSubmit)="saveStatus()">
     <div class="form-grid">
-      <div class="grid-item">
+      <div class="form-group">
         <label for="name">Name:</label>
         <input id="name" type="text" formControlName="name" required />
       </div>
 
-      <div class="grid-item">
+      <div class="form-group">
         <label for="order">Order:</label>
         <input id="order" type="number" formControlName="order" required />
       </div>
 
-      <div class="grid-item checkbox-item">
+      <div class="form-group checkbox-item">
         <input id="is_default" type="checkbox" formControlName="is_default" />
         <label for="is_default">Is Default Status</label>
       </div>
 
-      <div class="grid-item checkbox-item">
+      <div class="form-group checkbox-item">
         <input
           id="is_completion_status"
           type="checkbox"

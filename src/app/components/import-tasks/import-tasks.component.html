@@ -47,33 +47,44 @@
 
     <div *ngIf="selectedSource === 'azure-devops'">
       <h4>Azure DevOps Details</h4>
-      <!-- TODO: Add input fields for Organization URL and Project ID -->
-      <p>
-        Organization URL:
-        <input type="text" [(ngModel)]="azureDevOpsOrganizationUrl" />
-      </p>
-      <p>
-        Azure DevOps Project ID:
-        <input type="text" [(ngModel)]="azureDevOpsProjectId" />
-      </p>
+      <div class="form-group">
+        <label for="azureDevOpsOrganizationUrl">Organization URL:</label>
+        <input
+          id="azureDevOpsOrganizationUrl"
+          type="text"
+          [(ngModel)]="azureDevOpsOrganizationUrl"
+        />
+      </div>
+      <div class="form-group">
+        <label for="azureDevOpsProjectId">Azure DevOps Project ID:</label>
+        <input
+          id="azureDevOpsProjectId"
+          type="text"
+          [(ngModel)]="azureDevOpsProjectId"
+        />
+      </div>
     </div>
 
     <div *ngIf="selectedSource === 'trello'">
       <h4>Trello Details</h4>
-      <!-- TODO: Add input field for Board ID -->
-      <p>Trello Board ID: <input type="text" [(ngModel)]="trelloBoardId" /></p>
+      <div class="form-group">
+        <label for="trelloBoardId">Trello Board ID:</label>
+        <input id="trelloBoardId" type="text" [(ngModel)]="trelloBoardId" />
+      </div>
     </div>
 
     <!-- Dropdown for selecting application project -->
-    <p>
-      Select Target Application Project:
-      <select [(ngModel)]="selectedProject">
+    <div class="form-group">
+      <label for="selectedProject">Select Target Application Project:</label>
+      <select id="selectedProject" [(ngModel)]="selectedProject">
         <option [ngValue]="null" disabled>-- Select a Project --</option>
-        <option *ngFor="let project of projects" [ngValue]="project">
-          {{ project.name }}
-        </option>
+        <ng-container *ngIf="projects">
+          <option *ngFor="let project of projects" [ngValue]="project">
+            {{ project.name }}
+          </option>
+        </ng-container>
       </select>
-    </p>
+    </div>
 
     <button (click)="performImport()" [disabled]="!selectedProject">
       Perform Import
