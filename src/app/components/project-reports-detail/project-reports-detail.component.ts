@@ -28,6 +28,7 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
   projectAverageEstimatedTime: number | undefined;
   projectTopKeywords: string[] | undefined;
   projectTechStackList: string[] | undefined;
+  projectTotalEstimatedTimeForBugsAndStories: number | undefined; // Added for the sum of estimated time for bugs and user stories
   reportStatus: 'pending' | 'generating' | 'completed' | 'failed' = 'pending';
   private paramMapSubscription: Subscription | undefined;
   private projectSubscription: Subscription | undefined;
@@ -105,6 +106,8 @@ export class ProjectReportsDetailComponent implements OnInit, OnDestroy {
             this.projectAverageEstimatedTime = report.average_estimated_time;
             this.projectTopKeywords = report.top_keywords;
             this.projectTechStackList = report.tech_stack_list;
+            this.projectTotalEstimatedTimeForBugsAndStories =
+              report.total_estimated_time; // Extract the new value
             this.reportStatus = 'completed'; // Set status to completed after fetching data
           } else {
             this.reportStatus = 'failed'; // Set status to failed if no report data

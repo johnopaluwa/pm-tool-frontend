@@ -30,7 +30,11 @@
       <div class="report-item" *ngIf="projectPredictionStatusDistribution">
         <h3>Prediction Status Distribution</h3>
         <ul>
-          <li *ngFor="let status of projectPredictionStatusDistribution | keyvalue">
+          <li
+            *ngFor="
+              let status of projectPredictionStatusDistribution | keyvalue
+            "
+          >
             {{ status.key }}: {{ status.value }}
           </li>
         </ul>
@@ -39,7 +43,11 @@
       <div class="report-item" *ngIf="projectPredictionPriorityDistribution">
         <h3>Prediction Priority Distribution</h3>
         <ul>
-          <li *ngFor="let priority of projectPredictionPriorityDistribution | keyvalue">
+          <li
+            *ngFor="
+              let priority of projectPredictionPriorityDistribution | keyvalue
+            "
+          >
             {{ priority.key }}: {{ priority.value }}
           </li>
         </ul>
@@ -48,25 +56,48 @@
       <div class="report-item" *ngIf="projectPredictionSeverityDistribution">
         <h3>Prediction Severity Distribution</h3>
         <ul>
-          <li *ngFor="let severity of projectPredictionSeverityDistribution | keyvalue">
+          <li
+            *ngFor="
+              let severity of projectPredictionSeverityDistribution | keyvalue
+            "
+          >
             {{ severity.key }}: {{ severity.value }}
           </li>
         </ul>
       </div>
 
-      <div class="report-item" *ngIf="projectAverageEstimatedTime !== undefined">
+      <div
+        class="report-item"
+        *ngIf="projectAverageEstimatedTime !== undefined"
+      >
         <h3>Average Estimated Time</h3>
         <p>{{ projectAverageEstimatedTime | number : "1.0-2" }}</p>
       </div>
 
-      <div class="report-item" *ngIf="projectTopKeywords && projectTopKeywords.length > 0">
+      <div
+        class="report-item"
+        *ngIf="projectTotalEstimatedTimeForBugsAndStories !== undefined"
+      >
+        <h3>Total Estimated Time (Bugs & User Stories)</h3>
+        <p>
+          {{ projectTotalEstimatedTimeForBugsAndStories | number : "1.0-2" }}
+        </p>
+      </div>
+
+      <div
+        class="report-item"
+        *ngIf="projectTopKeywords && projectTopKeywords.length > 0"
+      >
         <h3>Top Keywords</h3>
         <ul>
           <li *ngFor="let keyword of projectTopKeywords">{{ keyword }}</li>
         </ul>
       </div>
 
-      <div class="report-item" *ngIf="projectTechStackList && projectTechStackList.length > 0">
+      <div
+        class="report-item"
+        *ngIf="projectTechStackList && projectTechStackList.length > 0"
+      >
         <h3>Tech Stack</h3>
         <ul>
           <li *ngFor="let tech of projectTechStackList">{{ tech }}</li>
