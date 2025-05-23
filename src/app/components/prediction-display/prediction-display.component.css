@@ -47,137 +47,54 @@
   padding-bottom: 8px; /* Adjusted padding bottom */
 }
 
-.prediction-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  /* Removed gap here, gap will be between list items */
+.prediction-table {
+  width: 100%;
+  border-collapse: collapse; /* Collapse borders */
+  margin-bottom: 20px;
 }
 
-.prediction-list-item {
-  /* Updated class name */
+.prediction-table th,
+.prediction-table td {
+  padding: 12px; /* Adjusted padding */
+  text-align: left;
+  border-bottom: 1px solid var(--divider-color); /* Add bottom border */
+}
+
+.prediction-table th {
   background-color: var(--background-color); /* Use background color */
-  border-radius: var(--border-radius); /* Use border radius variable */
-  padding: 12px 20px; /* Adjusted padding for list item */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); /* Lighter shadow */
-  transition: box-shadow 0.2s ease;
-  border-left: 4px solid var(--primary-light-color); /* Adjusted border width */
-  border: 1px solid var(--divider-color); /* Add subtle border */
-  margin-bottom: 8px; /* Add margin bottom to separate list items */
-  display: grid; /* Use grid */
-  grid-template-columns: auto 1fr auto; /* Checkbox, Title (takes space), Actions */
-  align-items: center; /* Vertically align items */
-  gap: 10px; /* Gap between grid items */
+  font-weight: 600;
+  color: var(--text-color); /* Use text color */
+  cursor: pointer; /* Indicate clickable headers */
 }
 
-.prediction-list-item:hover {
+.prediction-table-row {
   cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.2s ease;
 }
 
-.prediction-list-item.accepted {
-  border-left-color: #10b981; /* Green for accepted */
+.prediction-table-row:hover {
+  background-color: var(--background-color); /* Lighter background on hover */
+}
+
+.prediction-table-row.accepted {
   background-color: #f0fdf4; /* Very light green */
 }
 
-.prediction-list-item.rejected {
-  border-left-color: var(--warn-color); /* Use warn color for rejected */
+.prediction-table-row.rejected {
   background-color: #fef2f2; /* Very light red */
 }
 
-.list-item-header {
-  /* This element is now a grid item, flexbox is no longer needed here */
-  /* Removed margin-bottom here, spacing will be handled by gap in parent */
-  display: contents; /* Make children participate in the grid of the parent (.prediction-list-item) */
-}
-
-.list-item-header input[type="checkbox"] {
-  margin-right: 10px; /* Space between checkbox and title */
-  cursor: pointer;
-}
-
-.prediction-title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--text-color); /* Use text color */
-  flex-grow: 1; /* Allow title to take available space */
-}
-
-.prediction-actions {
-  /* This element is now a grid item */
-  display: flex; /* Keep buttons in a row */
-  gap: 10px; /* Adjusted gap */
-  justify-content: flex-end; /* Align actions to the right */
-}
-
-.prediction-actions button {
-  background-color: var(--primary-color); /* Use primary color */
-  color: white; /* White text */
-  border: none;
-  border-radius: 25px; /* Pill shape */
-  padding: 4px 12px; /* Adjusted padding for smaller button */
-  font-size: 0.8rem; /* Smaller font size */
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease, opacity 0.3s ease;
-}
-
-.prediction-actions button:hover:not(:disabled) {
-  background-color: var(--primary-dark-color); /* Darker primary on hover */
-}
-
-.prediction-actions button:disabled {
-  background-color: var(--divider-color); /* Use divider color */
-  color: var(--secondary-text-color); /* Use secondary text color */
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-/* Specific styles for Edit & Accept button */
-.prediction-actions button:nth-child(1) {
-  /* Adjusted to target the first button (Edit & Accept) */
-  background-color: var(--surface-color); /* White background */
-  color: var(--primary-color); /* Primary text color */
-  border: 1px solid var(--primary-color); /* Primary border */
-}
-
-.prediction-actions button:nth-child(1):hover:not(:disabled) {
-  background-color: var(--primary-light-color); /* Lighter primary on hover */
-  color: white; /* White text on hover */
-}
-
-/* Hide Accept and Reject buttons in this view */
-.prediction-actions button:nth-child(2),
-.prediction-actions button:nth-child(3) {
-  display: none;
+.prediction-details-row td {
+  padding: 0; /* Remove padding from details row td */
+  border-bottom: none; /* Remove bottom border */
 }
 
 .list-item-details {
-  /* This element spans across the grid columns */
-  grid-column: 1 / -1; /* Span from the first to the last column */
-  margin-top: 8px; /* Space above details */
-  margin-left: 24px; /* Indent details */
-  border-left: 1px solid var(--divider-color); /* Vertical line */
-  padding-left: 16px; /* Space after vertical line */
-}
-
-.prediction-main {
-  display: flex; /* Keep flexbox for details line */
-  align-items: center;
-  gap: 15px; /* Adjusted gap */
-  flex-wrap: wrap;
-  margin-top: 8px; /* Space above prediction main */
-  /* Removed margin-bottom here, spacing will be handled by gap in parent */
-}
-
-.prediction-score,
-.prediction-freq,
-.prediction-source,
-.prediction-time {
-  font-size: 0.8rem; /* Slightly smaller font size */
-  color: var(--secondary-text-color); /* Use secondary text color */
-  font-weight: 400;
+  padding: 16px; /* Add padding to the details container */
+  background-color: var(
+    --surface-color
+  ); /* Use surface color for details background */
+  border-top: 1px solid var(--divider-color); /* Add top border to separate from main row */
 }
 
 .prediction-desc {
@@ -263,18 +180,5 @@
     margin-left: 16px; /* Adjust indent on smaller screens */
     padding-left: 12px; /* Adjust padding on smaller screens */
     margin-top: 8px; /* Space above details */
-  }
-  .prediction-main {
-    flex-direction: column;
-    gap: 8px; /* Adjusted gap */
-    align-items: flex-start; /* Align items to start */
-    margin-top: 8px; /* Space above prediction main */
-  }
-  .prediction-actions {
-    /* Keep as flex row in header */
-    gap: 8px; /* Adjusted gap */
-  }
-  .prediction-actions button {
-    /* Keep as is, not full width */
   }
 }

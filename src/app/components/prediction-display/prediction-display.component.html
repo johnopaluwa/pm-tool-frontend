@@ -42,121 +42,134 @@
       >
         No user story predictions found.
       </div>
-      <ul
-        class="prediction-list"
+      <table
+        class="prediction-table"
         *ngIf="filteredUserStoryPredictions.length > 0"
       >
-        <li
-          *ngFor="let pred of filteredUserStoryPredictions"
-          [class.accepted]="pred.status === 'accepted'"
-          [class.rejected]="pred.status === 'rejected'"
-          class="prediction-list-item"
-          (click)="pred.isCollapsed = !pred.isCollapsed"
-        >
-          <div class="list-item-header">
-            <span class="prediction-title">{{ pred.title }}</span>
-            <span class="collapse-icon">{{
-              pred.isCollapsed ? "+" : "-"
-            }}</span>
-          </div>
-          <div class="prediction-main">
-            <span class="prediction-score"
-              >Score: {{ pred.similarityScore }}%</span
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Estimated Time</th>
+            <th>Commonality</th>
+            <th>Score</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let pred of filteredUserStoryPredictions">
+            <tr
+              [class.accepted]="pred.status === 'accepted'"
+              [class.rejected]="pred.status === 'rejected'"
+              class="prediction-table-row"
+              (click)="pred.isCollapsed = !pred.isCollapsed"
             >
-            <span class="prediction-freq"
-              >Commonality: {{ pred.frequency }}%</span
-            >
-            <span class="prediction-source"
-              >Source: {{ pred.sourceProject }}</span
-            >
-            <span
-              class="prediction-time"
-              *ngIf="
-                pred.estimatedTime !== undefined && pred.estimatedTime !== null
-              "
-            >
-              <strong>Est. Time:</strong> {{ pred.estimatedTime }}h
-            </span>
-          </div>
-          <div class="list-item-details" [hidden]="pred.isCollapsed">
-            <div class="prediction-desc">{{ pred.description }}</div>
-            <!-- Display additional user story details -->
-            <div *ngIf="pred.type === 'user-story'" class="prediction-details">
-              <p *ngIf="pred.acceptanceCriteria">
-                <strong>Acceptance Criteria:</strong>
-                {{ pred.acceptanceCriteria.join("; ") }}
-              </p>
-              <p *ngIf="pred.dependencies">
-                <strong>Dependencies:</strong>
-                {{ pred.dependencies.join(", ") }}
-              </p>
-              <p *ngIf="pred.assumptions">
-                <strong>Assumptions:</strong> {{ pred.assumptions.join("; ") }}
-              </p>
-              <p *ngIf="pred.edgeCases">
-                <strong>Edge Cases:</strong> {{ pred.edgeCases.join("; ") }}
-              </p>
-              <p *ngIf="pred.nonFunctionalRequirements">
-                <strong>Non-Functional Requirements:</strong>
-                {{ pred.nonFunctionalRequirements }}
-              </p>
-              <p *ngIf="pred.visuals">
-                <strong>Visuals:</strong> {{ pred.visuals.join(", ") }}
-              </p>
-              <p *ngIf="pred.dataRequirements">
-                <strong>Data Requirements:</strong> {{ pred.dataRequirements }}
-              </p>
-              <p *ngIf="pred.impact">
-                <strong>Impact:</strong> {{ pred.impact }}
-              </p>
-              <p *ngIf="pred.priority">
-                <strong>Priority:</strong> {{ pred.priority }}
-              </p>
-            </div>
-            <!-- Display additional bug details -->
-            <div *ngIf="pred.type === 'bug'" class="prediction-details">
-              <p *ngIf="pred.stepsToReproduce">
-                <strong>Steps to Reproduce:</strong>
-                {{ pred.stepsToReproduce.join(" -> ") }}
-              </p>
-              <p *ngIf="pred.actualResult">
-                <strong>Actual Result:</strong> {{ pred.actualResult }}
-              </p>
-              <p *ngIf="pred.expectedResult">
-                <strong>Expected Result:</strong> {{ pred.expectedResult }}
-              </p>
-              <p *ngIf="pred.environment">
-                <strong>Environment:</strong> {{ pred.environment }}
-              </p>
-              <p *ngIf="pred.userAccountDetails">
-                <strong>User/Account Details:</strong>
-                {{ pred.userAccountDetails }}
-              </p>
-              <p *ngIf="pred.screenshotsVideos">
-                <strong>Screenshots/Videos:</strong>
-                {{ pred.screenshotsVideos.join(", ") }}
-              </p>
-              <p *ngIf="pred.errorMessagesLogs">
-                <strong>Error Messages/Logs:</strong>
-                {{ pred.errorMessagesLogs }}
-              </p>
-              <p *ngIf="pred.frequencyOfOccurrence">
-                <strong>Frequency:</strong> {{ pred.frequencyOfOccurrence }}
-              </p>
-              <p *ngIf="pred.severity">
-                <strong>Severity:</strong> {{ pred.severity }}
-              </p>
-              <p *ngIf="pred.workaround">
-                <strong>Workaround:</strong> {{ pred.workaround }}
-              </p>
-              <p *ngIf="pred.relatedIssues">
-                <strong>Related Issues:</strong>
-                {{ pred.relatedIssues.join(", ") }}
-              </p>
-            </div>
-          </div>
-        </li>
-      </ul>
+              <td>{{ pred.title }}</td>
+              <td>
+                <span
+                  *ngIf="
+                    pred.estimatedTime !== undefined &&
+                    pred.estimatedTime !== null
+                  "
+                >
+                  {{ pred.estimatedTime }}h
+                </span>
+              </td>
+              <td>{{ pred.frequency }}%</td>
+              <td>{{ pred.similarityScore }}%</td>
+              <td>{{ pred.sourceProject }}</td>
+            </tr>
+            <tr [hidden]="pred.isCollapsed" class="prediction-details-row">
+              <td colspan="5">
+                <div class="list-item-details">
+                  <div class="prediction-desc">{{ pred.description }}</div>
+                  <!-- Display additional user story details -->
+                  <div
+                    *ngIf="pred.type === 'user-story'"
+                    class="prediction-details"
+                  >
+                    <p *ngIf="pred.acceptanceCriteria">
+                      <strong>Acceptance Criteria:</strong>
+                      {{ pred.acceptanceCriteria.join("; ") }}
+                    </p>
+                    <p *ngIf="pred.dependencies">
+                      <strong>Dependencies:</strong>
+                      {{ pred.dependencies.join(", ") }}
+                    </p>
+                    <p *ngIf="pred.assumptions">
+                      <strong>Assumptions:</strong>
+                      {{ pred.assumptions.join("; ") }}
+                    </p>
+                    <p *ngIf="pred.edgeCases">
+                      <strong>Edge Cases:</strong>
+                      {{ pred.edgeCases.join("; ") }}
+                    </p>
+                    <p *ngIf="pred.nonFunctionalRequirements">
+                      <strong>Non-Functional Requirements:</strong>
+                      {{ pred.nonFunctionalRequirements }}
+                    </p>
+                    <p *ngIf="pred.visuals">
+                      <strong>Visuals:</strong> {{ pred.visuals.join(", ") }}
+                    </p>
+                    <p *ngIf="pred.dataRequirements">
+                      <strong>Data Requirements:</strong>
+                      {{ pred.dataRequirements }}
+                    </p>
+                    <p *ngIf="pred.impact">
+                      <strong>Impact:</strong> {{ pred.impact }}
+                    </p>
+                    <p *ngIf="pred.priority">
+                      <strong>Priority:</strong> {{ pred.priority }}
+                    </p>
+                  </div>
+                  <!-- Display additional bug details -->
+                  <div *ngIf="pred.type === 'bug'" class="prediction-details">
+                    <p *ngIf="pred.stepsToReproduce">
+                      <strong>Steps to Reproduce:</strong>
+                      {{ pred.stepsToReproduce.join(" -> ") }}
+                    </p>
+                    <p *ngIf="pred.actualResult">
+                      <strong>Actual Result:</strong> {{ pred.actualResult }}
+                    </p>
+                    <p *ngIf="pred.expectedResult">
+                      <strong>Expected Result:</strong>
+                      {{ pred.expectedResult }}
+                    </p>
+                    <p *ngIf="pred.environment">
+                      <strong>Environment:</strong> {{ pred.environment }}
+                    </p>
+                    <p *ngIf="pred.userAccountDetails">
+                      <strong>User/Account Details:</strong>
+                      {{ pred.userAccountDetails }}
+                    </p>
+                    <p *ngIf="pred.screenshotsVideos">
+                      <strong>Screenshots/Videos:</strong>
+                      {{ pred.screenshotsVideos.join(", ") }}
+                    </p>
+                    <p *ngIf="pred.errorMessagesLogs">
+                      <strong>Error Messages/Logs:</strong>
+                      {{ pred.errorMessagesLogs }}
+                    </p>
+                    <p *ngIf="pred.frequencyOfOccurrence">
+                      <strong>Frequency:</strong>
+                      {{ pred.frequencyOfOccurrence }}
+                    </p>
+                    <p *ngIf="pred.severity">
+                      <strong>Severity:</strong> {{ pred.severity }}
+                    </p>
+                    <p *ngIf="pred.workaround">
+                      <strong>Workaround:</strong> {{ pred.workaround }}
+                    </p>
+                    <p *ngIf="pred.relatedIssues">
+                      <strong>Related Issues:</strong>
+                      {{ pred.relatedIssues.join(", ") }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
     </section>
 
     <section class="prediction-section">
@@ -164,118 +177,131 @@
       <div *ngIf="filteredBugPredictions.length === 0" class="empty-message">
         No bug predictions found.
       </div>
-      <ul class="prediction-list" *ngIf="filteredBugPredictions.length > 0">
-        <li
-          *ngFor="let pred of filteredBugPredictions"
-          [class.accepted]="pred.status === 'accepted'"
-          [class.rejected]="pred.status === 'rejected'"
-          class="prediction-list-item"
-          (click)="pred.isCollapsed = !pred.isCollapsed"
-        >
-          <div class="list-item-header">
-            <span class="prediction-title">{{ pred.title }}</span>
-            <span class="collapse-icon">{{
-              pred.isCollapsed ? "+" : "-"
-            }}</span>
-          </div>
-          <div class="prediction-main">
-            <span class="prediction-score"
-              >Score: {{ pred.similarityScore }}%</span
+      <table class="prediction-table" *ngIf="filteredBugPredictions.length > 0">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Estimated Time</th>
+            <th>Commonality</th>
+            <th>Score</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let pred of filteredBugPredictions">
+            <tr
+              [class.accepted]="pred.status === 'accepted'"
+              [class.rejected]="pred.status === 'rejected'"
+              class="prediction-table-row"
+              (click)="pred.isCollapsed = !pred.isCollapsed"
             >
-            <span class="prediction-freq"
-              >Commonality: {{ pred.frequency }}%</span
-            >
-            <span class="prediction-source"
-              >Source: {{ pred.sourceProject }}</span
-            >
-            <span
-              class="prediction-time"
-              *ngIf="
-                pred.estimatedTime !== undefined && pred.estimatedTime !== null
-              "
-            >
-              <strong>Est. Time:</strong> {{ pred.estimatedTime }}h
-            </span>
-          </div>
-          <div class="list-item-details" [hidden]="pred.isCollapsed">
-            <div class="prediction-desc">{{ pred.description }}</div>
-            <!-- Display additional user story details -->
-            <div *ngIf="pred.type === 'user-story'" class="prediction-details">
-              <p *ngIf="pred.acceptanceCriteria">
-                <strong>Acceptance Criteria:</strong>
-                {{ pred.acceptanceCriteria.join("; ") }}
-              </p>
-              <p *ngIf="pred.dependencies">
-                <strong>Dependencies:</strong>
-                {{ pred.dependencies.join(", ") }}
-              </p>
-              <p *ngIf="pred.assumptions">
-                <strong>Assumptions:</strong> {{ pred.assumptions.join("; ") }}
-              </p>
-              <p *ngIf="pred.edgeCases">
-                <strong>Edge Cases:</strong> {{ pred.edgeCases.join("; ") }}
-              </p>
-              <p *ngIf="pred.nonFunctionalRequirements">
-                <strong>Non-Functional Requirements:</strong>
-                {{ pred.nonFunctionalRequirements }}
-              </p>
-              <p *ngIf="pred.visuals">
-                <strong>Visuals:</strong> {{ pred.visuals.join(", ") }}
-              </p>
-              <p *ngIf="pred.dataRequirements">
-                <strong>Data Requirements:</strong> {{ pred.dataRequirements }}
-              </p>
-              <p *ngIf="pred.impact">
-                <strong>Impact:</strong> {{ pred.impact }}
-              </p>
-              <p *ngIf="pred.priority">
-                <strong>Priority:</strong> {{ pred.priority }}
-              </p>
-            </div>
-            <!-- Display additional bug details -->
-            <div *ngIf="pred.type === 'bug'" class="prediction-details">
-              <p *ngIf="pred.stepsToReproduce">
-                <strong>Steps to Reproduce:</strong>
-                {{ pred.stepsToReproduce.join(" -> ") }}
-              </p>
-              <p *ngIf="pred.actualResult">
-                <strong>Actual Result:</strong> {{ pred.actualResult }}
-              </p>
-              <p *ngIf="pred.expectedResult">
-                <strong>Expected Result:</strong> {{ pred.expectedResult }}
-              </p>
-              <p *ngIf="pred.environment">
-                <strong>Environment:</strong> {{ pred.environment }}
-              </p>
-              <p *ngIf="pred.userAccountDetails">
-                <strong>User/Account Details:</strong>
-                {{ pred.userAccountDetails }}
-              </p>
-              <p *ngIf="pred.screenshotsVideos">
-                <strong>Screenshots/Videos:</strong>
-                {{ pred.screenshotsVideos.join(", ") }}
-              </p>
-              <p *ngIf="pred.errorMessagesLogs">
-                <strong>Error Messages/Logs:</strong>
-                {{ pred.errorMessagesLogs }}
-              </p>
-              <p *ngIf="pred.frequencyOfOccurrence">
-                <strong>Frequency:</strong> {{ pred.frequencyOfOccurrence }}
-              </p>
-              <p *ngIf="pred.severity">
-                <strong>Severity:</strong> {{ pred.severity }}
-              </p>
-              <p *ngIf="pred.workaround">
-                <strong>Workaround:</strong> {{ pred.workaround }}
-              </p>
-              <p *ngIf="pred.relatedIssues">
-                <strong>Related Issues:</strong>
-                {{ pred.relatedIssues.join(", ") }}
-              </p>
-            </div>
-          </div>
-        </li>
-      </ul>
+              <td>{{ pred.title }}</td>
+              <td>
+                <span
+                  *ngIf="
+                    pred.estimatedTime !== undefined &&
+                    pred.estimatedTime !== null
+                  "
+                >
+                  {{ pred.estimatedTime }}h
+                </span>
+              </td>
+              <td>{{ pred.frequency }}%</td>
+              <td>{{ pred.similarityScore }}%</td>
+              <td>{{ pred.sourceProject }}</td>
+            </tr>
+            <tr [hidden]="pred.isCollapsed" class="prediction-details-row">
+              <td colspan="5">
+                <div class="list-item-details">
+                  <div class="prediction-desc">{{ pred.description }}</div>
+                  <!-- Display additional user story details -->
+                  <div
+                    *ngIf="pred.type === 'user-story'"
+                    class="prediction-details"
+                  >
+                    <p *ngIf="pred.acceptanceCriteria">
+                      <strong>Acceptance Criteria:</strong>
+                      {{ pred.acceptanceCriteria.join("; ") }}
+                    </p>
+                    <p *ngIf="pred.dependencies">
+                      <strong>Dependencies:</strong>
+                      {{ pred.dependencies.join(", ") }}
+                    </p>
+                    <p *ngIf="pred.assumptions">
+                      <strong>Assumptions:</strong>
+                      {{ pred.assumptions.join("; ") }}
+                    </p>
+                    <p *ngIf="pred.edgeCases">
+                      <strong>Edge Cases:</strong>
+                      {{ pred.edgeCases.join("; ") }}
+                    </p>
+                    <p *ngIf="pred.nonFunctionalRequirements">
+                      <strong>Non-Functional Requirements:</strong>
+                      {{ pred.nonFunctionalRequirements }}
+                    </p>
+                    <p *ngIf="pred.visuals">
+                      <strong>Visuals:</strong> {{ pred.visuals.join(", ") }}
+                    </p>
+                    <p *ngIf="pred.dataRequirements">
+                      <strong>Data Requirements:</strong>
+                      {{ pred.dataRequirements }}
+                    </p>
+                    <p *ngIf="pred.impact">
+                      <strong>Impact:</strong> {{ pred.impact }}
+                    </p>
+                    <p *ngIf="pred.priority">
+                      <strong>Priority:</strong> {{ pred.priority }}
+                    </p>
+                  </div>
+                  <!-- Display additional bug details -->
+                  <div *ngIf="pred.type === 'bug'" class="prediction-details">
+                    <p *ngIf="pred.stepsToReproduce">
+                      <strong>Steps to Reproduce:</strong>
+                      {{ pred.stepsToReproduce.join(" -> ") }}
+                    </p>
+                    <p *ngIf="pred.actualResult">
+                      <strong>Actual Result:</strong> {{ pred.actualResult }}
+                    </p>
+                    <p *ngIf="pred.expectedResult">
+                      <strong>Expected Result:</strong>
+                      {{ pred.expectedResult }}
+                    </p>
+                    <p *ngIf="pred.environment">
+                      <strong>Environment:</strong> {{ pred.environment }}
+                    </p>
+                    <p *ngIf="pred.userAccountDetails">
+                      <strong>User/Account Details:</strong>
+                      {{ pred.userAccountDetails }}
+                    </p>
+                    <p *ngIf="pred.screenshotsVideos">
+                      <strong>Screenshots/Videos:</strong>
+                      {{ pred.screenshotsVideos.join(", ") }}
+                    </p>
+                    <p *ngIf="pred.errorMessagesLogs">
+                      <strong>Error Messages/Logs:</strong>
+                      {{ pred.errorMessagesLogs }}
+                    </p>
+                    <p *ngIf="pred.frequencyOfOccurrence">
+                      <strong>Frequency:</strong>
+                      {{ pred.frequencyOfOccurrence }}
+                    </p>
+                    <p *ngIf="pred.severity">
+                      <strong>Severity:</strong> {{ pred.severity }}
+                    </p>
+                    <p *ngIf="pred.workaround">
+                      <strong>Workaround:</strong> {{ pred.workaround }}
+                    </p>
+                    <p *ngIf="pred.relatedIssues">
+                      <strong>Related Issues:</strong>
+                      {{ pred.relatedIssues.join(", ") }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
     </section>
 
     <div class="review-actions">
