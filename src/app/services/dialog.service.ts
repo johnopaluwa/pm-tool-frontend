@@ -1,49 +1,21 @@
-import {
-  ComponentRef,
-  EnvironmentInjector,
-  Injectable,
-  Injector,
-  createComponent,
-} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'; // Import MatDialog and MatDialogRef
+import { Observable } from 'rxjs'; // Import Observable
 import { ConfirmationDialogComponent } from '../components/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DialogService {
-  private dialogRef: ComponentRef<ConfirmationDialogComponent> | null = null;
+  constructor(private dialog: MatDialog) {} // Inject MatDialog
 
-  constructor(
-    private injector: Injector,
-    private environmentInjector: EnvironmentInjector
-  ) {}
-
-  openConfirmationDialog(message: string): Promise<boolean> {
-    return new Promise((resolve) => {
-      if (this.dialogRef) {
-        this.closeDialog();
-      }
-
-      this.dialogRef = createComponent(ConfirmationDialogComponent, {
-        environmentInjector: this.environmentInjector,
-        elementInjector: this.injector,
+  openConfirmationDialog(message: string): Observable<boolean | undefined> {
+    // Return Observable<boolean | undefined>
+    const dialogRef: MatDialogRef<ConfirmationDialogComponent> =
+      this.dialog.open(ConfirmationDialogComponent, {
+        data: { message: message }, // Pass data using the data property
       });
 
-      this.dialogRef.instance.message = message;
-
-      this.dialogRef.instance.confirmed.subscribe((result) => {
-        this.closeDialog();
-        resolve(result);
-      });
-
-      document.body.appendChild(this.dialogRef.location.nativeElement);
-    });
-  }
-
-  private closeDialog(): void {
-    if (this.dialogRef) {
-      this.dialogRef.destroy();
-      this.dialogRef = null;
-    }
+    return dialogRef.afterClosed(); // Return the afterClosed observable
   }
 }

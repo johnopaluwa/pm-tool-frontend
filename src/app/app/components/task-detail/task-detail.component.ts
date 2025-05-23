@@ -11,6 +11,7 @@ import {
   CustomFieldValue,
   CustomizationService,
 } from '../../../services/customization.service';
+import { DialogService } from '../../../services/dialog.service'; // Import DialogService
 import { Project, ProjectService } from '../../../services/project.service'; // Import ProjectService and Project interface
 import { Task, TaskService } from '../../../services/task.service'; // Import TaskService and Task interface
 import {
@@ -45,6 +46,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   private workflowDataSubscription: Subscription | undefined; // Subscription for workflow data
   private customFieldsSubscription: Subscription | undefined; // Subscription for custom fields
   private updateTaskSubscription: Subscription | undefined; // Subscription for updating task
+  private deleteTaskSubscription: Subscription | undefined; // Subscription for deleting task
 
   constructor(
     private route: ActivatedRoute,
@@ -52,7 +54,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     private taskService: TaskService, // Inject TaskService
     private projectService: ProjectService, // Inject ProjectService
     private workflowService: WorkflowService, // Inject WorkflowService
-    private customizationService: CustomizationService // Inject CustomizationService
+    private customizationService: CustomizationService, // Inject CustomizationService
+    private dialogService: DialogService // Inject DialogService
   ) {}
 
   ngOnInit(): void {
@@ -249,7 +252,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     // Optionally, sort valid next statuses by stage order and then status order
     this.validNextStatuses.sort((a, b) => {
       const aStage = this.stages.find((stage) => stage.id === a.stage_id)!;
-      const bStage = this.stages.find((stage) => stage.id === b.stage_id)!;
+      const bStage = this.stages.find((stage) => b.stage_id === b.stage_id)!; // Corrected bStage finding
       if (aStage.order !== bStage.order) {
         return aStage.order - bStage.order;
       }
@@ -297,11 +300,39 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  deleteTask(): void {
+    if (!this.task?.id) {
+      return;
+    }
+
+    this.dialogService
+      .openConfirmationDialog('Are you sure you want to delete this task?')
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.deleteTaskSubscription = this.taskService
+            .delete(this.task!.id!)
+            .subscribe({
+              // Changed remove to delete
+              next: () => {
+                console.log('Task deleted successfully.');
+                // Navigate back to the project details page or task list
+                this.router.navigate(['/projects', this.task!.project_id]);
+              },
+              error: (error: any) => {
+                console.error('Error deleting task:', error);
+                // TODO: Display user-friendly error message
+              },
+            });
+        }
+      });
+  }
+
   ngOnDestroy(): void {
     this.taskSubscription?.unsubscribe();
     this.projectSubscription?.unsubscribe();
     this.workflowDataSubscription?.unsubscribe(); // Unsubscribe from workflow data subscription
     this.customFieldsSubscription?.unsubscribe();
     this.updateTaskSubscription?.unsubscribe(); // Unsubscribe from update task subscription
+    this.deleteTaskSubscription?.unsubscribe(); // Unsubscribe from delete task subscription
   }
 }

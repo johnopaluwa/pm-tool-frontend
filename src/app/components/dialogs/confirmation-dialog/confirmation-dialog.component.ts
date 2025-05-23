@@ -1,20 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'; // Import MatDialogModule and MatDialogRef
+import { Component, Inject } from '@angular/core'; // Import Inject
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog'; // Import MAT_DIALOG_DATA
 
 @Component({
   selector: 'app-confirmation-dialog',
   standalone: true,
-  imports: [CommonModule, MatDialogModule], // Add MatDialogModule here
+  imports: [CommonModule, MatDialogModule],
   templateUrl: './confirmation-dialog.component.html',
   styleUrl: './confirmation-dialog.component.css',
 })
 export class ConfirmationDialogComponent {
-  @Input() message: string = 'Are you sure?';
-  @Output() confirmed = new EventEmitter<boolean>();
-
-  constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {} // Inject MatDialogRef
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { message: string } // Inject data
+  ) {}
 
   onConfirm(): void {
     this.dialogRef.close(true); // Close dialog and pass true

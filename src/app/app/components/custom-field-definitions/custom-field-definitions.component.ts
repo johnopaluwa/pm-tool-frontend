@@ -115,24 +115,27 @@ export class CustomFieldDefinitionsComponent implements OnInit {
     this.editingField = null;
   }
 
-  async deleteField(id: string): Promise<void> {
-    const confirmed = await this.dialogService.openConfirmationDialog(
-      'Are you sure you want to delete this custom field?'
-    );
-
-    if (confirmed) {
-      this.customizationService.deleteFieldDefinition(id).subscribe({
-        next: () => {
-          this.customFieldDefinitions = this.customFieldDefinitions.filter(
-            (f) => f.id !== id
-          );
-        },
-        error: (error: any) => {
-          // Explicitly type error
-          console.error('Error deleting custom field:', error);
-          // TODO: Display user-friendly error message
-        },
+  deleteField(id: string): void {
+    // Changed to return void
+    this.dialogService
+      .openConfirmationDialog(
+        'Are you sure you want to delete this custom field?'
+      )
+      .subscribe((confirmed) => {
+        // Subscribe to the observable
+        if (confirmed) {
+          this.customizationService.deleteFieldDefinition(id).subscribe({
+            next: () => {
+              this.customFieldDefinitions = this.customFieldDefinitions.filter(
+                (f) => f.id !== id
+              );
+            },
+            error: (error: any) => {
+              console.error('Error deleting custom field:', error);
+              // TODO: Display user-friendly error message
+            },
+          });
+        }
       });
-    }
   }
 }
