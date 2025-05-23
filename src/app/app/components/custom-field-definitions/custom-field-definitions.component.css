@@ -41,7 +41,6 @@
 
 .form-grid button {
   padding: 10px 20px; /* Adjust padding */
-  background-color: #007bff;
   color: white;
   border: none;
   /* border-radius: 4px; */ /* Removed to use global style */
@@ -52,7 +51,7 @@
 }
 
 .form-grid button:hover {
-  background-color: #0056b3;
+  /* The hover background color will be inherited from the global style */
 }
 
 .form-grid .full-width {

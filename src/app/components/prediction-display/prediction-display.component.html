@@ -22,18 +22,6 @@
   </ng-container>
 
   <ng-container *ngIf="!loading && !isGeneratingReport">
-    <div class="prediction-legend">
-      <p>
-        <strong>Score:</strong> Indicates the similarity score of the
-        prediction.
-      </p>
-      <p>
-        <strong>Commonality:</strong> Shows how frequently similar items appear
-        in the source data.
-      </p>
-      <p><strong>Source:</strong> Specifies the origin of the prediction.</p>
-    </div>
-
     <section class="prediction-section">
       <h3>Predicted User Stories</h3>
       <div
@@ -50,9 +38,27 @@
           <tr>
             <th>Title</th>
             <th>Estimated Time</th>
-            <th>Commonality</th>
-            <th>Score</th>
-            <th>Source</th>
+            <th>
+              Commonality&nbsp;<span
+                class="info-icon"
+                title="Shows how frequently similar items appear in the source data."
+                >?</span
+              >
+            </th>
+            <th>
+              Score&nbsp;<span
+                class="info-icon"
+                title="Indicates the similarity score of the prediction."
+                >?</span
+              >
+            </th>
+            <th>
+              Source&nbsp;<span
+                class="info-icon"
+                title="Specifies the origin of the prediction."
+                >?</span
+              >
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -182,9 +188,27 @@
           <tr>
             <th>Title</th>
             <th>Estimated Time</th>
-            <th>Commonality</th>
-            <th>Score</th>
-            <th>Source</th>
+            <th>
+              Commonality&nbsp;<span
+                class="info-icon"
+                title="Shows how frequently similar items appear in the source data."
+                >?</span
+              >
+            </th>
+            <th>
+              Score&nbsp;<span
+                class="info-icon"
+                title="Indicates the similarity score of the prediction."
+                >?</span
+              >
+            </th>
+            <th>
+              Source&nbsp;<span
+                class="info-icon"
+                title="Specifies the origin of the prediction."
+                >?</span
+              >
+            </th>
           </tr>
         </thead>
         <tbody>
