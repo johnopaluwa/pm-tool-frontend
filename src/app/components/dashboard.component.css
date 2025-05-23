@@ -37,174 +37,132 @@
 }
 
 .dashboard-sections {
-  display: grid; /* Use grid for sections */
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(350px, 1fr)
-  ); /* Responsive grid */
-  gap: 40px; /* Adjusted gap */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
 }
 
-.active-projects,
-.recent-predictions {
-  background-color: var(--surface-color); /* Use surface color */
-  border-radius: var(--border-radius); /* Use border radius variable */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-  padding: 28px 24px; /* Adjusted padding */
-  border: 1px solid var(--divider-color); /* Add subtle border */
+.recent-predictions,
+.my-projects {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 28px 24px;
+  border: 1px solid var(--divider-color);
 }
 
-.active-projects h3,
-.recent-predictions h3 {
-  font-size: 1.2rem; /* Slightly larger font size */
-  font-weight: 600;
-  margin-bottom: 20px; /* Adjusted margin */
-  color: var(--text-color); /* Use text color */
-  border-bottom: 1px solid var(--divider-color); /* Add subtle border bottom */
-  padding-bottom: 12px; /* Add padding below title */
-}
-
-.project-list {
+.section-header {
   display: flex;
-  flex-direction: column;
-  gap: 16px; /* Adjusted gap */
-}
-
-.project-card {
-  background-color: var(--surface-color); /* Use surface color */
-  border-radius: var(--border-radius); /* Use border radius variable */
-  padding: 16px 20px; /* Adjusted padding */
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-  transition: box-shadow 0.2s ease;
-  cursor: pointer; /* Add cursor pointer */
-  border: 1px solid var(--divider-color); /* Add subtle border */
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--divider-color);
+  padding-bottom: 12px;
 }
 
-.project-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
-}
-
-.project-title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--text-color); /* Use text color */
-}
-
-.project-status {
-  font-size: 0.8rem; /* Slightly smaller font size */
+.recent-predictions h3,
+.my-projects h3 {
+  font-size: 1.2rem;
   font-weight: 600;
-  padding: 4px 10px; /* Adjusted padding */
-  border-radius: var(--border-radius); /* Use global border radius */
-  color: white; /* White text on status pills */
-  text-transform: uppercase; /* Uppercase status text */
-  margin-left: 16px; /* Adjusted margin */
+  margin: 0; /* Remove margin as it's handled by section-header */
+  color: var(--text-color);
 }
 
-.status-new {
-  background-color: #6b7280; /* Grey */
+.table-container {
+  overflow-x: auto; /* Add horizontal scroll for small screens */
 }
 
-.status-predicting {
-  background-color: var(--accent-color); /* Blue/Cyan */
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.status-completed {
+th,
+td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--divider-color);
+  color: var(--text-color);
+}
+
+th {
+  font-weight: 600;
+  background-color: var(--background-color);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.status-pill {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--border-radius);
+  color: white;
+  text-transform: uppercase;
+  display: inline-block; /* Ensure padding and border-radius work */
+}
+
+.status-pill.completed {
   background-color: #10b981; /* Green */
 }
 
-.prediction-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px; /* Adjusted gap */
-}
-
-.prediction-list li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--background-color); /* Use background color */
-  border-radius: var(--border-radius); /* Use border radius variable */
-  padding: 12px 16px; /* Adjusted padding */
-  font-size: 1rem;
-  color: var(--text-color); /* Use text color */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-  border: 1px solid var(--divider-color); /* Add subtle border */
-}
-
-.review-btn {
-  background-color: var(--primary-color); /* Use primary color */
-  color: white; /* White text */
-  border: none;
-  border-radius: var(--border-radius); /* Use global border radius */
-  padding: 8px 16px; /* Adjusted padding */
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  margin-left: 16px; /* Adjusted margin */
-  transition: background-color 0.3s ease;
-}
-
-.review-btn:hover {
-  background-color: var(--primary-dark-color); /* Darker primary on hover */
+.status-pill.in-progress {
+  background-color: var(--accent-color); /* Blue/Cyan */
 }
 
 @media (max-width: 768px) {
-  /* Adjusted breakpoint */
   .dashboard {
-    padding: 24px 16px; /* Adjusted padding */
+    padding: 24px 16px;
   }
 
   .dashboard-header {
-    flex-direction: column; /* Stack header items */
+    flex-direction: column;
     align-items: flex-start;
-    gap: 16px; /* Add gap */
-    margin-bottom: 24px; /* Adjusted margin */
+    gap: 16px;
+    margin-bottom: 24px;
   }
 
   .dashboard-sections {
-    gap: 24px; /* Adjusted gap */
+    gap: 24px;
   }
 
-  .active-projects,
-  .recent-predictions {
-    padding: 20px; /* Adjusted padding */
+  .recent-predictions,
+  .my-projects {
+    padding: 20px;
   }
 
-  .active-projects h3,
-  .recent-predictions h3 {
-    margin-bottom: 16px; /* Adjusted margin */
-    padding-bottom: 8px; /* Adjusted padding */
+  .section-header {
+    margin-bottom: 16px;
+    padding-bottom: 8px;
   }
 
-  .project-list {
-    gap: 12px; /* Adjusted gap */
+  .recent-predictions h3,
+  .my-projects h3 {
+    flex-grow: 1; /* Allow heading to take available space */
   }
 
-  .project-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px; /* Adjusted gap */
-    padding: 12px 16px; /* Adjusted padding */
+  th,
+  td {
+    padding: 10px 12px;
   }
+}
 
-  .project-status {
-    margin-left: 0; /* Remove margin */
-  }
+.view-all-btn {
+  padding: 10px 20px; /* Match new-project-btn padding */
+  border: none; /* Remove border */
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem; /* Match new-project-btn font size */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  background-color: var(--primary-color); /* Match new-project-btn background */
+  color: white; /* Match new-project-btn text color */
+  font-weight: 500; /* Match new-project-btn font weight */
+  text-decoration: none;
+  display: inline-block; /* Ensure padding works */
+}
 
-  .prediction-list li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px; /* Adjusted gap */
-    padding: 12px 16px; /* Adjusted padding */
-  }
-
-  .review-btn {
-    margin-left: 0; /* Remove margin */
-  }
+.view-all-btn:hover {
+  background-color: var(--primary-dark-color); /* Match new-project-btn hover */
 }

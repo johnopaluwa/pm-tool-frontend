@@ -8,6 +8,11 @@ import {
 } from '../services/prediction-review.service'; // Import PredictionReviewService
 import { Project, ProjectService } from '../services/project.service'; // Import ProjectService and Project interface
 
+// Define a new interface that extends PredictionReview and adds the status property
+interface PredictionReviewWithStatus extends PredictionReview {
+  status: string;
+}
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -17,7 +22,7 @@ import { Project, ProjectService } from '../services/project.service'; // Import
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   projects: Project[] = []; // Use Project interface
-  recentReviews: PredictionReview[] = []; // Property to store recent reviews
+  recentReviews: PredictionReviewWithStatus[] = []; // Use the new interface
   private projectsSubscription: Subscription | undefined;
   private reviewsSubscription: Subscription | undefined;
 
@@ -31,7 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.projectsSubscription = this.projectService
       .getProjects()
       .subscribe((projects: Project[]) => {
-        this.projects = projects;
+        this.projects = projects.slice(-6); // Limit to the latest 6 projects
       });
 
     // Fetch recent prediction reviews
@@ -39,7 +44,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .getPredictionReviews()
       .subscribe((reviews: PredictionReview[]) => {
         // For dashboard, maybe show a limited number of recent reviews
-        this.recentReviews = reviews.slice(-5); // Get the last 5 reviews
+        this.recentReviews = reviews.slice(-6).map((review) => {
+          // Limit to the latest 6 reviews
+          const project = this.projects.find((p) => p.id === review.projectId);
+          return {
+            ...review,
+            status: project ? project.status : 'Unknown', // Add project status to review object
+          };
+        });
       });
   }
 

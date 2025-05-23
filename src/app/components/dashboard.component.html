@@ -5,38 +5,64 @@
   </div>
 
   <div class="dashboard-sections">
-    <section class="active-projects">
-      <h3>My Active Projects</h3>
-      <div class="project-list">
-        <div
-          class="project-card"
-          *ngFor="let project of projects"
-          [routerLink]="['/projects', project.id]"
-        >
-          <div class="project-title">
-            {{ project.name }} ({{ project.client }})
-          </div>
-          <div class="project-status status-{{ project.status | lowercase }}">
-            {{ project.status }}
-          </div>
-        </div>
+    <section class="recent-predictions">
+      <div class="section-header">
+        <h3>Recent Predictions</h3>
+        <button class="view-all-btn" routerLink="/predictions/overview">
+          View All
+        </button>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let review of recentReviews">
+              <td>{{ review.projectName }}</td>
+              <td>
+                <span class="status-pill {{ review.status | lowercase }}">{{
+                  review.status
+                }}</span>
+              </td>
+              <td>{{ review.generatedAt | date : "yyyy-MM-dd" }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <section class="recent-predictions">
-      <h3>Recent Prediction Activity</h3>
-      <ul class="prediction-list">
-        <li *ngFor="let review of recentReviews">
-          Predictions generated for <b>{{ review.projectName }}</b>
-          <button
-            class="review-btn"
-            [routerLink]="['/predictions/list']"
-            [queryParams]="{ reviewId: review.id }"
-          >
-            Review Now →
-          </button>
-        </li>
-      </ul>
+    <section class="my-projects">
+      <div class="section-header">
+        <h3>My Projects</h3>
+        <button class="view-all-btn" routerLink="/projects">View All</button>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Predictions Run</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let project of projects">
+              <td>{{ project.name }}</td>
+              <td>
+                {{
+                  project.status.toLowerCase() === "completed"
+                    ? "true"
+                    : "false"
+                }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </div>
 </div>
