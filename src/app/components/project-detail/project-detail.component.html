@@ -8,7 +8,6 @@
     *ngIf="project && project.status !== 'predicting' && !generatingPredictions"
   >
     <h3>{{ project.name }}</h3>
-    <p>Client: {{ project.client }}</p>
     <p>
       Status:
       <span class="status status-{{ project.status | lowercase }}">{{
@@ -104,12 +103,6 @@
     *ngIf="project && project.status !== 'predicting' && !generatingPredictions"
   >
     <h4>Prediction Characteristics:</h4>
-    <p>Project Type: {{ project.projectType }}</p>
-    <p>Client Industry: {{ project.clientIndustry }}</p>
-    <p>Technology Stack: {{ project.techStack.join(", ") }}</p>
-    <p>Estimated Team Size: {{ project.teamSize }}</p>
-    <p>Estimated Duration: {{ project.duration }}</p>
-    <p>Keywords: {{ project.keywords }}</p>
     <p>Business Specification: {{ project.businessSpecification }}</p>
   </div>
 

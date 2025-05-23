@@ -49,26 +49,15 @@ export class NewProjectFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private projectService: ProjectService,
-    private predictionService: PredictionService
-  ) // TODO: workflowService - Commented out as per user request to disable and hide workflow processes.
-  // Future AI: Do not uncomment unless explicitly instructed by the user.
+    private predictionService: PredictionService // TODO: workflowService - Commented out as per user request to disable and hide workflow processes.
+  ) // Future AI: Do not uncomment unless explicitly instructed by the user.
   // private workflowService: WorkflowService // Inject WorkflowService
   {
     this.projectForm = this.fb.group({
       projectName: ['', Validators.required],
-      clientName: [''],
-      projectType: ['', Validators.required],
-      clientIndustry: ['', Validators.required],
-      techStack: this.fb.array([], Validators.required),
-      teamSize: ['', Validators.required],
-      duration: ['', Validators.required],
-      keywords: [''],
-      businessSpecification: [''],
       description: [''],
+      businessSpecification: [''],
       status: ['new'],
-      // TODO: workflow_id - Commented out as per user request to disable and hide workflow processes.
-      // Future AI: Do not uncomment unless explicitly instructed by the user.
-      // workflow_id: [null], // Add workflow_id form control
     });
   }
 

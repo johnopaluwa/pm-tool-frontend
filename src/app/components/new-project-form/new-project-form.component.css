@@ -17,14 +17,14 @@
 }
 
 .new-project-form {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 20px; /* Adjusted gap */
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 8px; /* Adjusted gap */
 }
 

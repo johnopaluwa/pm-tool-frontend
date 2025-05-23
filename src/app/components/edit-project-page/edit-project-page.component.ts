@@ -30,14 +30,7 @@ export class EditProjectPageComponent implements OnInit {
 
   // Add properties for all project fields here, initialized with default values or fetched project data
   projectName: string = '';
-  client: string = '';
   description: string = '';
-  projectType: string = '';
-  clientIndustry: string = '';
-  techStack: string[] = [];
-  teamSize: string = '';
-  duration: string = '';
-  keywords: string = '';
   businessSpecification: string = '';
 
   constructor(
@@ -55,14 +48,7 @@ export class EditProjectPageComponent implements OnInit {
           // Populate form fields with fetched project data
           if (project) {
             this.projectName = project.name;
-            this.client = project.client;
             this.description = project.description;
-            this.projectType = project.projectType;
-            this.clientIndustry = project.clientIndustry;
-            this.techStack = project.techStack;
-            this.teamSize = project.teamSize;
-            this.duration = project.duration;
-            this.keywords = project.keywords;
             this.businessSpecification = project.businessSpecification;
           }
         },
@@ -77,19 +63,6 @@ export class EditProjectPageComponent implements OnInit {
     }
   }
 
-  onTechStackChange(event: any) {
-    // Add onTechStackChange method
-    const tech = event.target.value;
-    if (event.target.checked) {
-      this.techStack.push(tech);
-    } else {
-      const index = this.techStack.indexOf(tech);
-      if (index > -1) {
-        this.techStack.splice(index, 1);
-      }
-    }
-  }
-
   saveProject(): void {
     if (!this.projectId) {
       console.error('Cannot save project: Project ID is missing.');
@@ -100,14 +73,7 @@ export class EditProjectPageComponent implements OnInit {
     // Create an updated project object from form fields
     const updatedProject: Partial<Project> = {
       name: this.projectName,
-      client: this.client,
       description: this.description,
-      projectType: this.projectType,
-      clientIndustry: this.clientIndustry,
-      techStack: this.techStack,
-      teamSize: this.teamSize,
-      duration: this.duration,
-      keywords: this.keywords,
       businessSpecification: this.businessSpecification,
       // Do not include status or reportGenerated as they are not edited here
       // TODO: workflow_id - Commented out as per user request to disable and hide workflow processes.
