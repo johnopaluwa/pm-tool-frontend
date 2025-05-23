@@ -94,11 +94,6 @@ export class PredictionDisplayComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (project) => {
           this.project = project;
-          console.log('Project loaded:', this.project);
-          console.log(
-            'Report generated status:',
-            this.project?.reportGenerated
-          );
         },
         error: (err) => {
           console.error('Failed to load project for review:', err);
@@ -172,7 +167,6 @@ export class PredictionDisplayComponent implements OnInit, OnDestroy {
       .generateProjectReports(this.predictionReview.projectId)
       .subscribe({
         next: (reportResponse) => {
-          console.log('Report generation triggered:', reportResponse);
           this.loading = false; // Reset initial loading flag
           this.isGeneratingReport = false; // Reset generating report flag
           // Optionally refetch the project to update the reportGenerated status in the UI

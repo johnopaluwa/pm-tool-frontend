@@ -143,7 +143,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             `Definition ID: ${def.id}, Name: ${def.name}, Entity Type: ${def.entity_type}`
           )
         ); // Log details of each filtered definition
-        console.log('Custom field values:', this.customFieldValues);
       },
       error: (error) => {
         console.error('Error loading custom fields:', error);
@@ -158,7 +157,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (tasks) => {
           this.tasks = tasks;
-          console.log('Tasks loaded:', this.tasks);
         },
         error: (error) => {
           console.error('Error loading tasks:', error);
@@ -295,7 +293,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   //     .subscribe({
   //       next: (project: Project) => {
   //         // Explicitly type project
-  //         console.log('Project workflow updated:', project);
+  //
   //         // Update the local project object with the returned data
   //         this.project = project;
   //       },
@@ -321,7 +319,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // Handle the task creation logic here
-        console.log('Dialog result:', result);
         // Call TaskService to create the task
         const newTask = {
           title: result.name, // Use 'title' instead of 'name'
@@ -331,7 +328,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         };
         this.taskService.createTask(newTask).subscribe({
           next: (createdTask) => {
-            console.log('Task created successfully:', createdTask);
             this.tasks.push(createdTask); // Add the new task to the local array
             // TODO: Show a success message to the user
           },
@@ -361,7 +357,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         };
         this.taskService.update(result.id!, taskUpdate).subscribe({
           next: (updatedTask) => {
-            console.log('Task updated successfully:', updatedTask);
             // Replace the old task with the updated task in the local array
             const index = this.tasks.findIndex((t) => t.id === updatedTask.id);
             if (index !== -1) {
@@ -390,7 +385,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         // User confirmed deletion
         this.taskService.delete(taskId).subscribe({
           next: () => {
-            console.log('Task deleted successfully:', taskId);
             // Remove the deleted task from the local array
             this.tasks = this.tasks.filter((task) => task.id !== taskId);
             // TODO: Show a success message to the user

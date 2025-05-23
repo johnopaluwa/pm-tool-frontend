@@ -88,15 +88,12 @@ export class ImportTasksComponent implements OnInit {
   }
 
   selectSource(source: 'azure-devops' | 'trello'): void {
-    console.log('selectSource called with:', source);
     this.selectedSource = source;
     this.importStatus = null; // Reset status
     this.importError = null; // Reset error
   }
 
   initiateImport(): void {
-    console.log('Entering initiateImport method.');
-    console.log('initiateImport called for source:', this.selectedSource);
     if (this.selectedSource === 'azure-devops') {
       this.initiateAzureDevOpsImport();
     } else if (this.selectedSource === 'trello') {
@@ -105,7 +102,6 @@ export class ImportTasksComponent implements OnInit {
   }
 
   initiateAzureDevOpsImport(): void {
-    console.log('initiateAzureDevOpsImport called');
     this.loadingService.show(); // Show loading indicator
     this.importStatus = 'Initiating Azure DevOps import...';
     this.importError = null;
@@ -117,7 +113,6 @@ export class ImportTasksComponent implements OnInit {
 
     const params = new HttpParams().set('state', this.state); // Use HttpParams
 
-    console.log('Making HTTP GET request to Azure DevOps initiate endpoint');
     this.http
       .get<{ url: string }>(`${this.backendUrl}/import/azure-devops/initiate`, {
         params,
@@ -141,11 +136,9 @@ export class ImportTasksComponent implements OnInit {
   }
 
   initiateTrelloImport(): void {
-    console.log('initiateTrelloImport called');
     this.loadingService.show(); // Show loading indicator
     this.importStatus = 'Initiating Trello import...';
     this.importError = null;
-    console.log('Making HTTP GET request to Trello initiate endpoint');
     this.http
       .get<{ url: string }>(`${this.backendUrl}/import/trello/initiate`)
       .subscribe(
@@ -343,7 +336,6 @@ export class ImportTasksComponent implements OnInit {
       .subscribe(
         (response) => {
           this.loadingService.hide(); // Hide loading indicator
-          console.log('Import successful:', response);
           this.importStatus =
             response.message || 'Import completed successfully.';
           // Navigate to the project details page after successful import

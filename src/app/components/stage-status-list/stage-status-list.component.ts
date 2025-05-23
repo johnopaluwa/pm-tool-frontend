@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'; // Import ActivatedRoute
 import { Observable, of, Subject } from 'rxjs'; // Import combineLatest, Subject, and of
-import { tap } from 'rxjs/operators'; // Import tap
 
 import { StageStatus, WorkflowService } from '../../services/workflow.service';
 
@@ -33,13 +32,6 @@ export class StageStatusListComponent implements OnInit {
   }
 
   onAddStatusClick(): void {
-    console.log('Add New Status button clicked, navigating programmatically');
-    console.log(
-      'Navigating with workflowId:',
-      this.workflowId,
-      'and stageId:',
-      this.stageId
-    );
     this.router.navigate([
       '/workflows',
       this.workflowId,
@@ -69,15 +61,11 @@ export class StageStatusListComponent implements OnInit {
     });
 
     if (workflowId && stageId) {
-      this.statuses$ = this.workflowService
-        .getStageStatuses(workflowId, stageId)
-        .pipe(
-          tap((statuses) =>
-            console.log('Statuses fetched with provided IDs:', statuses)
-          )
-        );
+      this.statuses$ = this.workflowService.getStageStatuses(
+        workflowId,
+        stageId
+      );
     } else {
-      console.log('WorkflowId or StageId not available, skipping fetch.');
       this.statuses$ = of([]); // Assign an observable of an empty array
     }
   }

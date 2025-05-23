@@ -67,7 +67,6 @@ export class StageStatusDetailComponent implements OnInit {
               });
           } else {
             // Creating a new stage status, no initial data to patch
-            console.log('Creating new stage status, no initial data fetch.');
           }
         });
       });
@@ -75,10 +74,6 @@ export class StageStatusDetailComponent implements OnInit {
   }
 
   saveStatus(): void {
-    console.log('saveStatus called');
-    console.log('Form valid:', this.stageStatusForm.valid);
-    console.log('Workflow ID:', this.workflowId);
-    console.log('Stage ID:', this.stageId);
     if (this.stageStatusForm.valid && this.workflowId && this.stageId) {
       const statusData: StageStatus = {
         ...this.stageStatusForm.value,
@@ -96,7 +91,6 @@ export class StageStatusDetailComponent implements OnInit {
           )
           .subscribe(
             (updatedStatus) => {
-              console.log('Stage status updated:', updatedStatus);
               // Optionally navigate back to stage detail or show success message
             },
             (error) => {
@@ -110,7 +104,6 @@ export class StageStatusDetailComponent implements OnInit {
           .createStageStatus(this.workflowId, this.stageId, statusData)
           .subscribe(
             (newStatus) => {
-              console.log('Stage status created:', newStatus);
               this.router.navigate([
                 '/workflows',
                 this.workflowId,
@@ -133,13 +126,12 @@ export class StageStatusDetailComponent implements OnInit {
         .openConfirmationDialog(
           'Are you sure you want to delete this stage status?'
         )
-        .then((result: boolean) => {
+        .subscribe((result: boolean | undefined) => {
           if (result && this.workflowId && this.stageId && this.statusId) {
             this.workflowService
               .deleteStageStatus(this.workflowId, this.stageId, this.statusId)
               .subscribe(
                 () => {
-                  console.log('Stage status deleted');
                   this.router.navigate([
                     '/workflows',
                     this.workflowId,
@@ -157,7 +149,6 @@ export class StageStatusDetailComponent implements OnInit {
   }
 
   close(): void {
-    console.log('close called');
     if (this.workflowId && this.stageId) {
       this.router.navigate([
         '/workflows',

@@ -73,7 +73,6 @@ export class WorkflowStageDetailComponent implements OnInit, OnDestroy {
           const statusRoutePattern =
             /\/statuses\/(new|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
           this.isEditingStatus = statusRoutePattern.test(this.router.url);
-          console.log('Initial isEditingStatus:', this.isEditingStatus); // Log initial value
         }),
         switchMap(() => {
           if (this.workflowId && this.stageId) {
@@ -89,7 +88,6 @@ export class WorkflowStageDetailComponent implements OnInit, OnDestroy {
             );
           } else {
             // Creating a new workflow stage
-            console.log('Creating new stage for workflow:', this.workflowId); // Log create action
             return of(null);
           }
         }),
@@ -97,10 +95,8 @@ export class WorkflowStageDetailComponent implements OnInit, OnDestroy {
       )
       .subscribe((stage) => {
         if (stage) {
-          console.log('Existing stage loaded:', stage); // Log loaded stage
           this.workflowStageForm.patchValue(stage);
         } else {
-          console.log('No existing stage found or creating new.'); // Log if no stage loaded
         }
       });
 
@@ -116,7 +112,6 @@ export class WorkflowStageDetailComponent implements OnInit, OnDestroy {
         const statusRoutePattern =
           /\/statuses\/(new|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
         this.isEditingStatus = statusRoutePattern.test(event.url);
-        console.log('isEditingStatus:', this.isEditingStatus); // Log the value
       });
   }
 
@@ -126,25 +121,18 @@ export class WorkflowStageDetailComponent implements OnInit, OnDestroy {
   }
 
   saveStage(): void {
-    console.log('saveStage() called');
-    console.log('Form valid:', this.workflowStageForm.valid);
-    console.log('Workflow ID:', this.workflowId);
-
     if (this.workflowStageForm.valid && this.workflowId) {
       const stageData: WorkflowStage = {
         ...this.workflowStageForm.value,
         workflow_id: this.workflowId,
       };
-      console.log('Stage data:', stageData);
 
       if (this.stageId) {
         // Update existing workflow stage
-        console.log('Updating existing workflow stage with ID:', this.stageId);
         this.workflowService
           .updateWorkflowStage(this.workflowId, this.stageId, stageData)
           .subscribe(
             (updatedStage) => {
-              console.log('Workflow stage updated successfully:', updatedStage);
               this.router.navigate(['/workflows', this.workflowId]);
             },
             (error) => {
@@ -154,12 +142,10 @@ export class WorkflowStageDetailComponent implements OnInit, OnDestroy {
           );
       } else {
         // Create new workflow stage
-        console.log('Creating new workflow stage');
         this.workflowService
           .createWorkflowStage(this.workflowId, stageData)
           .subscribe(
             (newStage) => {
-              console.log('Workflow stage created successfully:', newStage);
               this.router.navigate(['/workflows', this.workflowId]);
             },
             (error) => {
@@ -176,7 +162,6 @@ export class WorkflowStageDetailComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
-    console.log('close() called');
     this.router.navigate(['/workflows', this.workflowId]);
   }
 
@@ -186,13 +171,12 @@ export class WorkflowStageDetailComponent implements OnInit, OnDestroy {
         .openConfirmationDialog(
           'Are you sure you want to delete this workflow stage?'
         )
-        .then((confirmed) => {
+        .subscribe((confirmed: boolean | undefined) => {
           if (confirmed) {
             this.workflowService
               .deleteWorkflowStage(this.workflowId!, this.stageId!)
               .subscribe(
                 () => {
-                  console.log('Workflow stage deleted');
                   this.router.navigate(['/workflows', this.workflowId]);
                 },
                 (error) => {

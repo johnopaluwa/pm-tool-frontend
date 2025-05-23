@@ -85,7 +85,6 @@ export class EditProjectPageComponent implements OnInit {
       .updateProject(this.projectId, updatedProject)
       .subscribe({
         next: (project) => {
-          console.log('Project updated successfully:', project);
           // TODO: Show success message
           this.router.navigate(['/projects', this.projectId]); // Navigate back to project detail page
         },

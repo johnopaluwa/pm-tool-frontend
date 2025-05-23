@@ -158,8 +158,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       next: ([definitions, values]) => {
         this.customFieldDefinitions = definitions;
         this.customFieldValues = values;
-        console.log('Custom field definitions:', this.customFieldDefinitions);
-        console.log('Custom field values:', this.customFieldValues);
       },
       error: (error: any) => {
         console.error('Error loading custom fields:', error);
@@ -286,7 +284,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       .update(this.task.id, updatedTask)
       .subscribe({
         next: (updatedTask: Task) => {
-          console.log('Task status updated:', updatedTask);
           // Update the local task object with the returned data
           this.task = updatedTask;
           // Re-determine valid next statuses based on the new status
@@ -314,7 +311,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             .subscribe({
               // Changed remove to delete
               next: () => {
-                console.log('Task deleted successfully.');
                 // Navigate back to the project details page or task list
                 this.router.navigate(['/projects', this.task!.project_id]);
               },

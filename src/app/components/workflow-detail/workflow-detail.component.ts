@@ -89,7 +89,6 @@ export class WorkflowDetailComponent implements OnInit {
           .updateWorkflow(this.workflowId, workflowData)
           .subscribe(
             (updatedWorkflow) => {
-              console.log('Workflow updated:', updatedWorkflow);
               // Optionally navigate back to list or show success message
             },
             (error) => {
@@ -101,7 +100,6 @@ export class WorkflowDetailComponent implements OnInit {
         // Create new workflow
         this.workflowService.createWorkflow(workflowData).subscribe(
           (newWorkflow) => {
-            console.log('Workflow created:', newWorkflow);
             this.router.navigate(['/workflows', newWorkflow.id]); // Navigate to the new workflow's detail page
           },
           (error) => {
@@ -119,11 +117,10 @@ export class WorkflowDetailComponent implements OnInit {
         .openConfirmationDialog(
           'Are you sure you want to delete this workflow?'
         )
-        .then((confirmed) => {
+        .subscribe((confirmed: boolean | undefined) => {
           if (confirmed) {
             this.workflowService.deleteWorkflow(this.workflowId!).subscribe(
               () => {
-                console.log('Workflow deleted');
                 this.router.navigate(['/workflows/list']); // Navigate back to the list after deletion
               },
               (error) => {

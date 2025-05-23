@@ -102,7 +102,6 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
   }
 
   checkProjectReportStatus(projectId: string): void {
-    console.log(`Checking report status for project ID: ${projectId}`); // Log when checking status
     // Initialize status if not already present
     if (!this.projectReportStatus[projectId]) {
       this.projectReportStatus[projectId] = 'pending';
@@ -113,7 +112,6 @@ export class PredictionOverviewComponent implements OnInit, OnDestroy {
       .pipe(
         startWith(0), // Check immediately on init
         switchMap(() => {
-          console.log(`Polling report status for project ID: ${projectId}`); // Log when polling
           return this.reportService.getProjectReportsStatus(projectId).pipe(
             catchError((error) => {
               console.error(
