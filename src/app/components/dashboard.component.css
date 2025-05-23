@@ -9,6 +9,12 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: calc(var(--spacing-unit) * 4); /* Use spacing unit */
+  gap: 24px; /* Increase gap between buttons */
+}
+
+.dashboard-header span {
+  display: flex;
+  gap: 16px; /* Adjust the gap as needed */
 }
 
 .dashboard-header h2 {
@@ -18,21 +24,33 @@
   margin: 0;
 }
 
-.new-project-btn {
-  padding: 10px 20px; /* Adjusted padding */
+.dashboard-button {
+  padding: 10px 20px;
   border: none;
-  border-radius: var(--border-radius); /* Use global border radius */
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease, opacity 0.3s ease;
-  background-color: var(--primary-color);
-  color: white; /* White text on primary button */
   font-weight: 500;
-  text-decoration: none; /* Remove underline from link */
-  display: inline-block; /* Ensure padding works */
+  text-decoration: none;
+  display: inline-block;
+}
+
+.new-project-btn {
+  background-color: var(--primary-color);
+  color: white;
 }
 
 .new-project-btn:hover {
+  background-color: var(--primary-dark-color);
+}
+
+.import-tasks-btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.import-tasks-btn:hover {
   background-color: var(--primary-dark-color);
 }
 

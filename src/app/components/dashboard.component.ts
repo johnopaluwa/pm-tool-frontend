@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {
   PredictionReview,
@@ -28,8 +28,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private projectService: ProjectService, // Inject ProjectService
-    private predictionReviewService: PredictionReviewService
-  ) {} // Inject PredictionReviewService
+    private predictionReviewService: PredictionReviewService,
+    private router: Router // Inject Router
+  ) {}
 
   ngOnInit(): void {
     // Fetch projects
