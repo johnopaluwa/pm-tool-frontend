@@ -130,3 +130,8 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.snackbar-error {
+  background-color: #f44336; /* Red color for errors */
+  color: white;
+}

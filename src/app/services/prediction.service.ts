@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize, tap } from 'rxjs/operators'; // Import catchError and tap
 import { LoadingService } from './loading.service';
 import { PredictionReview } from './prediction-review.service'; // Import PredictionReview
+import { SnackbarService } from './snackbar.service'; // Import SnackbarService
 
 export interface Prediction {
   id: string;
@@ -53,7 +54,8 @@ export class PredictionService {
 
   constructor(
     private http: HttpClient,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private snackbarService: SnackbarService // Inject SnackbarService
   ) {}
 
   generatePredictions(
@@ -62,7 +64,27 @@ export class PredictionService {
   ): Observable<Prediction[]> {
     return this.http
       .post<Prediction[]>(`${this.apiUrl}/generate/${projectId}`, projectData)
-      .pipe(finalize(() => {})); // Keep finalize but do nothing
+      .pipe(
+        tap(() => {}), // No specific success action needed for tap here
+        catchError((error) => {
+          this.snackbarService.showError(
+            `Failed to generate predictions for project with ID ${projectId}.`
+          );
+          console.error(
+            `Error generating predictions for project with ID ${projectId}:`,
+            error
+          );
+          return throwError(
+            () =>
+              new Error(
+                `Failed to generate predictions for project with ID ${projectId}.`
+              )
+          );
+        }),
+        finalize(() => {
+          // Keep finalize but do nothing
+        })
+      );
   }
 
   generateAndSavePredictionReview(
@@ -76,6 +98,25 @@ export class PredictionService {
         projectData
       )
       .pipe(
+        tap(() => {
+          //  this.loadingService.hide()
+        }), // No specific success action needed for tap here
+        catchError((error) => {
+          //  this.loadingService.hide(); // Hide loading spinner on error
+          this.snackbarService.showError(
+            `Failed to generate and save prediction review for project with ID ${projectId}.`
+          );
+          console.error(
+            `Error generating and saving prediction review for project with ID ${projectId}:`,
+            error
+          );
+          return throwError(
+            () =>
+              new Error(
+                `Failed to generate and save prediction review for project with ID ${projectId}.`
+              )
+          );
+        }),
         finalize(() => {
           //  this.loadingService.hide()
         })
@@ -84,15 +125,45 @@ export class PredictionService {
 
   sendFeedback(feedbackData: any): Observable<any> {
     this.loadingService.show();
-    return this.http
-      .post<any>(`${this.apiUrl}/feedback`, feedbackData)
-      .pipe(finalize(() => this.loadingService.hide()));
+    return this.http.post<any>(`${this.apiUrl}/feedback`, feedbackData).pipe(
+      tap(() => this.loadingService.hide()), // Hide loading on success
+      catchError((error) => {
+        this.loadingService.hide(); // Hide loading on error
+        this.snackbarService.showError('Failed to send feedback.');
+        console.error('Error sending feedback:', error);
+        return throwError(() => new Error('Failed to send feedback.'));
+      }),
+      finalize(() => {
+        // This will run after tap or catchError, ensuring loading is hidden
+      })
+    );
   }
 
   getPredictionHistory(projectId: string): Observable<Prediction[]> {
     this.loadingService.show();
     return this.http
       .get<Prediction[]>(`${this.apiUrl}/history/${projectId}`)
-      .pipe(finalize(() => this.loadingService.hide()));
+      .pipe(
+        tap(() => this.loadingService.hide()), // Hide loading on success
+        catchError((error) => {
+          this.loadingService.hide(); // Hide loading on error
+          this.snackbarService.showError(
+            `Failed to fetch prediction history for project with ID ${projectId}.`
+          );
+          console.error(
+            `Error fetching prediction history for project with ID ${projectId}:`,
+            error
+          );
+          return throwError(
+            () =>
+              new Error(
+                `Failed to fetch prediction history for project with ID ${projectId}.`
+              )
+          );
+        }),
+        finalize(() => {
+          // This will run after tap or catchError, ensuring loading is hidden
+        })
+      );
   }
 }

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators'; // Import catchError and tap
+import { SnackbarService } from './snackbar.service'; // Import SnackbarService
 
 @Injectable({
   providedIn: 'root',
@@ -9,38 +10,122 @@ import { map } from 'rxjs/operators';
 export class ReportService {
   private apiUrl = 'http://localhost:3000/reports'; // Assuming backend runs on port 3000
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private snackbarService: SnackbarService
+  ) {}
 
   generateOverallReports(): Observable<{ status: string }> {
-    return this.http.post<{ status: string }>(
-      `${this.apiUrl}/generate/overall`,
-      {}
-    );
+    return this.http
+      .post<{ status: string }>(`${this.apiUrl}/generate/overall`, {})
+      .pipe(
+        tap(() => {}), // No specific success action needed for tap here
+        catchError((error) => {
+          this.snackbarService.showError('Failed to generate overall reports.');
+          console.error('Error generating overall reports:', error);
+          return throwError(
+            () => new Error('Failed to generate overall reports.')
+          );
+        })
+      );
   }
 
   getOverallReportsStatus(): Observable<{ status: string }> {
-    return this.http.get<{ status: string }>(`${this.apiUrl}/status/overall`);
+    return this.http
+      .get<{ status: string }>(`${this.apiUrl}/status/overall`)
+      .pipe(
+        tap(() => {}), // No specific success action needed for tap here
+        catchError((error) => {
+          this.snackbarService.showError(
+            'Failed to fetch overall reports status.'
+          );
+          console.error('Error fetching overall reports status:', error);
+          return throwError(
+            () => new Error('Failed to fetch overall reports status.')
+          );
+        })
+      );
   }
 
   getOverallReport(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/overall`);
+    return this.http.get<any>(`${this.apiUrl}/overall`).pipe(
+      tap(() => {}), // No specific success action needed for tap here
+      catchError((error) => {
+        this.snackbarService.showError('Failed to fetch overall report.');
+        console.error('Error fetching overall report:', error);
+        return throwError(() => new Error('Failed to fetch overall report.'));
+      })
+    );
   }
 
   getProjectReport(projectId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/project/${projectId}`);
+    return this.http.get<any>(`${this.apiUrl}/project/${projectId}`).pipe(
+      tap(() => {}), // No specific success action needed for tap here
+      catchError((error) => {
+        this.snackbarService.showError(
+          `Failed to fetch project report for project with ID ${projectId}.`
+        );
+        console.error(
+          `Error fetching project report for project with ID ${projectId}:`,
+          error
+        );
+        return throwError(
+          () =>
+            new Error(
+              `Failed to fetch project report for project with ID ${projectId}.`
+            )
+        );
+      })
+    );
   }
 
   generateProjectReports(projectId: string): Observable<{ status: string }> {
-    return this.http.post<{ status: string }>(
-      `${this.apiUrl}/generate/projects/${projectId}`,
-      {}
-    );
+    return this.http
+      .post<{ status: string }>(
+        `${this.apiUrl}/generate/projects/${projectId}`,
+        {}
+      )
+      .pipe(
+        tap(() => {}), // No specific success action needed for tap here
+        catchError((error) => {
+          this.snackbarService.showError(
+            `Failed to generate project reports for project with ID ${projectId}.`
+          );
+          console.error(
+            `Error generating project reports for project with ID ${projectId}:`,
+            error
+          );
+          return throwError(
+            () =>
+              new Error(
+                `Failed to generate project reports for project with ID ${projectId}.`
+              )
+          );
+        })
+      );
   }
 
   getProjectReportsStatus(projectId: string): Observable<{ status: string }> {
-    return this.http.get<{ status: string }>(
-      `${this.apiUrl}/project/${projectId}`
-    );
+    return this.http
+      .get<{ status: string }>(`${this.apiUrl}/project/${projectId}`)
+      .pipe(
+        tap(() => {}), // No specific success action needed for tap here
+        catchError((error) => {
+          this.snackbarService.showError(
+            `Failed to fetch project reports status for project with ID ${projectId}.`
+          );
+          console.error(
+            `Error fetching project reports status for project with ID ${projectId}:`,
+            error
+          );
+          return throwError(
+            () =>
+              new Error(
+                `Failed to fetch project reports status for project with ID ${projectId}.`
+              )
+          );
+        })
+      );
   }
 
   // The getter methods will now call the new endpoints and extract data
