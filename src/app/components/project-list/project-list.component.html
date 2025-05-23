@@ -16,7 +16,14 @@
     <tbody>
       <tr *ngFor="let project of projects">
         <td>{{ project.name }}</td>
-        <td>{{ hasPredictionRun(project.id) ? "True" : "False" }}</td>
+        <td
+          [ngClass]="{
+            'prediction-run-true': hasPredictionRun(project.id),
+            'prediction-run-false': !hasPredictionRun(project.id)
+          }"
+        >
+          {{ hasPredictionRun(project.id) ? "True" : "False" }}
+        </td>
         <td>{{ project.description }}</td>
         <td>
           <button class="detail-btn" [routerLink]="['/projects', project.id]">

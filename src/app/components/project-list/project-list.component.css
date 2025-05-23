@@ -85,3 +85,11 @@
 .detail-btn:hover {
   background-color: var(--primary-dark-color);
 }
+
+.projects-table td.prediction-run-true {
+  color: green;
+}
+
+.projects-table td.prediction-run-false {
+  color: red;
+}

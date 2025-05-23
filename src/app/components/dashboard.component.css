@@ -166,3 +166,11 @@ tbody tr:last-child td {
 .view-all-btn:hover {
   background-color: var(--primary-dark-color); /* Match new-project-btn hover */
 }
+
+.my-projects table td.prediction-run-true {
+  color: green;
+}
+
+.my-projects table td.prediction-run-false {
+  color: red;
+}
